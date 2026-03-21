@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fletch Media Collective — Media That Converts</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Roboto:wght@300;400;500&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─────────────────────────────────────────
+       TOKENS & RESET
+    ───────────────────────────────────────── */
+    :root {
+      --blue:       #0A66FF;
+      --blue-light: #1DA1F2;
+      --navy-dark:  #060E1C;
+      --navy:       #0A1A2F;
+      --navy-mid:   #0D2244;
+      --white:      #FFFFFF;
+      --muted:      #6B8DB5;
+
+      /* Spacing scale */
+      --s1: 0.5rem;    /* 8px */
+      --s2: 1rem;      /* 16px */
+      --s3: 1.5rem;    /* 24px */
+      --s4: 2rem;      /* 32px */
+      --s5: 2.5rem;    /* 40px */
+      --s6: 3rem;      /* 48px */
+      --s7: 4rem;      /* 64px */
+      --s8: 6rem;      /* 96px */
+      --s9: 8rem;      /* 128px */
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: var(--navy-dark);
+      color: var(--white);
+      overflow-x: hidden;
+      line-height: 1.7;
+    }
+
+    /* ─────────────────────────────────────────
+       GRAIN TEXTURE
+    ───────────────────────────────────────── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ─────────────────────────────────────────
+       TYPOGRAPHY
+    ───────────────────────────────────────── */
+    .display { font-family: 'Montserrat', sans-serif; }
+
+    h1, h2, h3, h4 {
+      font-family: 'Montserrat', sans-serif;
+      letter-spacing: -0.03em;
+      line-height: 1.08;
+    }
+
+    .label {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--blue-light);
+    }
+
+    /* ─────────────────────────────────────────
+       BUTTONS
+    ───────────────────────────────────────── */
+    .btn {
+      display: inline-block;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.875rem 2.25rem;
+      border-radius: 6px;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+                  box-shadow 0.25s ease,
+                  opacity 0.2s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #0A66FF 0%, #1DA1F2 100%);
+      color: #fff;
+      box-shadow:
+        0 0 0 1px rgba(10,102,255,0.5) inset,
+        0 0 24px rgba(10,102,255,0.45),
+        0 6px 20px rgba(10,102,255,0.3),
+        0 12px 40px rgba(0,0,0,0.5);
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow:
+        0 0 0 1px rgba(29,161,242,0.6) inset,
+        0 0 40px rgba(10,102,255,0.6),
+        0 10px 30px rgba(10,102,255,0.4),
+        0 20px 50px rgba(0,0,0,0.6);
+    }
+    .btn-primary:active  { transform: translateY(0) scale(0.98); }
+    .btn-primary:focus-visible { outline: 2px solid #1DA1F2; outline-offset: 4px; }
+
+    .btn-outline {
+      background: transparent;
+      color: #fff;
+      border: 1px solid rgba(10,102,255,0.45);
+      box-shadow: 0 0 20px rgba(10,102,255,0.08) inset;
+    }
+    .btn-outline:hover {
+      transform: translateY(-3px);
+      background: rgba(10,102,255,0.1);
+      border-color: rgba(10,102,255,0.8);
+      box-shadow: 0 0 30px rgba(10,102,255,0.18) inset;
+    }
+    .btn-outline:active  { transform: translateY(0); }
+    .btn-outline:focus-visible { outline: 2px solid #1DA1F2; outline-offset: 4px; }
+
+    /* ─────────────────────────────────────────
+       NAV
+    ───────────────────────────────────────── */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 500;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      background: rgba(6, 14, 28, 0.82);
+      backdrop-filter: blur(22px) saturate(1.4);
+      -webkit-backdrop-filter: blur(22px) saturate(1.4);
+      border-bottom: 1px solid rgba(10,102,255,0.14);
+    }
+    .nav-inner {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 var(--s3);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      text-decoration: none;
+    }
+    .nav-logo img {
+      height: 46px;
+      width: 46px;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 0 16px rgba(10,102,255,0.35);
+    }
+    .nav-wordmark {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+      color: var(--white);
+      line-height: 1;
+    }
+    .nav-wordmark span {
+      display: block;
+      font-weight: 400;
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      color: var(--blue-light);
+      margin-top: 3px;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: var(--s5);
+    }
+    .nav-link {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 0.78rem;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .nav-link:hover       { color: var(--white); }
+    .nav-link:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 2px; }
+
+    /* ─────────────────────────────────────────
+       HERO
+    ───────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      padding-top: 72px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+
+      background:
+        radial-gradient(ellipse 110% 80% at 50% -10%, rgba(10,102,255,0.15) 0%, transparent 55%),
+        rgba(6,14,28,0.72);
+    }
+
+    /* Decorative rings */
+    .hero-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(10,102,255,0.07);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: var(--s9) var(--s3);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--s7);
+      align-items: center;
+      position: relative;
+      z-index: 3;
+      z-index: 1;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(10,102,255,0.1);
+      border: 1px solid rgba(10,102,255,0.3);
+      border-radius: 100px;
+      padding: 0.35rem 1rem;
+      margin-bottom: var(--s3);
+    }
+    .hero-badge-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 0 8px var(--blue);
+      animation: blink 2s ease-in-out infinite;
+    }
+
+    .hero-h1 {
+      font-size: clamp(2.8rem, 5.5vw, 5rem);
+      font-weight: 900;
+      margin-bottom: var(--s3);
+    }
+
+    .grad-text {
+      background: linear-gradient(130deg, #0A66FF 0%, #1DA1F2 50%, #ffffff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-body {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 460px;
+      margin-bottom: var(--s5);
+      line-height: 1.7;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: var(--s2);
+      flex-wrap: wrap;
+    }
+
+    .hero-stats {
+      display: flex;
+      align-items: center;
+      gap: var(--s4);
+      margin-top: var(--s5);
+      padding-top: var(--s5);
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    .hero-stat-val {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1.6rem;
+      letter-spacing: -0.03em;
+      color: var(--white);
+    }
+    .hero-stat-label {
+      font-size: 0.73rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+    .stat-divider {
+      width: 1px;
+      height: 38px;
+      background: rgba(255,255,255,0.08);
+    }
+
+    /* Hero visual */
+    .hero-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    .hero-glow-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(10,102,255,0.2);
+      animation: pulse-ring 3.5s ease-in-out infinite;
+    }
+    .hero-glow-bg {
+      position: absolute;
+      width: 420px; height: 420px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(10,102,255,0.22) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-logo-img {
+      width: 360px; height: 360px;
+      object-fit: cover;
+      border-radius: 50%;
+      position: relative;
+      z-index: 2;
+      box-shadow:
+        0 0 60px rgba(10,102,255,0.35),
+        0 0 120px rgba(10,102,255,0.18),
+        0 24px 64px rgba(0,0,0,0.7);
+      animation: float 5s ease-in-out infinite;
+    }
+
+    /* ─────────────────────────────────────────
+       PRICING
+    ───────────────────────────────────────── */
+    .pricing-section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: var(--s3) var(--s3);
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 50%, rgba(10,102,255,0.07) 0%, transparent 65%),
+        radial-gradient(ellipse 60% 70% at 85% 20%, rgba(29,161,242,0.05) 0%, transparent 55%),
+        rgba(6,14,28,0.82);
+    }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--s3);
+      align-items: stretch;
+    }
+    .pricing-card {
+      background: linear-gradient(140deg, rgba(13,34,68,0.75) 0%, rgba(6,14,28,0.9) 100%);
+      border: 1px solid rgba(10,102,255,0.2);
+      border-radius: 16px;
+      padding: var(--s3);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 28px rgba(0,0,0,0.4);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+    }
+    .pricing-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 0 50px rgba(10,102,255,0.18), 0 20px 50px rgba(0,0,0,0.55);
+    }
+    .pricing-card.featured {
+      border-color: rgba(10,102,255,0.6);
+      background: linear-gradient(140deg, rgba(10,102,255,0.14) 0%, rgba(13,34,68,0.92) 100%);
+      box-shadow: 0 0 40px rgba(10,102,255,0.2), 0 8px 32px rgba(0,0,0,0.5);
+    }
+    .pricing-card.featured::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #0A66FF, #1DA1F2, transparent);
+    }
+    .popular-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: linear-gradient(135deg, #0A66FF, #1DA1F2);
+      border-radius: 100px;
+      padding: 0.2rem 0.75rem;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: white;
+      margin-bottom: 0.5rem;
+      box-shadow: 0 0 16px rgba(10,102,255,0.4);
+      width: fit-content;
+    }
+    .tier-label {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--blue-light);
+      margin-bottom: 0.15rem;
+    }
+    .tier-name {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1.2rem;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      margin-bottom: 0;
+    }
+    .tier-price {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 2.4rem;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      background: linear-gradient(130deg, #0A66FF, #1DA1F2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 0.4rem 0 0.25rem;
+    }
+    .tier-tagline {
+      font-style: italic;
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .tier-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      flex: 1;
+      margin-bottom: 0.75rem;
+    }
+    .tier-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    .tier-features li svg {
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .tier-turnaround {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      color: rgba(29,161,242,0.7);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: var(--s7);
+    }
+    .section-header h2 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 800;
+      margin: var(--s2) 0;
+    }
+    .section-header p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 540px;
+      margin: var(--s3) auto 0;
+    }
+
+    .divider-bar {
+      width: 56px; height: 3px;
+      background: linear-gradient(90deg, var(--blue), var(--blue-light));
+      border-radius: 2px;
+      margin: var(--s2) auto 0;
+      box-shadow: 0 0 12px rgba(10,102,255,0.5);
+    }
+
+    .services-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--s3);
+    }
+
+    .service-card {
+      background: linear-gradient(140deg, rgba(13,34,68,0.8) 0%, rgba(10,26,47,0.95) 100%);
+      border: 1px solid rgba(10,102,255,0.18);
+      border-radius: 14px;
+      padding: var(--s4);
+      position: relative;
+      overflow: hidden;
+      cursor: default;
+      box-shadow: 0 4px 28px rgba(0,0,0,0.4);
+      transition:
+        transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--blue), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .service-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(10,102,255,0.45);
+      box-shadow:
+        0 0 50px rgba(10,102,255,0.15),
+        0 20px 50px rgba(0,0,0,0.55);
+    }
+    .service-card:hover::before { opacity: 1; }
+
+    .icon-wrap {
+      width: 52px; height: 52px;
+      border-radius: 11px;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, rgba(10,102,255,0.22), rgba(29,161,242,0.1));
+      border: 1px solid rgba(10,102,255,0.3);
+      box-shadow: 0 0 18px rgba(10,102,255,0.18);
+      margin-bottom: var(--s3);
+    }
+    .service-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.02em;
+    }
+    .service-card p {
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.7;
+    }
+
+    /* ─────────────────────────────────────────
+       PORTFOLIO
+    ───────────────────────────────────────── */
+    .portfolio-section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: var(--s8) var(--s3);
+
+      background:
+        radial-gradient(ellipse 70% 60% at 80% 50%, rgba(10,102,255,0.07) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 60% at 10% 30%, rgba(29,161,242,0.04) 0%, transparent 55%),
+        rgba(6,14,28,0.82);
+    }
+    .portfolio-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .portfolio-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: var(--s4);
+      flex-wrap: wrap;
+      gap: var(--s3);
+    }
+    .portfolio-header h2 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 800;
+      margin-top: var(--s2);
+    }
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: auto auto;
+      gap: var(--s3);
+    }
+
+    .p-item {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(10,102,255,0.14);
+      cursor: pointer;
+      transition:
+        transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 0.3s ease;
+    }
+    .p-item:hover {
+      transform: translateY(-5px) scale(1.01);
+      box-shadow:
+        0 0 50px rgba(10,102,255,0.22),
+        0 24px 50px rgba(0,0,0,0.55);
+    }
+    .p-item:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; }
+    .p-item img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .p-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(6,14,28,0.96) 0%, rgba(10,102,255,0.06) 55%, transparent 100%);
+    }
+    .p-info {
+      position: absolute;
+      bottom: 0; left: 0;
+      padding: var(--s3);
+      z-index: 10;
+    }
+    .p-info .label {
+      margin-bottom: 0.5rem;
+      display: inline-block;
+      background: rgba(10,102,255,0.25);
+      border: 1px solid rgba(29,161,242,0.4);
+      border-radius: 100px;
+      padding: 0.2rem 0.7rem;
+      backdrop-filter: blur(8px);
+    }
+    .p-info h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--white);
+    }
+
+    /* ─────────────────────────────────────────
+       STATS
+    ───────────────────────────────────────── */
+    .stats-section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: var(--s8) var(--s3);
+
+      background: rgba(6,14,28,0.82);
+      border-top:    1px solid rgba(10,102,255,0.1);
+      border-bottom: 1px solid rgba(10,102,255,0.1);
+    }
+    .stats-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--s3);
+    }
+    .stat-card {
+      background: linear-gradient(135deg, rgba(10,102,255,0.08) 0%, rgba(13,34,68,0.55) 100%);
+      border: 1px solid rgba(10,102,255,0.18);
+      border-radius: 14px;
+      padding: var(--s4);
+      text-align: center;
+    }
+    .stat-number {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 3.2rem;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      background: linear-gradient(130deg, var(--blue) 0%, var(--blue-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.6rem;
+    }
+    .stat-label {
+      font-size: 0.82rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* ─────────────────────────────────────────
+       CTA
+    ───────────────────────────────────────── */
+    .cta-section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--s8) var(--s3);
+
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse 90% 70% at 50% 50%, rgba(10,102,255,0.14) 0%, transparent 65%),
+        rgba(6,14,28,0.82);
+    }
+    .cta-glow {
+      position: absolute;
+      width: 560px; height: 560px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(10,102,255,0.14) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .cta-inner {
+      max-width: 720px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .cta-inner h2 {
+      font-size: clamp(2.5rem, 5vw, 4.2rem);
+      font-weight: 900;
+      margin: var(--s2) 0 var(--s3);
+    }
+    .cta-inner p {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 460px;
+      margin: 0 auto var(--s5);
+    }
+    .cta-btns {
+      display: flex;
+      gap: var(--s2);
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ─────────────────────────────────────────
+       FOOTER
+    ───────────────────────────────────────── */
+    .footer {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+
+      background: rgba(6,14,28,0.88);
+      border-top: 1px solid rgba(10,102,255,0.12);
+      padding: var(--s7) var(--s3) var(--s5);
+    }
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: var(--s7);
+      margin-bottom: var(--s7);
+    }
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      text-decoration: none;
+      margin-bottom: var(--s3);
+    }
+    .footer-logo img {
+      height: 42px; width: 42px;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 0 14px rgba(10,102,255,0.3);
+    }
+    .footer-col-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: var(--s3);
+    }
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    .footer-link {
+      font-size: 0.87rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .footer-link:hover       { color: var(--white); }
+    .footer-link:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; border-radius: 2px; }
+
+    .footer-bottom {
+      padding-top: var(--s4);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--s2);
+    }
+
+    /* ─────────────────────────────────────────
+       KEYFRAMES
+    ───────────────────────────────────────── */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-14px); }
+    }
+    @keyframes pulse-ring {
+      0%, 100% { transform: scale(1);    opacity: 0.5; }
+      50%       { transform: scale(1.06); opacity: 1; }
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.3; }
+    }
+
+    /* ─────────────────────────────────────────
+       SCROLLBAR
+    ───────────────────────────────────────── */
+    ::-webkit-scrollbar       { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--navy-dark); }
+    ::-webkit-scrollbar-thumb { background: rgba(10,102,255,0.4); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(10,102,255,0.7); }
+  </style>
+</head>
+<body>
+
+  <!-- Fixed background — stays in place while sections scroll over it -->
+  <div style="
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image: url('brand_assets/bg.jpg');
+    background-size: cover;
+    background-position: center 30%;
+    opacity: 0.28;
+  "></div>
+
+  <!-- ════════════════════════════════════════
+       NAV
+  ════════════════════════════════════════ -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <img src="brand_assets/logo.png" alt="Fletch Media Collective" />
+        <div class="nav-wordmark">
+          FLETCH
+          <span>Media Collective</span>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a href="#services" class="nav-link">Services</a>
+        <a href="#work"     class="nav-link">Work</a>
+        <a href="#about"    class="nav-link">About</a>
+        <a href="#contact"  class="btn btn-primary" style="padding: 0.6rem 1.4rem; font-size: 0.72rem;">Get Started</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- ════════════════════════════════════════
+       HERO
+  ════════════════════════════════════════ -->
+  <section class="hero" id="hero" data-snap>
+    <!-- Decorative rings -->
+    <div class="hero-ring" style="width: 500px; height: 500px;"></div>
+    <div class="hero-ring" style="width: 800px; height: 800px; opacity: 0.5;"></div>
+    <div class="hero-ring" style="width: 1100px; height: 1100px; opacity: 0.25;"></div>
+
+    <div class="hero-inner">
+      <!-- Left -->
+      <div>
+        <div class="hero-badge">
+          <div class="hero-badge-dot"></div>
+          <span class="label" style="font-size: 0.68rem; color: var(--blue-light);">Now Accepting Clients</span>
+        </div>
+
+        <h1 class="hero-h1">
+          Media That<br />
+          <span class="grad-text">Converts.</span>
+        </h1>
+
+        <p class="hero-body">
+          Fletch Media Collective builds high-performing brands, content systems,
+          and digital experiences that drive real results — not just impressions.
+        </p>
+
+        <div class="hero-ctas">
+          <a href="#contact" class="btn btn-primary">Work With Us</a>
+          <a href="#work"    class="btn btn-outline">View Our Work</a>
+        </div>
+
+        <!-- Mini stats -->
+        <div class="hero-stats">
+          <div>
+            <div class="hero-stat-val">50+</div>
+            <div class="hero-stat-label">Brands Built</div>
+          </div>
+          <div class="stat-divider"></div>
+          <div>
+            <div class="hero-stat-val">3M+</div>
+            <div class="hero-stat-label">Views Generated</div>
+          </div>
+          <div class="stat-divider"></div>
+          <div>
+            <div class="hero-stat-val">98%</div>
+            <div class="hero-stat-label">Client Retention</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Logo visual -->
+      <div class="hero-visual">
+        <div class="hero-glow-bg"></div>
+        <div class="hero-glow-ring" style="width: 380px; height: 380px;"></div>
+        <div class="hero-glow-ring" style="width: 440px; height: 440px; opacity: 0.4; animation-delay: 1s;"></div>
+        <img
+          class="hero-logo-img"
+          src="brand_assets/logo.png"
+          alt="Fletch Media Collective Logo"
+        />
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════
+       PRICING
+  ════════════════════════════════════════ -->
+  <section id="services" class="pricing-section" data-snap>
+    <div style="max-width: 1200px; margin: 0 auto; width: 100%;">
+      <div class="section-header" style="margin-bottom: var(--s3);">
+        <span class="label">Website Packages</span>
+        <h2>Pick Your Package.<br />Get Online Fast.</h2>
+        <div class="divider-bar"></div>
+        <p>No fluff, no bloat. Just clean, converting websites built for your budget and your goals.</p>
+      </div>
+
+      <div class="pricing-grid">
+
+        <!-- Tier 1 -->
+        <div class="pricing-card">
+          <div class="tier-label">Tier 1</div>
+          <div class="tier-name">Starter Site</div>
+          <div class="tier-price">$75</div>
+          <div class="tier-tagline">"Get online fast without overthinking it."</div>
+          <ul class="tier-features">
+            <li>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A66FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              1-page scroll-style website
+            </li>
+            <li>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A66FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Hero + About + Contact layout
+            </li>
+            <li>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A66FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Mobile responsive
+            </li>
+            <li>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A66FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Brand color styling
+            </li>
+            <li>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A66FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Contact form (email capture)
+            </li>
+          </ul>
+          <div class="tier-turnaround">⏱ Turnaround: 2–3 days</div>
+          <a href="#contact" class="btn btn-outline" style="text-align: center; width: 100%;">Get Started</a>
+        </div>
+
+        <!-- Tier 2 — Featured -->
+        <div class="pricing-card featured">
+          <div class="popular-badge">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            Most Popular
+          </div>
+          <div class="tier-label">Tier 2</div>
+          <div class="tier-name">Growth Site</div>
+          <div class="tier-price">$150</div>
+          <div class="tier-tagline">"A real website that actually converts visitors into leads."</div>
+          <ul class="tier-features">
+            <li>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1DA1F2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Everything in Starter
+            </li>
+            <li>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1DA1F2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Up to 3 pages (Home, Services, Contact)
+            </li>
+            <li>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1DA1F2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Custom layout — not a template
+            </li>
+            <li>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1DA1F2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Strong headline + basic copywriting
+            </li>
+            <li>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1DA1F2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Lead-focused CTA sections
+            </li>
+            <li>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1DA1F2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Basic SEO setup
+            </li>
+            <li>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1DA1F2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Social media links integration
+            </li>
+          </ul>
+          <div class="tier-turnaround">⏱ Turnaround: 3–5 days</div>
+          <a href="#contact" class="btn btn-primary" style="text-align: center; width: 100%;">Get Started</a>
+        </div>
+
+        <!-- Tier 3 -->
+        <div class="pricing-card">
+          <div class="tier-label">Tier 3</div>
+          <div class="tier-name">Authority Site</div>
+          <div class="tier-price">$300</div>
+          <div class="tier-tagline">"Look like the obvious choice and close more deals."</div>
+          <ul class="tier-features">
+            <li>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A66FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Everything in Growth
+            </li>
+            <li>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A66FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Up to 5 pages
+            </li>
+            <li>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A66FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Testimonials + services breakdown
+            </li>
+            <li>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A66FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              About / brand story section
+            </li>
+            <li>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A66FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Conversion-focused sales layout
+            </li>
+            <li>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A66FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Speed optimization
+            </li>
+            <li>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A66FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Google Analytics setup
+            </li>
+            <li>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A66FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              1 revision round included
+            </li>
+          </ul>
+          <div class="tier-turnaround">⏱ Turnaround: 5–7 days</div>
+          <a href="#contact" class="btn btn-outline" style="text-align: center; width: 100%;">Get Started</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════
+       PORTFOLIO
+  ════════════════════════════════════════ -->
+  <section id="work" class="portfolio-section" data-snap>
+    <div class="portfolio-inner">
+      <div class="portfolio-header">
+        <div>
+          <span class="label">Our Work</span>
+          <h2>Results Speak<br />Louder Than Claims.</h2>
+        </div>
+        <a href="#contact" class="btn btn-outline">View All Projects</a>
+      </div>
+
+      <div class="portfolio-grid">
+        <!-- Feature piece -->
+        <div class="p-item" style="grid-column: span 7; aspect-ratio: 16/10;" tabindex="0">
+          <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=840&q=80" alt="Brand Campaign" />
+          <div class="p-overlay" style="background: linear-gradient(to top, rgba(6,14,28,0.95) 0%, rgba(10,102,255,0.08) 50%, transparent 100%); mix-blend-mode: multiply;"></div>
+          <div class="p-overlay"></div>
+          <div class="p-info">
+            <div class="label" style="margin-bottom: 0.4rem;">Brand Identity</div>
+            <h3>Apex Brand Campaign 2025</h3>
+          </div>
+        </div>
+
+        <!-- Side column -->
+        <div style="grid-column: span 5; display: flex; flex-direction: column; gap: var(--s3);">
+          <div class="p-item" style="flex: 1; min-height: 160px;" tabindex="0">
+            <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=600&q=80" alt="Brand Showreel" />
+            <div class="p-overlay"></div>
+            <div class="p-info">
+              <div class="label" style="margin-bottom: 0.4rem;">Video</div>
+              <h3>Brand Showreel</h3>
+            </div>
+          </div>
+          <div class="p-item" style="flex: 1; min-height: 160px;" tabindex="0">
+            <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80" alt="Web Design" />
+            <div class="p-overlay"></div>
+            <div class="p-info">
+              <div class="label" style="margin-bottom: 0.4rem;">Web</div>
+              <h3>E-Commerce Redesign</h3>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════
+       STATS
+  ════════════════════════════════════════ -->
+  <section id="about" class="stats-section" data-snap>
+    <div class="stats-inner">
+      <div class="stat-card">
+        <div class="stat-number">50+</div>
+        <div class="stat-label">Brands Launched</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">3M+</div>
+        <div class="stat-label">Views Generated</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">98%</div>
+        <div class="stat-label">Client Retention Rate</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">5★</div>
+        <div class="stat-label">Average Client Rating</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════
+       CTA
+  ════════════════════════════════════════ -->
+  <section id="contact" class="cta-section" data-snap>
+    <div class="cta-glow"></div>
+    <div class="cta-inner">
+      <span class="label">Ready to Grow?</span>
+      <h2>
+        Let's Build Something<br />
+        <span class="grad-text">Worth Watching.</span>
+      </h2>
+      <p>Whether you're starting from scratch or scaling up, Fletch Media Collective is your strategic creative partner.</p>
+      <div class="cta-btns">
+        <a href="mailto:hello@fletchmediacollective.com" class="btn btn-primary" style="padding: 1rem 2.75rem; font-size: 0.85rem;">Start a Project</a>
+        <a href="#services" class="btn btn-outline" style="padding: 1rem 2.75rem; font-size: 0.85rem;">Explore Services</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════ -->
+  <footer class="footer" data-snap>
+    <div class="footer-inner">
+      <div class="footer-grid">
+
+        <!-- Brand col -->
+        <div>
+          <a href="#" class="footer-logo">
+            <img src="brand_assets/logo.png" alt="FMC Logo" />
+            <div class="nav-wordmark">
+              FLETCH
+              <span>Media Collective</span>
+            </div>
+          </a>
+          <p style="color: var(--muted); font-size: 0.88rem; max-width: 280px; line-height: 1.7;">
+            Confident. Direct. Results-focused.<br />
+            We build media that converts.
+          </p>
+        </div>
+
+        <!-- Services col -->
+        <div>
+          <div class="footer-col-title">Services</div>
+          <div class="footer-links">
+            <a href="#services" class="footer-link">Brand Identity</a>
+            <a href="#services" class="footer-link">Video Production</a>
+            <a href="#services" class="footer-link">Web Design</a>
+            <a href="#services" class="footer-link">Social Media</a>
+            <a href="#services" class="footer-link">Growth Strategy</a>
+          </div>
+        </div>
+
+        <!-- Company col -->
+        <div>
+          <div class="footer-col-title">Company</div>
+          <div class="footer-links">
+            <a href="#about"   class="footer-link">About</a>
+            <a href="#work"    class="footer-link">Our Work</a>
+            <a href="#contact" class="footer-link">Contact</a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom bar -->
+      <div class="footer-bottom">
+        <span style="font-size: 0.8rem; color: var(--muted);">© 2026 Fletch Media Collective. All rights reserved.</span>
+        <span class="label" style="color: rgba(10,102,255,0.55); font-size: 0.68rem;">Build. Create. Convert.</span>
+      </div>
+    </div>
+  </footer>
+
+
+<script>
+  const sections = Array.from(document.querySelectorAll('[data-snap]'));
+  let isScrolling = false;
+
+  window.addEventListener('wheel', (e) => {
+    e.preventDefault();
+
+    if (isScrolling) return;
+    isScrolling = true;
+
+    const current = sections.findIndex(s => {
+      const rect = s.getBoundingClientRect();
+      return rect.top >= -10 && rect.top < window.innerHeight / 2;
+    });
+
+    const next = e.deltaY > 0
+      ? Math.min(current + 1, sections.length - 1)
+      : Math.max(current - 1, 0);
+
+    if (next !== current) {
+      sections[next].scrollIntoView({ behavior: 'smooth' });
+    }
+
+    setTimeout(() => { isScrolling = false; }, 900);
+  }, { passive: false });
+</script>
+</body>
+</html>
