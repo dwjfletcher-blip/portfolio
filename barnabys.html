@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Barnaby's Restaurant & Pub — Havertown & Aston, PA</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --gold: #c9922a;
+      --gold-light: #e8b44a;
+      --dark: #0f0c07;
+      --dark-2: #1a1510;
+      --dark-3: #261f14;
+      --cream: #f5ead3;
+      --muted: #9a8a72;
+    }
+    * { box-sizing: border-box; }
+    body { background-color: var(--dark); color: var(--cream); font-family: 'Inter', sans-serif; margin: 0; }
+    h1,h2,h3,.display { font-family: 'Playfair Display', serif; }
+    body::before {
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 999; opacity: 0.45;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: linear-gradient(to bottom, rgba(15,12,7,0.97), rgba(15,12,7,0)); padding: 1.25rem 2rem; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+    .nav-logo img { width: 44px; height: 44px; object-fit: contain; }
+    .nav-logo-text { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 900; letter-spacing: -0.02em; color: var(--cream); }
+    .nav-logo-text span { color: var(--gold); }
+    .nav-links { display: flex; align-items: center; gap: 1.75rem; }
+    .nav-links a { font-size: 0.8125rem; font-weight: 500; color: var(--muted); text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.2s ease; }
+    .nav-links a:hover, .nav-links a.active { color: var(--cream); }
+    .nav-cta { background: var(--gold); color: var(--dark); font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.625rem 1.25rem; border-radius: 4px; text-decoration: none; transition: background 0.2s ease, transform 0.15s ease; }
+    .nav-cta:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+    /* BUTTONS */
+    .btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--gold); color: var(--dark); font-family: 'Inter', sans-serif; font-size: 0.875rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 0.75rem 1.5rem; border-radius: 4px; text-decoration: none; border: none; cursor: pointer; transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease; box-shadow: 0 4px 20px rgba(201,146,42,0.3), 0 1px 4px rgba(0,0,0,0.4); }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); box-shadow: 0 6px 28px rgba(201,146,42,0.45); }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-secondary { display: inline-flex; align-items: center; gap: 0.5rem; background: transparent; color: var(--cream); font-family: 'Inter', sans-serif; font-size: 0.875rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; padding: 0.75rem 1.5rem; border-radius: 4px; text-decoration: none; border: 1.5px solid rgba(245,234,211,0.3); cursor: pointer; transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease; }
+    .btn-secondary:hover { border-color: var(--cream); background: rgba(245,234,211,0.06); transform: translateY(-1px); }
+
+    /* HERO */
+    .hero { position: relative; min-height: 100vh; display: flex; align-items: center; overflow: hidden; }
+    .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+    .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to right, rgba(15,12,7,0.93) 35%, rgba(15,12,7,0.5) 65%, rgba(15,12,7,0.25) 100%); }
+    .hero-content { position: relative; z-index: 10; max-width: 600px; padding: 8rem 2rem 4rem; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.25rem; }
+    .eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--gold); }
+    h1 { font-size: clamp(2.5rem, 5vw, 3.75rem); font-weight: 900; line-height: 1.05; letter-spacing: -0.03em; margin: 0 0 1.25rem; }
+    .hero-sub { font-size: 1.125rem; line-height: 1.7; color: rgba(245,234,211,0.75); margin-bottom: 2rem; max-width: 460px; }
+    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; }
+    .proof-bar { display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; }
+    .proof-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: rgba(245,234,211,0.6); }
+    .proof-item strong { color: var(--cream); font-weight: 600; }
+    .stars { display: flex; gap: 2px; }
+    .star { width: 14px; height: 14px; fill: var(--gold); }
+
+    /* SECTIONS */
+    section { padding: 6rem 2rem; }
+    .section-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 0.75rem; text-align: center; }
+    .section-title { font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 900; letter-spacing: -0.03em; text-align: center; margin: 0 0 1rem; }
+    .section-sub { text-align: center; color: rgba(245,234,211,0.6); font-size: 1rem; line-height: 1.7; max-width: 520px; margin: 0 auto 3.5rem; }
+    .divider { width: 48px; height: 2px; background: linear-gradient(to right, var(--gold), transparent); margin: 0 auto 1.5rem; }
+
+    /* FEATURED DISHES */
+    .featured-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; max-width: 1100px; margin: 0 auto; }
+    .dish-card { position: relative; border-radius: 10px; overflow: hidden; aspect-ratio: 4/3; cursor: pointer; }
+    .dish-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+    .dish-card:hover img { transform: scale(1.05); }
+    .dish-card-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(15,12,7,0.85) 0%, rgba(15,12,7,0.1) 55%); }
+    .dish-card-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.25rem; }
+    .dish-name { font-family: 'Playfair Display', serif; font-size: 1.125rem; font-weight: 700; margin: 0 0 0.25rem; }
+    .dish-price { font-size: 0.875rem; font-weight: 600; color: var(--gold); }
+    .dish-desc { font-size: 0.8125rem; color: rgba(245,234,211,0.65); margin-top: 0.25rem; line-height: 1.4; }
+
+    /* HAPPY HOUR */
+    .happy-hour { background: var(--dark-2); position: relative; overflow: hidden; }
+    .happy-hour::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 50% 100% at 0% 50%, rgba(201,146,42,0.07) 0%, transparent 60%), radial-gradient(ellipse 40% 80% at 100% 50%, rgba(201,146,42,0.05) 0%, transparent 60%); pointer-events: none; }
+    .hh-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; max-width: 1000px; margin: 0 auto; align-items: start; }
+    .hh-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(201,146,42,0.12); border: 1px solid rgba(201,146,42,0.25); color: var(--gold); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.4rem 0.875rem; border-radius: 100px; margin-bottom: 1.5rem; }
+    .hh-title { font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 900; letter-spacing: -0.03em; line-height: 1.1; margin: 0 0 1rem; }
+    .hh-location { margin-bottom: 2rem; padding: 1.25rem; background: rgba(201,146,42,0.06); border: 1px solid rgba(201,146,42,0.12); border-radius: 8px; }
+    .hh-location-name { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.375rem; }
+    .hh-time { font-size: 1rem; font-weight: 700; color: var(--cream); margin-bottom: 0.25rem; }
+    .hh-days { font-size: 0.8125rem; color: var(--muted); }
+    .hh-deals { display: grid; gap: 0.75rem; margin-bottom: 2rem; }
+    .hh-deal { display: flex; align-items: center; gap: 0.875rem; background: rgba(201,146,42,0.06); border: 1px solid rgba(201,146,42,0.15); border-radius: 8px; padding: 0.875rem 1.125rem; }
+    .hh-deal-icon { font-size: 1.25rem; flex-shrink: 0; }
+    .hh-deal-text { font-size: 0.9375rem; font-weight: 600; color: var(--cream); }
+    .hh-deal-price { margin-left: auto; font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--gold); }
+    .hh-img-wrap { position: relative; border-radius: 12px; overflow: hidden; aspect-ratio: 4/3; box-shadow: 0 24px 64px rgba(0,0,0,0.5), 0 0 0 1px rgba(201,146,42,0.15); }
+    .hh-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    .hh-img-wrap::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(15,12,7,0.45) 0%, transparent 50%); }
+
+    /* SPECIALS STRIP */
+    .specials-strip { background: var(--dark-3); padding: 3rem 2rem; }
+    .specials-inner { max-width: 1100px; margin: 0 auto; }
+    .specials-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; }
+    .specials-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 900; letter-spacing: -0.02em; }
+    .specials-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+    .special-card { background: var(--dark-2); border: 1px solid rgba(201,146,42,0.12); border-radius: 8px; padding: 1.25rem; }
+    .special-day { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
+    .special-name { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.375rem; }
+    .special-detail { font-size: 0.8125rem; color: var(--muted); line-height: 1.5; }
+
+    /* REVIEWS */
+    .reviews-section { background: var(--dark-2); }
+    .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 1100px; margin: 0 auto; }
+    .review-card { background: var(--dark-3); border: 1px solid rgba(201,146,42,0.1); border-radius: 10px; padding: 1.75rem; }
+    .review-stars { display: flex; gap: 3px; margin-bottom: 1rem; }
+    .review-text { font-size: 0.9375rem; line-height: 1.7; color: rgba(245,234,211,0.8); margin-bottom: 1.25rem; font-style: italic; }
+    .review-dish { display: inline-block; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); background: rgba(201,146,42,0.1); border: 1px solid rgba(201,146,42,0.2); padding: 0.25rem 0.625rem; border-radius: 100px; margin-bottom: 1rem; }
+    .reviewer { display: flex; align-items: center; gap: 0.75rem; }
+    .reviewer-initial { width: 36px; height: 36px; border-radius: 50%; background: var(--gold); color: var(--dark); font-size: 0.875rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .reviewer-name { font-size: 0.875rem; font-weight: 600; }
+    .reviewer-source { font-size: 0.75rem; color: var(--muted); }
+
+    /* LOCATIONS PREVIEW */
+    .locations-section { background: var(--dark); }
+    .locations-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; max-width: 900px; margin: 0 auto; }
+    .location-card { background: var(--dark-3); border: 1px solid rgba(201,146,42,0.12); border-radius: 12px; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.25); transition: border-color 0.2s ease, box-shadow 0.2s ease; }
+    .location-card:hover { border-color: rgba(201,146,42,0.3); box-shadow: 0 12px 40px rgba(0,0,0,0.35); }
+    .location-img { width: 100%; aspect-ratio: 16/8; object-fit: cover; display: block; }
+    .location-body { padding: 1.5rem; }
+    .location-name { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; margin: 0 0 0.375rem; }
+    .location-address { font-size: 0.875rem; color: var(--muted); margin-bottom: 1rem; }
+    .hours-list { list-style: none; padding: 0; margin: 0 0 1.25rem; display: grid; gap: 0.375rem; }
+    .hours-row { display: flex; justify-content: space-between; font-size: 0.8125rem; }
+    .hours-day { color: var(--muted); }
+    .hours-time { font-weight: 600; color: var(--cream); }
+    .location-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 0.625rem; }
+    .location-btn { display: flex; align-items: center; justify-content: center; padding: 0.625rem 0.75rem; border-radius: 6px; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; text-decoration: none; transition: background 0.2s ease, border-color 0.2s ease; text-align: center; }
+    .location-btn-primary { background: var(--gold); color: var(--dark); }
+    .location-btn-primary:hover { background: var(--gold-light); }
+    .location-btn-secondary { background: transparent; color: var(--cream); border: 1.5px solid rgba(245,234,211,0.25); }
+    .location-btn-secondary:hover { border-color: var(--cream); background: rgba(245,234,211,0.05); }
+
+    /* LOYALTY */
+    .loyalty-section { background: var(--dark-2); position: relative; overflow: hidden; }
+    .loyalty-section::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 80% at 50% 50%, rgba(201,146,42,0.06) 0%, transparent 70%); pointer-events: none; }
+    .loyalty-inner { max-width: 580px; margin: 0 auto; text-align: center; position: relative; }
+    .loyalty-perks { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+    .loyalty-perk { display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: rgba(245,234,211,0.65); }
+    .loyalty-perk::before { content: '✓'; color: var(--gold); font-weight: 700; }
+    .loyalty-form { display: flex; gap: 0.75rem; max-width: 420px; margin: 0 auto; }
+    .loyalty-input { flex: 1; background: rgba(245,234,211,0.07); border: 1.5px solid rgba(245,234,211,0.15); border-radius: 4px; padding: 0.75rem 1rem; color: var(--cream); font-family: 'Inter', sans-serif; font-size: 0.9375rem; outline: none; transition: border-color 0.2s ease; }
+    .loyalty-input::placeholder { color: rgba(245,234,211,0.35); }
+    .loyalty-input:focus { border-color: var(--gold); }
+    .loyalty-note { font-size: 0.75rem; color: rgba(245,234,211,0.35); margin-top: 0.875rem; }
+
+    /* FOOTER */
+    footer { background: var(--dark); border-top: 1px solid rgba(201,146,42,0.1); padding: 3rem 2rem; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 2rem; }
+    .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 900; color: var(--cream); }
+    .footer-logo span { color: var(--gold); }
+    .footer-links { display: flex; gap: 1.75rem; flex-wrap: wrap; }
+    .footer-links a { font-size: 0.8125rem; color: var(--muted); text-decoration: none; transition: color 0.2s ease; }
+    .footer-links a:hover { color: var(--cream); }
+    .footer-copy { font-size: 0.75rem; color: rgba(154,138,114,0.5); width: 100%; text-align: center; padding-top: 2rem; border-top: 1px solid rgba(201,146,42,0.07); margin-top: 1rem; }
+
+    /* ANIMATIONS */
+    .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="barnabys.html" class="nav-logo">
+      <img src="https://popmenucloud.com/cdn-cgi/image/width=100,height=100,fit=scale-down,format=auto,quality=90/ufcgbnih/f53a2710-8d31-48cc-98e6-2065a7c251e1.png" alt="Barnaby's logo" />
+      <span class="nav-logo-text">Barnaby's <span>&</span> Pub</span>
+    </a>
+    <div class="nav-links">
+      <a href="barnabys-menu.html">Menu</a>
+      <a href="barnabys-events.html">Events</a>
+      <a href="barnabys-private-events.html">Private Events</a>
+      <a href="barnabys-locations.html">Locations</a>
+      <a href="tel:6107891885" class="nav-cta">Call to Reserve</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <img class="hero-img" src="https://popmenucloud.com/cdn-cgi/image/width=1600,height=900,fit=cover,format=auto,quality=80/ufcgbnih/c1d7b5cc-25a5-48a6-8c0e-4ad756f5d2a1.jpg" alt="Barnaby's famous burger and fries" />
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="eyebrow">Since 1997 &mdash; Havertown &amp; Aston, PA</div>
+      <h1>Your Neighborhood<br /><span style="color:var(--gold)">Restaurant &amp; Pub</span></h1>
+      <p class="hero-sub">
+        Family-friendly dining, ice-cold drafts, and sports on every screen. Two locations &mdash; one standard. Made fresh, every order.
+      </p>
+      <div class="hero-ctas">
+        <a href="barnabys-menu.html" class="btn-primary">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+          View Full Menu
+        </a>
+        <a href="barnabys-locations.html" class="btn-secondary">Find a Location</a>
+      </div>
+      <div class="proof-bar">
+        <div class="proof-item">
+          <div class="stars">
+            <svg class="star" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="star" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="star" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="star" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="star" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          </div>
+          <strong>Highly Rated</strong><span>on Google</span>
+        </div>
+        <div class="proof-item"><strong>Est. 1997</strong><span>Family owned</span></div>
+        <div class="proof-item"><strong>2</strong><span>locations</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED DISHES -->
+  <section style="background: var(--dark);">
+    <span class="section-label fade-up">The food people come back for</span>
+    <h2 class="section-title fade-up">Fresh made. Every order.</h2>
+    <p class="section-sub fade-up">No heat lamps, no shortcuts. These are the dishes our regulars order by name.</p>
+    <div class="featured-grid">
+      <div class="dish-card fade-up">
+        <img src="https://popmenucloud.com/cdn-cgi/image/width=800,height=600,fit=cover,format=auto,quality=80/ufcgbnih/da5b1041-eab0-401a-8ebe-5c5ce6debaee.jpg" alt="Barnaby's Combo" />
+        <div class="dish-card-overlay"></div>
+        <div class="dish-card-info">
+          <p class="dish-name">Barnaby's Combo</p>
+          <p class="dish-desc">Chicken fingers, cheese steak egg rolls, wings, mozz sticks & dipping sauces</p>
+          <p class="dish-price">$15</p>
+        </div>
+      </div>
+      <div class="dish-card fade-up">
+        <img src="https://popmenucloud.com/cdn-cgi/image/width=800,height=600,fit=cover,format=auto,quality=80/ufcgbnih/e1117848-22b8-4c83-ba85-cf4921a3d97a.jpg" alt="Buffalo Wings" />
+        <div class="dish-card-overlay"></div>
+        <div class="dish-card-info">
+          <p class="dish-name">Buffalo Wings</p>
+          <p class="dish-desc">Signature sauces, blue cheese & celery. Wing night every Wednesday</p>
+          <p class="dish-price">Half Dozen $10 &bull; Dozen $16</p>
+        </div>
+      </div>
+      <div class="dish-card fade-up">
+        <img src="https://popmenucloud.com/cdn-cgi/image/width=800,height=600,fit=cover,format=auto,quality=80/ufcgbnih/faee8770-5479-497e-bb1c-13350eabad24.jpg" alt="Barnaby's Cheese Steak" />
+        <div class="dish-card-overlay"></div>
+        <div class="dish-card-info">
+          <p class="dish-name">Barnaby's Cheese Steak</p>
+          <p class="dish-desc">Grilled chipped steak, American cheese, long roll. Best in Delaware County</p>
+          <p class="dish-price">$15</p>
+        </div>
+      </div>
+      <div class="dish-card fade-up">
+        <img src="https://popmenucloud.com/cdn-cgi/image/width=800,height=600,fit=cover,format=auto,quality=80/ufcgbnih/8a1db2f3-dfe3-4838-90a8-431740615501.jpg" alt="World Famous Burgers" />
+        <div class="dish-card-overlay"></div>
+        <div class="dish-card-info">
+          <p class="dish-name">World Famous Burgers</p>
+          <p class="dish-desc">10 signature builds. Served with lettuce, tomato, pickles and fries</p>
+          <p class="dish-price">From $15</p>
+        </div>
+      </div>
+      <div class="dish-card fade-up">
+        <img src="https://popmenucloud.com/cdn-cgi/image/width=800,height=600,fit=cover,format=auto,quality=80/ufcgbnih/41bcf4c3-4912-4c37-abd6-cba5d95e9f07.jpg" alt="Barnaby's Salad" />
+        <div class="dish-card-overlay"></div>
+        <div class="dish-card-info">
+          <p class="dish-name">Barnaby's Salad</p>
+          <p class="dish-desc">Fresh greens, house toppings, your choice of dressing</p>
+          <p class="dish-price">See Menu</p>
+        </div>
+      </div>
+      <div class="dish-card fade-up">
+        <img src="https://popmenucloud.com/cdn-cgi/image/width=800,height=600,fit=cover,format=auto,quality=80/ufcgbnih/9265eb60-0989-4d84-8288-3d91c56b3b87.jpg" alt="Ribs" />
+        <div class="dish-card-overlay"></div>
+        <div class="dish-card-info">
+          <p class="dish-name">Ribs</p>
+          <p class="dish-desc">Slow-cooked, fall-off-the-bone. Ask your server for today's special</p>
+          <p class="dish-price">Chef's Special</p>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:2.5rem;">
+      <a href="barnabys-menu.html" class="btn-primary">See Full Menu</a>
+    </div>
+  </section>
+
+  <!-- HAPPY HOUR -->
+  <section class="happy-hour">
+    <div class="hh-grid">
+      <div class="fade-up">
+        <div class="hh-badge">&#9733; Daily Specials</div>
+        <h2 class="hh-title">Happy Hour<br /><span style="color:var(--gold)">Every Weekday</span></h2>
+        <div class="hh-location">
+          <p class="hh-location-name">Havertown</p>
+          <p class="hh-time">4:00 PM &ndash; 6:00 PM</p>
+          <p class="hh-days">Monday through Friday &bull; 1901 Old West Chester Pike</p>
+        </div>
+        <div class="hh-location">
+          <p class="hh-location-name">Aston</p>
+          <p class="hh-time">5:00 PM &ndash; 7:00 PM</p>
+          <p class="hh-days">Monday through Friday &bull; 5501 Pennel Rd, Media</p>
+        </div>
+        <div class="hh-deals">
+          <div class="hh-deal">
+            <span class="hh-deal-icon">🍺</span>
+            <span class="hh-deal-text">Light Drafts (Miller Lite, Coors Light, Michelob Ultra)</span>
+            <span class="hh-deal-price">$3</span>
+          </div>
+          <div class="hh-deal">
+            <span class="hh-deal-icon">🍷</span>
+            <span class="hh-deal-text">House Wine</span>
+            <span class="hh-deal-price">$5</span>
+          </div>
+          <div class="hh-deal">
+            <span class="hh-deal-icon">🍹</span>
+            <span class="hh-deal-text">Statesides &amp; Surfsides</span>
+            <span class="hh-deal-price">$6</span>
+          </div>
+          <div class="hh-deal">
+            <span class="hh-deal-icon">🍟</span>
+            <span class="hh-deal-text">All Starters (Aston)</span>
+            <span class="hh-deal-price">$2 off</span>
+          </div>
+        </div>
+        <a href="barnabys-events.html" class="btn-primary">See All Specials</a>
+      </div>
+      <div class="hh-img-wrap fade-up">
+        <img src="https://popmenucloud.com/cdn-cgi/image/width=800,height=600,fit=cover,format=auto,quality=80/ufcgbnih/cf62042b-04c4-496b-a8c2-634361fe3cc8.jpg" alt="Beer and cocktails at Barnaby's happy hour" />
+      </div>
+    </div>
+  </section>
+
+  <!-- WEEKLY SPECIALS STRIP -->
+  <div class="specials-strip fade-up">
+    <div class="specials-inner">
+      <div class="specials-header">
+        <h3 class="specials-title">This Week at Barnaby's</h3>
+        <a href="barnabys-events.html" class="btn-secondary" style="font-size:0.8rem;padding:0.5rem 1rem;">Full Events Calendar &rarr;</a>
+      </div>
+      <div class="specials-grid">
+        <div class="special-card">
+          <p class="special-day">Tuesday</p>
+          <p class="special-name">Taco Tuesday &amp; Quizzo</p>
+          <p class="special-detail">Taco specials from 3pm &bull; $4 Coronas &bull; Quizzo at 8pm (Aston)</p>
+        </div>
+        <div class="special-card">
+          <p class="special-day">Wednesday</p>
+          <p class="special-name">Wing Night</p>
+          <p class="special-detail">10 wings for $8 from 3pm &bull; Kids Eat Free &bull; Karaoke 9pm (Aston)</p>
+        </div>
+        <div class="special-card">
+          <p class="special-day">Thursday</p>
+          <p class="special-name">$1 Wings + DJ</p>
+          <p class="special-detail">$1 wings from 3pm &bull; $3 Yuengling pints &bull; DJ Salvo at 9pm (Aston)</p>
+        </div>
+        <div class="special-card">
+          <p class="special-day">Thursday &bull; Havertown</p>
+          <p class="special-name">$1 Wings</p>
+          <p class="special-detail">Chef specials from 3pm &bull; $3 Yuengling pints &bull; $1 wings all night</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REVIEWS -->
+  <section class="reviews-section">
+    <span class="section-label fade-up">What guests are saying</span>
+    <h2 class="section-title fade-up">Over 500 five-star reviews.</h2>
+    <p class="section-sub fade-up">Real words from real regulars.</p>
+    <div class="reviews-grid">
+      <div class="review-card fade-up">
+        <div class="review-stars">
+          <svg class="star" viewBox="0 0 20 20" style="width:16px;height:16px;fill:var(--gold)"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" style="width:16px;height:16px;fill:var(--gold)"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" style="width:16px;height:16px;fill:var(--gold)"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" style="width:16px;height:16px;fill:var(--gold)"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" style="width:16px;height:16px;fill:var(--gold)"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+        </div>
+        <span class="review-dish">Buffalo Wings</span>
+        <p class="review-text">"I go to wing night almost every Wednesday. I've tried the lemon pepper, honey sriracha, Buffalo, and bangin thai (my go-to) and they're all so good. Wings are cooked perfectly, no matter what sauce you choose."</p>
+        <div class="reviewer">
+          <div class="reviewer-initial">B</div>
+          <div><p class="reviewer-name">Brandi</p><p class="reviewer-source">Verified Guest</p></div>
+        </div>
+      </div>
+      <div class="review-card fade-up">
+        <div class="review-stars">
+          <svg class="star" viewBox="0 0 20 20" style="width:16px;height:16px;fill:var(--gold)"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" style="width:16px;height:16px;fill:var(--gold)"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" style="width:16px;height:16px;fill:var(--gold)"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" style="width:16px;height:16px;fill:var(--gold)"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" style="width:16px;height:16px;fill:var(--gold)"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+        </div>
+        <span class="review-dish">Barnaby's Cheese Steak</span>
+        <p class="review-text">"The Best Cheese Steak in Delaware County. The roast beef sandwiches are amazing, along with the wings, cheese steak egg rolls, and buffalo chicken egg rolls. I love their buffets. Very fresh and tasty food!"</p>
+        <div class="reviewer">
+          <div class="reviewer-initial">J</div>
+          <div><p class="reviewer-name">John P.</p><p class="reviewer-source">Verified Guest</p></div>
+        </div>
+      </div>
+      <div class="review-card fade-up">
+        <div class="review-stars">
+          <svg class="star" viewBox="0 0 20 20" style="width:16px;height:16px;fill:var(--gold)"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" style="width:16px;height:16px;fill:var(--gold)"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" style="width:16px;height:16px;fill:var(--gold)"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" style="width:16px;height:16px;fill:var(--gold)"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" style="width:16px;height:16px;fill:var(--gold)"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+        </div>
+        <span class="review-dish">Barnaby's Combo</span>
+        <p class="review-text">"Everything's fried to perfection. Really good, easy to share, and very filling! The lemon pepper wings are excellent &mdash; it's like a dry rub so your fingers don't get too saucy and the wings are a great size."</p>
+        <div class="reviewer">
+          <div class="reviewer-initial">O</div>
+          <div><p class="reviewer-name">Owen</p><p class="reviewer-source">Verified Guest</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOCATIONS PREVIEW -->
+  <section class="locations-section" id="locations">
+    <span class="section-label fade-up">Find Us</span>
+    <h2 class="section-title fade-up">Two locations, same standard.</h2>
+    <p class="section-sub fade-up">Both spots offer the same menu, same happy hour, same experience.</p>
+    <div class="locations-grid">
+      <div class="location-card fade-up">
+        <img class="location-img" src="https://popmenucloud.com/cdn-cgi/image/width=800,height=300,fit=cover,format=auto,quality=80/ufcgbnih/ed76e22a-d301-4c59-a57b-1adfa8b912db.jpg" alt="Barnaby's Havertown" />
+        <div class="location-body">
+          <h3 class="location-name">Barnaby's Havertown</h3>
+          <p class="location-address">1901 Old West Chester Pike, Havertown, PA 19083</p>
+          <ul class="hours-list">
+            <li class="hours-row"><span class="hours-day">Mon &ndash; Sun</span><span class="hours-time">11:00 am &ndash; 1:30 am</span></li>
+          </ul>
+          <div class="location-actions">
+            <a href="tel:6107891885" class="location-btn location-btn-primary">(610) 789-1885</a>
+            <a href="https://www.google.com/maps/search/?api=1&query=1901+Old+West+Chester+Pike,+Havertown,+PA+19083" target="_blank" class="location-btn location-btn-secondary">Get Directions</a>
+          </div>
+        </div>
+      </div>
+      <div class="location-card fade-up">
+        <img class="location-img" src="https://popmenucloud.com/cdn-cgi/image/width=800,height=300,fit=cover,format=auto,quality=80/ufcgbnih/588fc87c-5999-4a17-b8da-1660e3e4aca9.jpg" alt="Barnaby's Aston" />
+        <div class="location-body">
+          <h3 class="location-name">Barnaby's Aston</h3>
+          <p class="location-address">5501 Pennel Rd, Media, PA 19063</p>
+          <ul class="hours-list">
+            <li class="hours-row"><span class="hours-day">Mon &ndash; Sun</span><span class="hours-time">11:00 am &ndash; 2:00 am</span></li>
+          </ul>
+          <div class="location-actions">
+            <a href="tel:6105581929" class="location-btn location-btn-primary">(610) 558-1929</a>
+            <a href="https://www.google.com/maps/search/?api=1&query=5501+Pennel+Rd,+Media,+PA+19063" target="_blank" class="location-btn location-btn-secondary">Get Directions</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOYALTY -->
+  <section class="loyalty-section">
+    <div class="loyalty-inner">
+      <span class="section-label fade-up">Barnaby's Insider Club</span>
+      <h2 class="section-title fade-up">Get deals before anyone else.</h2>
+      <p class="section-sub fade-up" style="margin-bottom:2rem;">Join our loyalty list. Be the first to hear about weekly specials, happy hour alerts, and exclusive member offers.</p>
+      <div class="loyalty-perks fade-up">
+        <span class="loyalty-perk">Weekly specials</span>
+        <span class="loyalty-perk">Birthday reward</span>
+        <span class="loyalty-perk">Happy hour alerts</span>
+        <span class="loyalty-perk">Members-only offers</span>
+      </div>
+      <form class="loyalty-form fade-up" onsubmit="return false;">
+        <input class="loyalty-input" type="email" placeholder="your@email.com" />
+        <button class="btn-primary" type="submit">Join Free</button>
+      </form>
+      <p class="loyalty-note fade-up">No spam. Unsubscribe any time. One email a week, max.</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">Barnaby's <span>&</span> Pub</div>
+      <div class="footer-links">
+        <a href="barnabys-menu.html">Menu</a>
+        <a href="barnabys-events.html">Events</a>
+        <a href="barnabys-private-events.html">Private Events</a>
+        <a href="barnabys-locations.html">Locations</a>
+        <a href="mailto:barnabyshavertown@yahoo.com">Contact</a>
+      </div>
+      <div class="footer-links">
+        <a href="tel:6107891885">Havertown: (610) 789-1885</a>
+        <a href="tel:6105581929">Aston: (610) 558-1929</a>
+      </div>
+    </div>
+    <p class="footer-copy">&copy; 2025 Barnaby's Restaurant &amp; Pub. Havertown &amp; Aston, PA. Est. 1997.</p>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll(".fade-up").forEach(el => observer.observe(el));
+    setTimeout(() => { document.querySelectorAll(".fade-up").forEach(el => el.classList.add("visible")); }, 300);
+  </script>
+</body>
+</html>

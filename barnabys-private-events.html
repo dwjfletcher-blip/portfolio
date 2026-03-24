@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Private Events — Barnaby's Restaurant & Pub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root { --gold:#c9922a;--gold-light:#e8b44a;--dark:#0f0c07;--dark-2:#1a1510;--dark-3:#261f14;--cream:#f5ead3;--muted:#9a8a72; }
+    * { box-sizing: border-box; }
+    body { background-color:var(--dark);color:var(--cream);font-family:'Inter',sans-serif;margin:0; }
+    h1,h2,h3 { font-family:'Playfair Display',serif; }
+    body::before { content:'';position:fixed;inset:0;pointer-events:none;z-index:999;opacity:0.45;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); }
+
+    nav { position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(15,12,7,0.97);padding:1.25rem 2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(201,146,42,0.1); }
+    .nav-logo { display:flex;align-items:center;gap:0.75rem;text-decoration:none; }
+    .nav-logo img { width:40px;height:40px;object-fit:contain; }
+    .nav-logo-text { font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:900;color:var(--cream); }
+    .nav-logo-text span { color:var(--gold); }
+    .nav-links { display:flex;align-items:center;gap:1.75rem; }
+    .nav-links a { font-size:0.8125rem;font-weight:500;color:var(--muted);text-decoration:none;letter-spacing:0.06em;text-transform:uppercase;transition:color 0.2s; }
+    .nav-links a:hover,.nav-links a.active { color:var(--cream); }
+    .nav-cta { background:var(--gold);color:var(--dark);font-size:0.8125rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:0.625rem 1.25rem;border-radius:4px;text-decoration:none;transition:background 0.2s; }
+    .nav-cta:hover { background:var(--gold-light); }
+
+    /* HERO */
+    .page-hero { position:relative;min-height:50vh;display:flex;align-items:flex-end;overflow:hidden; }
+    .page-hero img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center; }
+    .page-hero::after { content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,12,7,0.97) 0%,rgba(15,12,7,0.5) 50%,rgba(15,12,7,0.3) 100%); }
+    .hero-content { position:relative;z-index:10;padding:7rem 2rem 3.5rem;max-width:700px; }
+    .eyebrow { display:inline-flex;align-items:center;gap:0.5rem;font-size:0.75rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem; }
+    .eyebrow::before { content:'';display:block;width:24px;height:1px;background:var(--gold); }
+    .page-title { font-size:clamp(2rem,4vw,3.25rem);font-weight:900;letter-spacing:-0.03em;margin:0 0 0.75rem; }
+    .page-sub { color:rgba(245,234,211,0.7);font-size:1rem;line-height:1.7;max-width:520px; }
+
+    /* ROOM PHOTOS */
+    .room-photos { display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;max-width:1100px;margin:0 auto;padding:3rem 2rem 0; }
+    .room-photo { border-radius:10px;overflow:hidden;aspect-ratio:4/3; }
+    .room-photo img { width:100%;height:100%;object-fit:cover;transition:transform 0.4s ease; }
+    .room-photo:hover img { transform:scale(1.04); }
+
+    /* LOCATION TABS */
+    .loc-tabs { display:flex;justify-content:center;gap:0.5rem;padding:3rem 2rem 0; }
+    .loc-tab { padding:0.75rem 2.5rem;border-radius:100px;font-size:0.875rem;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;border:1.5px solid rgba(201,146,42,0.2);color:var(--muted);background:transparent;cursor:pointer;transition:all 0.2s; }
+    .loc-tab:hover { border-color:rgba(201,146,42,0.5);color:var(--cream); }
+    .loc-tab.active { background:var(--gold);color:var(--dark);border-color:var(--gold); }
+
+    /* PRICING SECTION */
+    .pricing-body { max-width:1100px;margin:0 auto;padding:3rem 2rem 5rem; }
+    .pricing-grid { display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-bottom:3rem; }
+    .pricing-col-header { margin-bottom:1.75rem;padding-bottom:1.25rem;border-bottom:1px solid rgba(201,146,42,0.15); }
+    .pricing-col-label { font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem; }
+    .pricing-col-title { font-family:'Playfair Display',serif;font-size:1.625rem;font-weight:900;letter-spacing:-0.02em;margin:0; }
+    .price-table { display:grid;gap:0.75rem; }
+    .price-row { background:var(--dark-2);border:1px solid rgba(201,146,42,0.1);border-radius:8px;padding:1.125rem 1.25rem;transition:border-color 0.2s; }
+    .price-row:hover { border-color:rgba(201,146,42,0.25); }
+    .price-row-header { display:flex;align-items:center;justify-content:space-between;margin-bottom:0.25rem; }
+    .price-tier { font-family:'Playfair Display',serif;font-size:1rem;font-weight:700; }
+    .price-amount { font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:900;color:var(--gold); }
+    .price-details { font-size:0.8125rem;color:var(--muted);line-height:1.5; }
+    .price-badge { display:inline-block;margin-top:0.5rem;font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:rgba(201,146,42,0.1);border:1px solid rgba(201,146,42,0.2);color:var(--gold);padding:0.2rem 0.5rem;border-radius:100px; }
+
+    /* POLICIES */
+    .policies-box { background:var(--dark-3);border:1px solid rgba(201,146,42,0.15);border-radius:12px;padding:2rem 2.5rem;margin-bottom:2.5rem; }
+    .policies-title { font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;margin:0 0 1.25rem;display:flex;align-items:center;gap:0.75rem; }
+    .policies-title::before { content:'';display:block;width:3px;height:1.25rem;background:var(--gold);border-radius:2px; }
+    .policies-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem; }
+    .policy-item { }
+    .policy-label { font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:0.375rem; }
+    .policy-text { font-size:0.875rem;color:rgba(245,234,211,0.75);line-height:1.55; }
+
+    /* ADDITIONAL ITEMS */
+    .add-items { margin-bottom:2.5rem; }
+    .add-items-title { font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;margin:0 0 1rem;display:flex;align-items:center;gap:0.75rem; }
+    .add-items-title::before { content:'';display:block;width:3px;height:1.25rem;background:var(--gold);border-radius:2px; }
+    .add-item-row { display:flex;align-items:center;justify-content:space-between;gap:1.5rem;background:var(--dark-2);border:1px solid rgba(201,146,42,0.1);border-radius:8px;padding:1rem 1.25rem; }
+    .add-item-name { font-weight:600;font-size:0.9375rem; }
+    .add-item-details { font-size:0.8125rem;color:var(--muted); }
+    .add-item-price { font-family:'Playfair Display',serif;font-size:1.125rem;font-weight:700;color:var(--gold);white-space:nowrap; }
+
+    /* INQUIRY FORM */
+    .inquiry-section { background:var(--dark-2);padding:5rem 2rem;border-top:1px solid rgba(201,146,42,0.1); }
+    .inquiry-inner { max-width:640px;margin:0 auto; }
+    .section-label { font-size:0.75rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:0.75rem;text-align:center; }
+    .inquiry-title { font-family:'Playfair Display',serif;font-size:clamp(1.75rem,3vw,2.25rem);font-weight:900;letter-spacing:-0.03em;text-align:center;margin:0 0 0.75rem; }
+    .inquiry-sub { text-align:center;color:rgba(245,234,211,0.6);font-size:0.9375rem;line-height:1.7;margin-bottom:2.5rem; }
+    .form-grid { display:grid;grid-template-columns:1fr 1fr;gap:1rem; }
+    .form-group { display:flex;flex-direction:column;gap:0.375rem; }
+    .form-group.full { grid-column:1/-1; }
+    .form-label { font-size:0.75rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted); }
+    .form-input,.form-select,.form-textarea { background:rgba(245,234,211,0.06);border:1.5px solid rgba(245,234,211,0.12);border-radius:6px;padding:0.75rem 1rem;color:var(--cream);font-family:'Inter',sans-serif;font-size:0.9375rem;outline:none;transition:border-color 0.2s;width:100%; }
+    .form-input::placeholder,.form-textarea::placeholder { color:rgba(245,234,211,0.3); }
+    .form-input:focus,.form-select:focus,.form-textarea:focus { border-color:var(--gold); }
+    .form-select { -webkit-appearance:none;appearance:none;cursor:pointer; }
+    .form-select option { background:var(--dark-2);color:var(--cream); }
+    .form-textarea { resize:vertical;min-height:120px; }
+    .btn-primary { display:inline-flex;align-items:center;gap:0.5rem;background:var(--gold);color:var(--dark);font-family:'Inter',sans-serif;font-size:0.875rem;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;padding:0.875rem 2rem;border-radius:4px;border:none;cursor:pointer;transition:background 0.2s,transform 0.15s;margin-top:0.5rem;width:100%;justify-content:center;box-shadow:0 4px 20px rgba(201,146,42,0.3); }
+    .btn-primary:hover { background:var(--gold-light);transform:translateY(-1px); }
+    .form-note { font-size:0.75rem;color:rgba(245,234,211,0.3);text-align:center;margin-top:0.875rem; }
+
+    footer { background:var(--dark);border-top:1px solid rgba(201,146,42,0.1);padding:3rem 2rem; }
+    .footer-inner { max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:2rem; }
+    .footer-logo { font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:900;color:var(--cream); }
+    .footer-logo span { color:var(--gold); }
+    .footer-links { display:flex;gap:1.75rem;flex-wrap:wrap; }
+    .footer-links a { font-size:0.8125rem;color:var(--muted);text-decoration:none;transition:color 0.2s; }
+    .footer-links a:hover { color:var(--cream); }
+    .footer-copy { font-size:0.75rem;color:rgba(154,138,114,0.5);width:100%;text-align:center;padding-top:2rem;border-top:1px solid rgba(201,146,42,0.07);margin-top:1rem; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="barnabys.html" class="nav-logo">
+      <img src="https://popmenucloud.com/cdn-cgi/image/width=100,height=100,fit=scale-down,format=auto,quality=90/ufcgbnih/f53a2710-8d31-48cc-98e6-2065a7c251e1.png" alt="Barnaby's logo" />
+      <span class="nav-logo-text">Barnaby's <span>&</span> Pub</span>
+    </a>
+    <div class="nav-links">
+      <a href="barnabys-menu.html">Menu</a>
+      <a href="barnabys-events.html">Events</a>
+      <a href="barnabys-private-events.html" class="active">Private Events</a>
+      <a href="barnabys-locations.html">Locations</a>
+      <a href="tel:6107891885" class="nav-cta">Call to Reserve</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="page-hero">
+    <img src="https://popmenucloud.com/cdn-cgi/image/width=1600,height=800,fit=cover,format=auto,quality=80/ufcgbnih/d989131f-f6a1-41be-89ac-224c0d6d34f3.jpg" alt="Barnaby's private events room" />
+    <div class="hero-content">
+      <div class="eyebrow">30 to 200 Guests</div>
+      <h1 class="page-title">Host Your Event<br /><span style="color:var(--gold)">at Barnaby's</span></h1>
+      <p class="page-sub">Birthdays, corporate events, celebrations, and more. Private rooms available at both locations with full bar options and custom buffet menus.</p>
+    </div>
+  </div>
+
+  <!-- ROOM PHOTOS -->
+  <div class="room-photos">
+    <div class="room-photo">
+      <img src="https://popmenucloud.com/cdn-cgi/image/width=800,height=600,fit=cover,format=auto,quality=80/ufcgbnih/d7db0ee9-3904-4f20-8ec8-d9b391db05c0.jpg" alt="Aston private bar area" />
+    </div>
+    <div class="room-photo">
+      <img src="https://popmenucloud.com/cdn-cgi/image/width=800,height=600,fit=cover,format=auto,quality=80/ufcgbnih/b4507c0f-0ae9-4e39-a5e1-b2cb34f5eb63.jpg" alt="Private events room" />
+    </div>
+    <div class="room-photo">
+      <img src="https://popmenucloud.com/cdn-cgi/image/width=800,height=600,fit=cover,format=auto,quality=80/ufcgbnih/069e4d3f-5b4e-4b39-bb8d-be35c615ea9c.jpg" alt="Aston interior" />
+    </div>
+  </div>
+
+  <!-- LOCATION TABS -->
+  <div class="loc-tabs">
+    <button class="loc-tab active" id="tab-havertown" onclick="showLocation('havertown')">Havertown</button>
+    <button class="loc-tab" id="tab-aston" onclick="showLocation('aston')">Aston</button>
+  </div>
+
+  <!-- HAVERTOWN PRICING -->
+  <div id="section-havertown" class="pricing-body">
+
+    <div class="pricing-grid">
+      <!-- APPETIZER BUFFETS -->
+      <div>
+        <div class="pricing-col-header">
+          <p class="pricing-col-label">Option 1</p>
+          <h2 class="pricing-col-title">Appetizer Buffets</h2>
+        </div>
+        <div class="price-table">
+          <div class="price-row">
+            <div class="price-row-header">
+              <span class="price-tier">Standard</span>
+              <span class="price-amount">$20<span style="font-size:0.9rem;color:var(--muted)">/person</span></span>
+            </div>
+            <p class="price-details">4 appetizers &bull; Non-alcoholic beverages &bull; No open bar</p>
+          </div>
+          <div class="price-row">
+            <div class="price-row-header">
+              <span class="price-tier">Basic Open Bar</span>
+              <span class="price-amount">$40<span style="font-size:0.9rem;color:var(--muted)">/person</span></span>
+            </div>
+            <p class="price-details">3-hour house open bar &bull; Additional hour: <strong>$7/person</strong></p>
+            <span class="price-badge">3-Hour Bar</span>
+          </div>
+          <div class="price-row">
+            <div class="price-row-header">
+              <span class="price-tier">Top Shelf Open Bar</span>
+              <span class="price-amount">$50<span style="font-size:0.9rem;color:var(--muted)">/person</span></span>
+            </div>
+            <p class="price-details">3-hour top shelf open bar &bull; Additional hour: <strong>$10/person</strong></p>
+            <span class="price-badge">Top Shelf</span>
+          </div>
+          <div class="price-row">
+            <div class="price-row-header">
+              <span class="price-tier">Children (under 12)</span>
+              <span class="price-amount">$12<span style="font-size:0.9rem;color:var(--muted)">/child</span></span>
+            </div>
+            <p class="price-details">Non-alcoholic beverages included</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ENTREE BUFFETS -->
+      <div>
+        <div class="pricing-col-header">
+          <p class="pricing-col-label">Option 2</p>
+          <h2 class="pricing-col-title">Entree Buffets</h2>
+        </div>
+        <div class="price-table">
+          <div class="price-row">
+            <div class="price-row-header">
+              <span class="price-tier">Standard</span>
+              <span class="price-amount">$30<span style="font-size:0.9rem;color:var(--muted)">/person</span></span>
+            </div>
+            <p class="price-details">3 hot entrees, vegetable, starch, 2 salads &bull; Non-alcoholic beverages</p>
+          </div>
+          <div class="price-row">
+            <div class="price-row-header">
+              <span class="price-tier">Basic Open Bar</span>
+              <span class="price-amount">$50<span style="font-size:0.9rem;color:var(--muted)">/person</span></span>
+            </div>
+            <p class="price-details">3 hot entrees, vegetable, starch, 2 salads &bull; 3-hour house open bar &bull; Additional hour: <strong>$7/person</strong></p>
+            <span class="price-badge">3-Hour Bar</span>
+          </div>
+          <div class="price-row">
+            <div class="price-row-header">
+              <span class="price-tier">Premium Open Bar</span>
+              <span class="price-amount">$60<span style="font-size:0.9rem;color:var(--muted)">/person</span></span>
+            </div>
+            <p class="price-details">3 hot entrees, vegetable, starch, 2 salads &bull; 3-hour top shelf open bar &bull; Additional hour: <strong>$10/person</strong></p>
+            <span class="price-badge">Top Shelf</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADDITIONAL ITEMS -->
+    <div class="add-items">
+      <h3 class="add-items-title">Additional Items</h3>
+      <div class="add-item-row">
+        <div>
+          <p class="add-item-name">Artisan Meat &amp; Cheese Board</p>
+          <p class="add-item-details">Serves 50&ndash;75 guests. Curated selection of artisan meats and cheeses</p>
+        </div>
+        <span class="add-item-price">$150</span>
+      </div>
+    </div>
+
+    <!-- POLICIES -->
+    <div class="policies-box">
+      <h3 class="policies-title">Policies &amp; Details &mdash; Havertown</h3>
+      <div class="policies-grid">
+        <div class="policy-item">
+          <p class="policy-label">Deposit</p>
+          <p class="policy-text">$200 non-refundable deposit required to hold your date</p>
+        </div>
+        <div class="policy-item">
+          <p class="policy-label">Minimum Guests</p>
+          <p class="policy-text">40-guest minimum for private event bookings</p>
+        </div>
+        <div class="policy-item">
+          <p class="policy-label">Bartender Fee</p>
+          <p class="policy-text">$50 bartender fee for 3 hours (+$25/hr additional)</p>
+        </div>
+        <div class="policy-item">
+          <p class="policy-label">DJ</p>
+          <p class="policy-text">$125/hr, 3-hour minimum. Available upon request</p>
+        </div>
+        <div class="policy-item">
+          <p class="policy-label">Tax &amp; Gratuity</p>
+          <p class="policy-text">6% PA sales tax + 18% service charge included in all pricing</p>
+        </div>
+        <div class="policy-item">
+          <p class="policy-label">Capacity</p>
+          <p class="policy-text">30 to 200 guests. Multiple room configurations available</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ASTON PRICING (hidden by default) -->
+  <div id="section-aston" class="pricing-body" style="display:none;">
+
+    <div class="pricing-grid">
+      <div>
+        <div class="pricing-col-header">
+          <p class="pricing-col-label">Option 1</p>
+          <h2 class="pricing-col-title">Appetizer Buffets</h2>
+        </div>
+        <div class="price-table">
+          <div class="price-row">
+            <div class="price-row-header">
+              <span class="price-tier">Standard</span>
+              <span class="price-amount">$21<span style="font-size:0.9rem;color:var(--muted)">/person</span></span>
+            </div>
+            <p class="price-details">Appetizer selection &bull; Non-alcoholic beverages</p>
+          </div>
+          <div class="price-row">
+            <div class="price-row-header">
+              <span class="price-tier">Basic Open Bar</span>
+              <span class="price-amount">$44<span style="font-size:0.9rem;color:var(--muted)">/person</span></span>
+            </div>
+            <p class="price-details">3-hour open bar &bull; Additional hour: <strong>$5/person</strong></p>
+            <span class="price-badge">3-Hour Bar</span>
+          </div>
+          <div class="price-row">
+            <div class="price-row-header">
+              <span class="price-tier">Top Shelf Open Bar</span>
+              <span class="price-amount">$51<span style="font-size:0.9rem;color:var(--muted)">/person</span></span>
+            </div>
+            <p class="price-details">3-hour top shelf open bar &bull; Additional hour: <strong>$7/person</strong></p>
+            <span class="price-badge">Top Shelf</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="pricing-col-header">
+          <p class="pricing-col-label">Option 2</p>
+          <h2 class="pricing-col-title">Entree Buffets</h2>
+        </div>
+        <div class="price-table">
+          <div class="price-row">
+            <div class="price-row-header">
+              <span class="price-tier">Standard</span>
+              <span class="price-amount">$24<span style="font-size:0.9rem;color:var(--muted)">/person</span></span>
+            </div>
+            <p class="price-details">Hot entrees, sides, salads &bull; Non-alcoholic beverages</p>
+          </div>
+          <div class="price-row">
+            <div class="price-row-header">
+              <span class="price-tier">Basic Open Bar</span>
+              <span class="price-amount">$47<span style="font-size:0.9rem;color:var(--muted)">/person</span></span>
+            </div>
+            <p class="price-details">Full buffet &bull; 3-hour house open bar &bull; Additional hour: <strong>$7/person</strong></p>
+            <span class="price-badge">3-Hour Bar</span>
+          </div>
+          <div class="price-row">
+            <div class="price-row-header">
+              <span class="price-tier">Premium Open Bar</span>
+              <span class="price-amount">$54<span style="font-size:0.9rem;color:var(--muted)">/person</span></span>
+            </div>
+            <p class="price-details">Full buffet &bull; 3-hour top shelf open bar &bull; Additional hour: <strong>$10/person</strong></p>
+            <span class="price-badge">Top Shelf</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POLICIES ASTON -->
+    <div class="policies-box">
+      <h3 class="policies-title">Policies &amp; Details &mdash; Aston</h3>
+      <div class="policies-grid">
+        <div class="policy-item">
+          <p class="policy-label">Deposit</p>
+          <p class="policy-text">$200 non-refundable deposit required to hold your date</p>
+        </div>
+        <div class="policy-item">
+          <p class="policy-label">Minimum Guests</p>
+          <p class="policy-text">25 guests (downstairs) &bull; 30 weekday / 40 Fri&ndash;Sat (upstairs)</p>
+        </div>
+        <div class="policy-item">
+          <p class="policy-label">Staff Fee</p>
+          <p class="policy-text">$50 staff fee for 3 hours of private service</p>
+        </div>
+        <div class="policy-item">
+          <p class="policy-label">DJ</p>
+          <p class="policy-text">$100/hr, 3-hour minimum. Available upon request</p>
+        </div>
+        <div class="policy-item">
+          <p class="policy-label">Tax &amp; Gratuity</p>
+          <p class="policy-text">6% PA sales tax + 18% gratuity included in all pricing</p>
+        </div>
+        <div class="policy-item">
+          <p class="policy-label">Contact</p>
+          <p class="policy-text"><a href="tel:6105581929" style="color:var(--gold)">(610) 558-1929</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INQUIRY FORM -->
+  <section class="inquiry-section">
+    <div class="inquiry-inner">
+      <span class="section-label">Get in Touch</span>
+      <h2 class="inquiry-title">Inquire About Your Event</h2>
+      <p class="inquiry-sub">Fill out the form below and someone from our team will be in touch within 24 hours to discuss availability and packages.</p>
+      <form onsubmit="return false;">
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">First Name</label>
+            <input class="form-input" type="text" placeholder="Your first name" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Last Name</label>
+            <input class="form-input" type="text" placeholder="Your last name" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input class="form-input" type="email" placeholder="your@email.com" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone</label>
+            <input class="form-input" type="tel" placeholder="(610) 000-0000" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Location</label>
+            <select class="form-select">
+              <option value="">Select a location</option>
+              <option>Havertown</option>
+              <option>Aston</option>
+              <option>Either / Flexible</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Estimated Guests</label>
+            <select class="form-select">
+              <option value="">Select a range</option>
+              <option>Under 30</option>
+              <option>30 &ndash; 50</option>
+              <option>50 &ndash; 100</option>
+              <option>100 &ndash; 150</option>
+              <option>150+</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Event Date</label>
+            <input class="form-input" type="date" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Event Type</label>
+            <select class="form-select">
+              <option value="">Select event type</option>
+              <option>Birthday Party</option>
+              <option>Corporate Event</option>
+              <option>Graduation</option>
+              <option>Holiday Party</option>
+              <option>Rehearsal Dinner</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Additional Notes</label>
+            <textarea class="form-textarea" placeholder="Tell us more about your event, any special requests, or questions..."></textarea>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary">Send Inquiry</button>
+        <p class="form-note">All prices subject to 6% PA sales tax &amp; 18% service charge. We'll respond within 24 hours.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">Barnaby's <span>&</span> Pub</div>
+      <div class="footer-links">
+        <a href="barnabys.html">Home</a>
+        <a href="barnabys-menu.html">Menu</a>
+        <a href="barnabys-events.html">Events</a>
+        <a href="barnabys-locations.html">Locations</a>
+      </div>
+      <div class="footer-links">
+        <a href="tel:6107891885">Havertown: (610) 789-1885</a>
+        <a href="tel:6105581929">Aston: (610) 558-1929</a>
+      </div>
+    </div>
+    <p class="footer-copy">&copy; 2025 Barnaby's Restaurant &amp; Pub. Havertown &amp; Aston, PA. Est. 1997.</p>
+  </footer>
+
+  <script>
+    function showLocation(loc) {
+      document.getElementById('section-havertown').style.display = loc === 'havertown' ? 'block' : 'none';
+      document.getElementById('section-aston').style.display = loc === 'aston' ? 'block' : 'none';
+      document.getElementById('tab-havertown').className = 'loc-tab' + (loc === 'havertown' ? ' active' : '');
+      document.getElementById('tab-aston').className = 'loc-tab' + (loc === 'aston' ? ' active' : '');
+    }
+  </script>
+</body>
+</html>

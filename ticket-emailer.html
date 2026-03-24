@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ticket Email Generator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    * { font-family: 'Inter', sans-serif; }
+    body { background: #0f1117; color: #e2e8f0; }
+
+    .drop-zone {
+      border: 2px dashed #334155;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+    .drop-zone.drag-over {
+      border-color: #38bdf8;
+      background: rgba(56,189,248,0.05);
+    }
+
+    .card {
+      background: #1a1f2e;
+      border: 1px solid #1e293b;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.2);
+    }
+
+    .email-card {
+      background: #141824;
+      border: 1px solid #1e293b;
+    }
+
+    .email-body {
+      background: #0f1117;
+      border: 1px solid #1e293b;
+      white-space: pre-wrap;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      line-height: 1.7;
+      color: #cbd5e1;
+      resize: vertical;
+    }
+
+    .btn-primary {
+      background: #0ea5e9;
+      color: white;
+      font-weight: 600;
+      padding: 0.6rem 1.5rem;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.1s ease;
+    }
+    .btn-primary:hover { background: #38bdf8; }
+    .btn-primary:active { transform: scale(0.98); }
+
+    .btn-copy {
+      background: #1e293b;
+      color: #94a3b8;
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 0.35rem 0.85rem;
+      border-radius: 6px;
+      border: 1px solid #334155;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    .btn-copy:hover { background: #334155; color: #e2e8f0; }
+    .btn-copy.copied { background: #064e3b; color: #34d399; border-color: #065f46; }
+
+    .btn-ghost {
+      background: transparent;
+      color: #64748b;
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 0.35rem 0.85rem;
+      border-radius: 6px;
+      border: 1px solid #1e293b;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    .btn-ghost:hover { background: #1e293b; color: #94a3b8; }
+
+    select, input[type="text"] {
+      background: #0f1117;
+      border: 1px solid #334155;
+      border-radius: 6px;
+      color: #e2e8f0;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.875rem;
+      width: 100%;
+      outline: none;
+    }
+    select:focus, input[type="text"]:focus {
+      border-color: #0ea5e9;
+      box-shadow: 0 0 0 3px rgba(14,165,233,0.1);
+    }
+
+    .tag {
+      display: inline-block;
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #94a3b8;
+      font-size: 0.7rem;
+      font-weight: 500;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #475569;
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0f1117; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+  </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+
+  <!-- Header -->
+  <div class="max-w-5xl mx-auto mb-8">
+    <h1 class="text-2xl font-bold text-white tracking-tight">Ticket Email Generator</h1>
+    <p class="text-slate-500 text-sm mt-1">Upload your Excel sheet → map columns → copy emails</p>
+  </div>
+
+  <div class="max-w-5xl mx-auto space-y-6">
+
+    <!-- Step 1: Upload -->
+    <div class="card rounded-xl p-6" id="step-upload">
+      <div class="section-label mb-4">Step 1 — Upload Excel File</div>
+      <div
+        class="drop-zone rounded-xl p-10 text-center cursor-pointer"
+        id="dropZone"
+        onclick="document.getElementById('fileInput').click()"
+      >
+        <svg class="mx-auto mb-3 w-10 h-10 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+        <p class="text-slate-400 font-medium">Drop your Excel file here or <span class="text-sky-400">browse</span></p>
+        <p class="text-slate-600 text-xs mt-1">.xlsx or .xls</p>
+        <input type="file" id="fileInput" accept=".xlsx,.xls" class="hidden" onchange="handleFile(this.files[0])" />
+      </div>
+      <div id="fileInfo" class="hidden mt-3 flex items-center gap-2 text-sm text-slate-400">
+        <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+        <span id="fileName"></span>
+        <span id="rowCount" class="tag"></span>
+      </div>
+    </div>
+
+    <!-- Step 2: Map Columns -->
+    <div class="card rounded-xl p-6 hidden" id="step-map">
+      <div class="section-label mb-4">Step 2 — Map Your Columns</div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <div>
+          <label class="block text-xs text-slate-500 mb-1.5 font-medium">Technician Name column</label>
+          <select id="colTech"></select>
+        </div>
+
+        <div>
+          <label class="block text-xs text-slate-500 mb-1.5 font-medium">Ticket # / ID column</label>
+          <select id="colTicket"></select>
+        </div>
+
+        <div>
+          <label class="block text-xs text-slate-500 mb-1.5 font-medium">Ticket Description / Title column</label>
+          <select id="colDesc"></select>
+        </div>
+
+        <div>
+          <label class="block text-xs text-slate-500 mb-1.5 font-medium">Status column <span class="text-slate-600">(optional)</span></label>
+          <select id="colStatus">
+            <option value="">— none —</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs text-slate-500 mb-1.5 font-medium">Priority column <span class="text-slate-600">(optional)</span></label>
+          <select id="colPriority">
+            <option value="">— none —</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs text-slate-500 mb-1.5 font-medium">Technician Email column <span class="text-slate-600">(optional)</span></label>
+          <select id="colEmail">
+            <option value="">— none —</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- Email template -->
+      <div class="mt-5">
+        <label class="block text-xs text-slate-500 mb-1.5 font-medium">Email subject line</label>
+        <input type="text" id="subjectLine" value="Ticket Update Request" placeholder="e.g. Tickets Needing Your Update" />
+      </div>
+
+      <div class="mt-3">
+        <label class="block text-xs text-slate-500 mb-1.5 font-medium">Intro line <span class="text-slate-600">(appears before ticket list)</span></label>
+        <input type="text" id="introLine" value="Please send me an update on the following tickets:" />
+      </div>
+
+      <div class="mt-3">
+        <label class="block text-xs text-slate-500 mb-1.5 font-medium">Sign-off</label>
+        <input type="text" id="signoff" value="Thanks" />
+      </div>
+
+      <div class="mt-5">
+        <button class="btn-primary" onclick="generateEmails()">Generate Emails</button>
+      </div>
+    </div>
+
+    <!-- Step 3: Emails -->
+    <div class="hidden" id="step-emails">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <div class="section-label">Step 3 — Your Emails</div>
+          <p id="emailCount" class="text-slate-400 text-sm mt-0.5"></p>
+        </div>
+        <button class="btn-ghost" onclick="copyAll()">Copy all emails</button>
+      </div>
+
+      <div id="emailList" class="space-y-4"></div>
+    </div>
+
+  </div>
+
+  <script>
+    let parsedData = [];
+    let headers = [];
+
+    // Drag-and-drop
+    const dropZone = document.getElementById('dropZone');
+    dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+    dropZone.addEventListener('drop', e => {
+      e.preventDefault();
+      dropZone.classList.remove('drag-over');
+      const file = e.dataTransfer.files[0];
+      if (file) handleFile(file);
+    });
+
+    function handleFile(file) {
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        const wb = XLSX.read(e.target.result, { type: 'array' });
+        const ws = wb.Sheets[wb.SheetNames[0]];
+        const json = XLSX.utils.sheet_to_json(ws, { defval: '' });
+        if (!json.length) { alert('No data found in the sheet.'); return; }
+
+        parsedData = json;
+        headers = Object.keys(json[0]);
+
+        document.getElementById('fileInfo').classList.remove('hidden');
+        document.getElementById('fileName').textContent = file.name;
+        document.getElementById('rowCount').textContent = `${json.length} rows`;
+
+        populateSelects();
+        document.getElementById('step-map').classList.remove('hidden');
+        document.getElementById('step-emails').classList.add('hidden');
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    function populateSelects() {
+      const selects = ['colTech', 'colTicket', 'colDesc'];
+      const optionalSelects = ['colStatus', 'colPriority', 'colEmail'];
+
+      selects.forEach(id => {
+        const el = document.getElementById(id);
+        el.innerHTML = headers.map(h => `<option value="${h}">${h}</option>`).join('');
+      });
+
+      optionalSelects.forEach(id => {
+        const el = document.getElementById(id);
+        const existing = el.innerHTML.startsWith('<option value="">') ? el.innerHTML.split('<option value="')[0] : '<option value="">— none —</option>';
+        el.innerHTML = '<option value="">— none —</option>' + headers.map(h => `<option value="${h}">${h}</option>`).join('');
+      });
+
+      // Smart defaults — try to guess columns
+      const guess = (keywords) => headers.find(h => keywords.some(k => h.toLowerCase().includes(k))) || headers[0];
+      document.getElementById('colTech').value = guess(['tech', 'assign', 'owner', 'name']);
+      document.getElementById('colTicket').value = guess(['ticket', 'id', 'number', 'num', '#']);
+      document.getElementById('colDesc').value = guess(['desc', 'title', 'subject', 'summary', 'issue']);
+      const statusCol = headers.find(h => h.toLowerCase().includes('status'));
+      if (statusCol) document.getElementById('colStatus').value = statusCol;
+      const priCol = headers.find(h => h.toLowerCase().includes('prior'));
+      if (priCol) document.getElementById('colPriority').value = priCol;
+      const emailCol = headers.find(h => h.toLowerCase().includes('email'));
+      if (emailCol) document.getElementById('colEmail').value = emailCol;
+    }
+
+    function generateEmails() {
+      const colTech = document.getElementById('colTech').value;
+      const colTicket = document.getElementById('colTicket').value;
+      const colDesc = document.getElementById('colDesc').value;
+      const colStatus = document.getElementById('colStatus').value;
+      const colPriority = document.getElementById('colPriority').value;
+      const colEmail = document.getElementById('colEmail').value;
+      const subject = document.getElementById('subjectLine').value.trim();
+      const intro = document.getElementById('introLine').value.trim();
+      const signoff = document.getElementById('signoff').value.trim();
+
+      // Group by technician
+      const techMap = {};
+      parsedData.forEach(row => {
+        const tech = String(row[colTech] || '').trim();
+        if (!tech) return;
+        if (!techMap[tech]) {
+          techMap[tech] = {
+            email: colEmail ? String(row[colEmail] || '').trim() : '',
+            tickets: []
+          };
+        }
+        techMap[tech].tickets.push({
+          id: row[colTicket] || '',
+          desc: row[colDesc] || '',
+          status: colStatus ? row[colStatus] || '' : '',
+          priority: colPriority ? row[colPriority] || '' : ''
+        });
+      });
+
+      const techs = Object.keys(techMap);
+      if (!techs.length) { alert('No technician data found with the selected column.'); return; }
+
+      document.getElementById('emailCount').textContent = `${techs.length} email${techs.length > 1 ? 's' : ''} generated`;
+      const container = document.getElementById('emailList');
+      container.innerHTML = '';
+
+      techs.sort().forEach(tech => {
+        const { email, tickets } = techMap[tech];
+
+        let ticketLines = tickets.map(t => {
+          let line = `• Ticket ${t.id}`;
+          if (t.desc) line += ` – ${t.desc}`;
+          const meta = [];
+          if (t.status) meta.push(`Status: ${t.status}`);
+          if (t.priority) meta.push(`Priority: ${t.priority}`);
+          if (meta.length) line += ` (${meta.join(', ')})`;
+          return line;
+        }).join('\n');
+
+        const body = `Hi ${tech.split(' ')[0]},\n\n${intro}\n\n${ticketLines}\n\n${signoff}`;
+
+        const card = document.createElement('div');
+        card.className = 'email-card rounded-xl p-5';
+        card.innerHTML = `
+          <div class="flex items-start justify-between gap-3 mb-3">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-semibold text-white text-sm">${tech}</span>
+                ${email ? `<span class="text-xs text-slate-500">${email}</span>` : ''}
+              </div>
+              <div class="text-xs text-slate-600 mt-0.5">${tickets.length} ticket${tickets.length > 1 ? 's' : ''}</div>
+            </div>
+            <div class="flex gap-2 flex-shrink-0">
+              ${email ? `<button class="btn-copy" onclick="openMailto('${email}', \`${subject.replace(/`/g,'\\`')}\`, this.closest('.email-card').querySelector('textarea').value)">Open in Mail</button>` : ''}
+              <button class="btn-copy" onclick="copyEmail(this)">Copy</button>
+            </div>
+          </div>
+          <div class="mb-2 text-xs text-slate-600">Subject: <span class="text-slate-400">${subject}</span></div>
+          <textarea class="email-body w-full rounded-lg p-4 min-h-[160px]">${body}</textarea>
+        `;
+        container.appendChild(card);
+      });
+
+      document.getElementById('step-emails').classList.remove('hidden');
+      document.getElementById('step-emails').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function copyEmail(btn) {
+      const textarea = btn.closest('.email-card').querySelector('textarea');
+      navigator.clipboard.writeText(textarea.value).then(() => {
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+      });
+    }
+
+    function openMailto(email, subject, body) {
+      const url = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.open(url);
+    }
+
+    function copyAll() {
+      const textareas = document.querySelectorAll('#emailList textarea');
+      const all = Array.from(textareas).map(t => t.value).join('\n\n' + '─'.repeat(60) + '\n\n');
+      navigator.clipboard.writeText(all).then(() => {
+        const btn = event.target;
+        btn.textContent = 'Copied all!';
+        setTimeout(() => btn.textContent = 'Copy all emails', 2000);
+      });
+    }
+  </script>
+</body>
+</html>

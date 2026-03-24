@@ -14,8 +14,9 @@
        TOKENS & RESET
     ───────────────────────────────────────── */
     :root {
-      --blue:       #0A66FF;
-      --blue-light: #1DA1F2;
+      --amber:      #FF6A00;
+      --amber-light:#FF9A3C;
+      --amber-dim:  rgba(255,106,0,0.12);
       --navy-dark:  #060E1C;
       --navy:       #0A1A2F;
       --navy-mid:   #0D2244;
@@ -53,7 +54,7 @@
       content: '';
       position: fixed;
       inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.032'/%3E%3C/svg%3E");
       pointer-events: none;
       z-index: 9999;
     }
@@ -69,20 +70,20 @@
       font-size: 0.68rem;
       letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: var(--blue-light);
+      color: var(--amber-light);
     }
     .grad-text {
-      background: linear-gradient(130deg, #0A66FF 0%, #1DA1F2 50%, #fff 100%);
+      background: linear-gradient(130deg, #FF6A00 0%, #FF9A3C 55%, #FFD580 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
     .divider-bar {
       width: 48px; height: 3px;
-      background: linear-gradient(90deg, var(--blue), var(--blue-light));
+      background: linear-gradient(90deg, var(--amber), var(--amber-light));
       border-radius: 2px;
       margin: var(--s2) auto 0;
-      box-shadow: 0 0 12px rgba(10,102,255,0.5);
+      box-shadow: 0 0 12px rgba(255,106,0,0.5);
     }
 
     /* ─── BUTTONS ─────────────────────────── */
@@ -104,28 +105,28 @@
                   opacity 0.2s ease;
     }
     .btn-primary {
-      background: linear-gradient(135deg, #0A66FF 0%, #1DA1F2 100%);
+      background: linear-gradient(135deg, #FF6A00 0%, #FF9A3C 100%);
       color: #fff;
       box-shadow:
-        0 0 0 1px rgba(10,102,255,0.5) inset,
-        0 0 24px rgba(10,102,255,0.45),
-        0 6px 20px rgba(10,102,255,0.3),
+        0 0 0 1px rgba(255,106,0,0.5) inset,
+        0 0 24px rgba(255,106,0,0.45),
+        0 6px 20px rgba(255,106,0,0.3),
         0 12px 40px rgba(0,0,0,0.5);
     }
-    .btn-primary:hover  { transform: translateY(-3px) scale(1.02); }
+    .btn-primary:hover  { transform: translateY(-3px) scale(1.02); box-shadow: 0 0 0 1px rgba(255,106,0,0.6) inset, 0 0 36px rgba(255,106,0,0.6), 0 8px 28px rgba(255,106,0,0.4), 0 16px 50px rgba(0,0,0,0.55); }
     .btn-primary:active { transform: translateY(0) scale(0.98); }
-    .btn-primary:focus-visible { outline: 2px solid #1DA1F2; outline-offset: 4px; }
+    .btn-primary:focus-visible { outline: 2px solid var(--amber-light); outline-offset: 4px; }
     .btn-outline {
       background: transparent;
       color: #fff;
-      border: 1px solid rgba(10,102,255,0.45);
+      border: 1px solid rgba(255,106,0,0.4);
     }
-    .btn-outline:hover  { transform: translateY(-3px); background: rgba(10,102,255,0.1); border-color: rgba(10,102,255,0.8); }
+    .btn-outline:hover  { transform: translateY(-3px); background: rgba(255,106,0,0.08); border-color: rgba(255,106,0,0.7); }
     .btn-outline:active { transform: translateY(0); }
-    .btn-outline:focus-visible { outline: 2px solid #1DA1F2; outline-offset: 4px; }
+    .btn-outline:focus-visible { outline: 2px solid var(--amber-light); outline-offset: 4px; }
 
     /* ══════════════════════════════════════════
-       NAV — mobile first (hamburger default)
+       NAV
     ══════════════════════════════════════════ */
     .nav {
       position: fixed;
@@ -137,7 +138,7 @@
       background: rgba(6,14,28,0.92);
       backdrop-filter: blur(20px) saturate(1.4);
       -webkit-backdrop-filter: blur(20px) saturate(1.4);
-      border-bottom: 1px solid rgba(10,102,255,0.14);
+      border-bottom: 1px solid rgba(255,106,0,0.12);
     }
     .nav-inner {
       width: 100%;
@@ -159,7 +160,7 @@
       height: 36px; width: 36px;
       object-fit: cover;
       border-radius: 7px;
-      box-shadow: 0 0 14px rgba(10,102,255,0.35);
+      box-shadow: 0 0 14px rgba(255,106,0,0.3);
     }
     .nav-wordmark {
       font-family: 'Montserrat', sans-serif;
@@ -174,11 +175,9 @@
       font-weight: 400;
       font-size: 0.55rem;
       letter-spacing: 0.18em;
-      color: var(--blue-light);
+      color: var(--amber-light);
       margin-top: 3px;
     }
-
-    /* Desktop links — hidden on mobile by default */
     .nav-links {
       display: none;
       align-items: center;
@@ -195,9 +194,8 @@
       transition: color 0.2s ease;
     }
     .nav-link:hover { color: var(--white); }
-    .nav-link:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 2px; }
+    .nav-link:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; border-radius: 2px; }
 
-    /* Hamburger — visible on mobile by default */
     .hamburger {
       display: flex;
       flex-direction: column;
@@ -213,8 +211,8 @@
       flex-shrink: 0;
       transition: background 0.2s ease;
     }
-    .hamburger:hover { background: rgba(10,102,255,0.12); }
-    .hamburger:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+    .hamburger:hover { background: rgba(255,106,0,0.1); }
+    .hamburger:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
     .hamburger span {
       display: block;
       width: 22px; height: 2px;
@@ -226,7 +224,6 @@
     .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
     .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-    /* Mobile drawer */
     .mobile-menu {
       display: none;
       position: fixed;
@@ -235,7 +232,7 @@
       background: rgba(6,14,28,0.97);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(10,102,255,0.18);
+      border-bottom: 1px solid rgba(255,106,0,0.15);
       padding: var(--s3) var(--s3) var(--s4);
       flex-direction: column;
       gap: 0;
@@ -259,21 +256,21 @@
     .mobile-menu .mobile-cta .btn { width: 100%; text-align: center; display: block; }
 
     /* ══════════════════════════════════════════
-       HERO — mobile first
+       HERO
     ══════════════════════════════════════════ */
     .hero {
       padding-top: 60px;
       position: relative;
       overflow: hidden;
       background:
-        radial-gradient(ellipse 110% 80% at 50% -10%, rgba(10,102,255,0.18) 0%, transparent 55%),
+        radial-gradient(ellipse 110% 80% at 50% -10%, rgba(255,106,0,0.12) 0%, transparent 55%),
         rgba(6,14,28,0.72);
     }
     .hero-ring {
-      display: none; /* hidden on mobile */
+      display: none;
       position: absolute;
       border-radius: 50%;
-      border: 1px solid rgba(10,102,255,0.07);
+      border: 1px solid rgba(255,106,0,0.06);
       top: 50%; left: 50%;
       transform: translate(-50%,-50%);
       pointer-events: none;
@@ -292,13 +289,12 @@
       z-index: 1;
     }
     .hero-text { width: 100%; }
-
     .hero-badge {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      background: rgba(10,102,255,0.1);
-      border: 1px solid rgba(10,102,255,0.3);
+      background: rgba(255,106,0,0.08);
+      border: 1px solid rgba(255,106,0,0.28);
       border-radius: 100px;
       padding: 0.35rem 1rem;
       margin-bottom: var(--s2);
@@ -306,11 +302,10 @@
     .hero-badge-dot {
       width: 6px; height: 6px;
       border-radius: 50%;
-      background: var(--blue);
-      box-shadow: 0 0 8px var(--blue);
+      background: var(--amber);
+      box-shadow: 0 0 8px var(--amber);
       animation: blink 2s ease-in-out infinite;
     }
-
     .hero-h1 {
       font-family: 'Montserrat', sans-serif;
       font-size: clamp(2.4rem, 10vw, 5rem);
@@ -324,7 +319,7 @@
       color: var(--muted);
       line-height: 1.7;
       margin-bottom: var(--s4);
-      max-width: 480px;
+      max-width: 520px;
       margin-left: auto;
       margin-right: auto;
     }
@@ -335,8 +330,6 @@
       flex-wrap: wrap;
     }
     .hero-ctas .btn { flex: 1; min-width: 140px; text-align: center; }
-
-    /* Hero stats */
     .hero-stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -362,8 +355,6 @@
       text-transform: uppercase;
       margin-top: 2px;
     }
-
-    /* Hero visual */
     .hero-visual {
       width: 200px; height: 200px;
       border-radius: 50%;
@@ -378,10 +369,78 @@
       border-radius: 50%;
       display: block;
       box-shadow:
-        0 0 50px rgba(10,102,255,0.4),
-        0 0 100px rgba(10,102,255,0.18),
+        0 0 50px rgba(255,106,0,0.35),
+        0 0 100px rgba(255,106,0,0.15),
         0 20px 50px rgba(0,0,0,0.7);
       animation: float 5s ease-in-out infinite;
+    }
+
+    /* ══════════════════════════════════════════
+       TRUST STRIP
+    ══════════════════════════════════════════ */
+    .trust-strip {
+      padding: var(--s4) var(--s3);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      background: rgba(6,14,28,0.6);
+      overflow: hidden;
+    }
+    .trust-strip-label {
+      text-align: center;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(107,141,181,0.6);
+      margin-bottom: var(--s2);
+    }
+    .trust-marquee-wrap {
+      position: relative;
+      overflow: hidden;
+    }
+    .trust-marquee-wrap::before,
+    .trust-marquee-wrap::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 80px;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .trust-marquee-wrap::before { left: 0; background: linear-gradient(to right, rgba(6,14,28,0.9), transparent); }
+    .trust-marquee-wrap::after  { right: 0; background: linear-gradient(to left, rgba(6,14,28,0.9), transparent); }
+    .trust-marquee {
+      display: flex;
+      gap: 3rem;
+      align-items: center;
+      width: max-content;
+      animation: marquee 28s linear infinite;
+    }
+    .trust-marquee:hover { animation-play-state: paused; }
+    .trust-client {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      white-space: nowrap;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.28);
+      transition: color 0.2s ease;
+    }
+    .trust-client:hover { color: rgba(255,255,255,0.65); }
+    .trust-client-dot {
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--amber);
+      opacity: 0.5;
+      flex-shrink: 0;
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
     }
 
     /* ══════════════════════════════════════════
@@ -405,13 +464,284 @@
     }
 
     /* ══════════════════════════════════════════
-       PRICING — mobile first (1 column)
+       PORTFOLIO
+    ══════════════════════════════════════════ */
+    .portfolio-section {
+      padding: var(--s6) var(--s3);
+      background:
+        radial-gradient(ellipse 70% 60% at 80% 50%, rgba(255,106,0,0.05) 0%, transparent 65%),
+        rgba(6,14,28,0.82);
+    }
+    .portfolio-inner { max-width: 1200px; margin: 0 auto; width: 100%; }
+    .portfolio-header { margin-bottom: var(--s4); }
+    .portfolio-header .label { display: block; margin-bottom: var(--s1); }
+    .portfolio-header h2 {
+      font-size: clamp(1.8rem, 7vw, 3.2rem);
+      font-weight: 800;
+      margin-bottom: var(--s3);
+    }
+    .portfolio-header-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--s2);
+    }
+
+    .portfolio-grid-mobile {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s3);
+    }
+    .portfolio-grid-desktop { display: none; }
+
+    .p-item {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255,106,0,0.1);
+      cursor: pointer;
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease;
+      text-decoration: none;
+      display: block;
+    }
+    .p-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 50px rgba(255,106,0,0.18), 0 24px 50px rgba(0,0,0,0.55);
+      border-color: rgba(255,106,0,0.3);
+    }
+    .p-item:focus-visible { outline: 2px solid var(--amber); outline-offset: 4px; }
+    .p-item-inner { position: relative; width: 100%; padding-top: 60%; }
+    .p-item-inner img {
+      position: absolute;
+      inset: 0; width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .p-item:hover .p-item-inner img { transform: scale(1.04); }
+    .p-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(6,14,28,0.96) 0%, rgba(255,106,0,0.04) 55%, transparent 100%);
+    }
+    .p-info {
+      position: absolute;
+      bottom: 0; left: 0;
+      padding: var(--s3);
+      z-index: 10;
+    }
+    .p-tag {
+      display: inline-block;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--amber-light);
+      background: rgba(255,106,0,0.15);
+      border: 1px solid rgba(255,106,0,0.3);
+      border-radius: 100px;
+      padding: 0.2rem 0.7rem;
+      margin-bottom: 0.4rem;
+    }
+    .p-info h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      margin-bottom: 0.25rem;
+    }
+    .p-desc {
+      font-size: 0.78rem;
+      color: rgba(107,141,181,0.85);
+      line-height: 1.4;
+    }
+
+    /* Post-work CTA */
+    .work-cta-band {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 3rem;
+      border-top: 1px solid rgba(255,106,0,0.1);
+    }
+    .work-cta-band p {
+      font-size: 1.1rem;
+      font-weight: 600;
+      font-family: 'Montserrat', sans-serif;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+    }
+    .work-cta-band .sub {
+      font-family: 'Roboto', sans-serif;
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-weight: 400;
+      margin-bottom: var(--s3);
+    }
+
+    /* ══════════════════════════════════════════
+       PROCESS
+    ══════════════════════════════════════════ */
+    .process-section {
+      padding: var(--s6) var(--s3);
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 50%, rgba(255,106,0,0.05) 0%, transparent 65%),
+        rgba(6,14,28,0.88);
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+    .process-inner { max-width: 1200px; margin: 0 auto; }
+    .process-steps {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s3);
+      margin-top: var(--s5);
+      position: relative;
+    }
+    .process-step {
+      display: flex;
+      gap: var(--s3);
+      align-items: flex-start;
+      background: linear-gradient(135deg, rgba(13,34,68,0.6) 0%, rgba(6,14,28,0.8) 100%);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      padding: var(--s3);
+      transition: border-color 0.2s ease, transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .process-step:hover {
+      border-color: rgba(255,106,0,0.25);
+      transform: translateY(-3px);
+    }
+    .process-num {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 2rem;
+      letter-spacing: -0.04em;
+      background: linear-gradient(130deg, #FF6A00, #FF9A3C);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      flex-shrink: 0;
+      width: 2.5rem;
+      text-align: center;
+      padding-top: 0.1rem;
+    }
+    .process-content h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.4rem;
+      color: var(--white);
+    }
+    .process-content p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ══════════════════════════════════════════
+       TESTIMONIALS
+    ══════════════════════════════════════════ */
+    .testimonials-section {
+      padding: var(--s6) var(--s3);
+      background:
+        radial-gradient(ellipse 90% 60% at 70% 50%, rgba(255,106,0,0.05) 0%, transparent 65%),
+        rgba(6,14,28,0.82);
+    }
+    .testimonials-inner { max-width: 1200px; margin: 0 auto; }
+    .testimonials-grid {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s3);
+      margin-top: var(--s5);
+    }
+    .testimonial-card {
+      background: linear-gradient(140deg, rgba(13,34,68,0.65) 0%, rgba(6,14,28,0.9) 100%);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      padding: var(--s4);
+      position: relative;
+      transition: border-color 0.2s ease, transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .testimonial-card:hover {
+      border-color: rgba(255,106,0,0.2);
+      transform: translateY(-4px);
+    }
+    .testimonial-card::before {
+      content: '\201C';
+      position: absolute;
+      top: 1rem; right: 1.5rem;
+      font-size: 5rem;
+      font-family: Georgia, serif;
+      color: rgba(255,106,0,0.12);
+      line-height: 1;
+    }
+    .testimonial-result {
+      display: inline-block;
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--amber);
+      background: rgba(255,106,0,0.08);
+      border: 1px solid rgba(255,106,0,0.22);
+      border-radius: 100px;
+      padding: 0.2rem 0.75rem;
+      margin-bottom: var(--s2);
+    }
+    .testimonial-quote {
+      font-size: 0.97rem;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.72;
+      margin-bottom: var(--s3);
+      font-style: italic;
+    }
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .testimonial-avatar {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: linear-gradient(135deg, rgba(255,106,0,0.3), rgba(255,154,60,0.15));
+      border: 1.5px solid rgba(255,106,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 0.85rem;
+      color: var(--amber-light);
+      flex-shrink: 0;
+    }
+    .testimonial-name {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--white);
+    }
+    .testimonial-role {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 1px;
+    }
+    .stars {
+      display: flex;
+      gap: 2px;
+      margin-bottom: var(--s1);
+    }
+    .stars svg { color: var(--amber); }
+
+    /* ══════════════════════════════════════════
+       PRICING
     ══════════════════════════════════════════ */
     .pricing-section {
       padding: var(--s6) var(--s3);
       background:
-        radial-gradient(ellipse 80% 60% at 20% 50%, rgba(10,102,255,0.07) 0%, transparent 65%),
+        radial-gradient(ellipse 80% 60% at 20% 50%, rgba(255,106,0,0.05) 0%, transparent 65%),
         rgba(6,14,28,0.82);
+      border-top: 1px solid rgba(255,255,255,0.04);
     }
     .pricing-wrap { max-width: 1200px; margin: 0 auto; }
     .pricing-grid {
@@ -421,7 +751,7 @@
     }
     .pricing-card {
       background: linear-gradient(140deg, rgba(13,34,68,0.75) 0%, rgba(6,14,28,0.9) 100%);
-      border: 1px solid rgba(10,102,255,0.2);
+      border: 1px solid rgba(255,106,0,0.15);
       border-radius: 16px;
       padding: var(--s4);
       display: flex;
@@ -431,29 +761,24 @@
       box-shadow: 0 4px 28px rgba(0,0,0,0.4);
       transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease;
     }
-    .pricing-card:hover { transform: translateY(-6px); box-shadow: 0 0 50px rgba(10,102,255,0.18), 0 20px 50px rgba(0,0,0,0.55); }
+    .pricing-card:hover { transform: translateY(-6px); box-shadow: 0 0 50px rgba(255,106,0,0.15), 0 20px 50px rgba(0,0,0,0.55); }
     .pricing-card.featured {
       border: none;
-      background: linear-gradient(140deg, rgba(10,102,255,0.14) 0%, rgba(13,34,68,0.92) 100%);
+      background: linear-gradient(140deg, rgba(255,106,0,0.1) 0%, rgba(13,34,68,0.92) 100%);
       box-shadow: none;
       order: -1;
     }
-
-    /* ── Radiant glow wrapper ── */
     .featured-wrap {
       position: relative;
       border-radius: 18px;
       order: -1;
-      /* Static box-shadow — never animated, no repaint */
       box-shadow:
-        0 0 0 1.5px rgba(29,161,242,0.7),
-        0 0 22px rgba(10,102,255,0.65),
-        0 0 55px rgba(10,102,255,0.32),
-        0 0 100px rgba(10,102,255,0.14),
+        0 0 0 1.5px rgba(255,154,60,0.65),
+        0 0 22px rgba(255,106,0,0.55),
+        0 0 55px rgba(255,106,0,0.28),
+        0 0 100px rgba(255,106,0,0.12),
         0 16px 48px rgba(0,0,0,0.6);
     }
-
-    /* Bloom layer — animates only opacity + transform (GPU only) */
     .featured-wrap::before {
       content: '';
       position: absolute;
@@ -461,8 +786,8 @@
       border-radius: 30px;
       background: radial-gradient(
         ellipse 85% 65% at 50% 50%,
-        rgba(29,161,242,0.38) 0%,
-        rgba(10,102,255,0.18) 40%,
+        rgba(255,154,60,0.3) 0%,
+        rgba(255,106,0,0.14) 40%,
         transparent 70%
       );
       filter: blur(22px);
@@ -474,16 +799,12 @@
       0%, 100% { opacity: 0.65; transform: scale(1);    }
       50%       { opacity: 1;    transform: scale(1.08); }
     }
-
-    .featured-wrap .pricing-card.featured {
-      border: none;
-      border-radius: 16px;
-    }
+    .featured-wrap .pricing-card.featured { border: none; border-radius: 16px; }
     .popular-badge {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      background: linear-gradient(135deg, #0A66FF, #1DA1F2);
+      background: linear-gradient(135deg, #FF6A00, #FF9A3C);
       border-radius: 100px;
       padding: 0.5rem 1.4rem;
       font-family: 'Montserrat', sans-serif;
@@ -493,7 +814,7 @@
       text-transform: uppercase;
       color: white;
       margin-bottom: 1rem;
-      box-shadow: 0 0 28px rgba(10,102,255,0.6);
+      box-shadow: 0 0 28px rgba(255,106,0,0.5);
       width: fit-content;
       margin-left: auto;
       margin-right: auto;
@@ -503,7 +824,7 @@
       font-size: 0.62rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: var(--blue-light);
+      color: var(--amber-light);
       margin-bottom: 0.15rem;
     }
     .tier-name {
@@ -519,7 +840,7 @@
       font-size: 2.4rem;
       letter-spacing: -0.04em;
       line-height: 1;
-      background: linear-gradient(130deg, #0A66FF, #1DA1F2);
+      background: linear-gradient(130deg, #FF6A00, #FF9A3C);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -554,19 +875,16 @@
       font-family: 'Roboto Mono', monospace;
       font-size: 0.62rem;
       letter-spacing: 0.08em;
-      color: rgba(29,161,242,0.7);
+      color: rgba(255,154,60,0.7);
       margin-bottom: 0.75rem;
     }
     .tier-hybrid-monthly {
-      font-family: 'Inter', sans-serif;
       font-size: 0.82rem;
       color: rgba(255,255,255,0.55);
       margin: 0.1rem 0 0.6rem;
-      letter-spacing: 0.01em;
     }
     .tier-onetime {
       display: inline-block;
-      font-family: 'Inter', sans-serif;
       font-size: 0.75rem;
       color: rgba(255,255,255,0.35);
       background: rgba(255,255,255,0.05);
@@ -591,92 +909,13 @@
     }
 
     /* ══════════════════════════════════════════
-       PORTFOLIO — mobile first (stacked)
-    ══════════════════════════════════════════ */
-    .portfolio-section {
-      padding: var(--s6) var(--s3);
-      background:
-        radial-gradient(ellipse 70% 60% at 80% 50%, rgba(10,102,255,0.07) 0%, transparent 65%),
-        rgba(6,14,28,0.82);
-    }
-    .portfolio-inner { max-width: 1200px; margin: 0 auto; width: 100%; }
-    .portfolio-header {
-      margin-bottom: var(--s4);
-    }
-    .portfolio-header .label { display: block; margin-bottom: var(--s1); }
-    .portfolio-header h2 {
-      font-size: clamp(1.8rem, 7vw, 3.2rem);
-      font-weight: 800;
-      margin-bottom: var(--s3);
-    }
-    .portfolio-header-row {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: var(--s2);
-    }
-
-    /* Mobile: simple stacked cards */
-    .portfolio-grid-mobile {
-      display: flex;
-      flex-direction: column;
-      gap: var(--s3);
-    }
-    /* Desktop complex grid — hidden on mobile */
-    .portfolio-grid-desktop { display: none; }
-
-    .p-item {
-      position: relative;
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid rgba(10,102,255,0.14);
-      cursor: pointer;
-      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease;
-    }
-    .p-item:hover { transform: translateY(-5px); box-shadow: 0 0 50px rgba(10,102,255,0.22), 0 24px 50px rgba(0,0,0,0.55); }
-    .p-item:focus-visible { outline: 2px solid var(--blue); outline-offset: 4px; }
-    .p-item-inner { position: relative; width: 100%; padding-top: 60%; /* 5:3 ratio */ }
-    .p-item-inner img {
-      position: absolute;
-      inset: 0; width: 100%; height: 100%;
-      object-fit: cover;
-    }
-    .p-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(6,14,28,0.96) 0%, rgba(10,102,255,0.06) 55%, transparent 100%);
-    }
-    .p-info {
-      position: absolute;
-      bottom: 0; left: 0;
-      padding: var(--s3);
-      z-index: 10;
-    }
-    .p-info .label {
-      margin-bottom: 0.4rem;
-      display: inline-block;
-      background: rgba(10,102,255,0.25);
-      border: 1px solid rgba(29,161,242,0.4);
-      border-radius: 100px;
-      padding: 0.2rem 0.7rem;
-      backdrop-filter: blur(8px);
-    }
-    .p-info h3 {
-      font-size: 1.1rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--white);
-    }
-
-    /* ══════════════════════════════════════════
-       STATS — mobile first (2 cols)
+       STATS BAR
     ══════════════════════════════════════════ */
     .stats-section {
-      padding: var(--s6) var(--s3);
+      padding: var(--s5) var(--s3);
       background: rgba(6,14,28,0.82);
-      border-top: 1px solid rgba(10,102,255,0.1);
-      border-bottom: 1px solid rgba(10,102,255,0.1);
+      border-top: 1px solid rgba(255,106,0,0.08);
+      border-bottom: 1px solid rgba(255,106,0,0.08);
     }
     .stats-inner {
       max-width: 1200px;
@@ -686,8 +925,8 @@
       gap: var(--s3);
     }
     .stat-card {
-      background: linear-gradient(135deg, rgba(10,102,255,0.08) 0%, rgba(13,34,68,0.55) 100%);
-      border: 1px solid rgba(10,102,255,0.18);
+      background: linear-gradient(135deg, rgba(255,106,0,0.06) 0%, rgba(13,34,68,0.5) 100%);
+      border: 1px solid rgba(255,106,0,0.12);
       border-radius: 14px;
       padding: var(--s4) var(--s3);
       text-align: center;
@@ -698,7 +937,7 @@
       font-size: 2.6rem;
       letter-spacing: -0.04em;
       line-height: 1;
-      background: linear-gradient(130deg, var(--blue), var(--blue-light));
+      background: linear-gradient(130deg, var(--amber), var(--amber-light));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -711,21 +950,71 @@
     }
 
     /* ══════════════════════════════════════════
-       CTA — mobile first
+       ABOUT
+    ══════════════════════════════════════════ */
+    .about-section {
+      padding: var(--s6) var(--s3);
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 50%, rgba(255,106,0,0.04) 0%, transparent 65%),
+        rgba(6,14,28,0.9);
+    }
+    .about-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--s5);
+      align-items: flex-start;
+    }
+    .about-content { flex: 1; }
+    .about-content .label { display: block; margin-bottom: var(--s1); }
+    .about-content h2 {
+      font-size: clamp(1.8rem, 6vw, 3rem);
+      font-weight: 800;
+      margin-bottom: var(--s3);
+      line-height: 1.1;
+    }
+    .about-content p {
+      color: var(--muted);
+      font-size: 0.97rem;
+      line-height: 1.8;
+      max-width: 600px;
+      margin-bottom: var(--s2);
+    }
+    .about-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: var(--s3);
+    }
+    .about-tag {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--amber-light);
+      background: rgba(255,106,0,0.08);
+      border: 1px solid rgba(255,106,0,0.2);
+      border-radius: 6px;
+      padding: 0.35rem 0.8rem;
+    }
+
+    /* ══════════════════════════════════════════
+       FINAL CTA
     ══════════════════════════════════════════ */
     .cta-section {
       padding: var(--s7) var(--s3);
       position: relative;
       overflow: hidden;
       background:
-        radial-gradient(ellipse 90% 70% at 50% 50%, rgba(10,102,255,0.14) 0%, transparent 65%),
+        radial-gradient(ellipse 90% 70% at 50% 50%, rgba(255,106,0,0.1) 0%, transparent 65%),
         rgba(6,14,28,0.82);
     }
     .cta-glow {
       position: absolute;
-      width: 400px; height: 400px;
+      width: 500px; height: 500px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(10,102,255,0.12) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(255,106,0,0.1) 0%, transparent 70%);
       top: 50%; left: 50%;
       transform: translate(-50%,-50%);
       pointer-events: none;
@@ -756,13 +1045,23 @@
       align-items: stretch;
     }
     .cta-btns .btn { text-align: center; padding: 1rem; font-size: 0.82rem; }
+    .cta-trust-note {
+      margin-top: var(--s3);
+      font-size: 0.75rem;
+      color: rgba(107,141,181,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .cta-trust-note svg { color: var(--amber); opacity: 0.6; }
 
     /* ══════════════════════════════════════════
-       FOOTER — mobile first (1 col)
+       FOOTER
     ══════════════════════════════════════════ */
     .footer {
       background: rgba(6,14,28,0.88);
-      border-top: 1px solid rgba(10,102,255,0.12);
+      border-top: 1px solid rgba(255,106,0,0.1);
       padding: var(--s6) var(--s3) var(--s4);
     }
     .footer-inner { max-width: 1200px; margin: 0 auto; }
@@ -783,7 +1082,7 @@
       height: 40px; width: 40px;
       object-fit: cover;
       border-radius: 8px;
-      box-shadow: 0 0 14px rgba(10,102,255,0.3);
+      box-shadow: 0 0 14px rgba(255,106,0,0.25);
     }
     .footer-wordmark {
       font-family: 'Montserrat', sans-serif;
@@ -798,7 +1097,7 @@
       font-weight: 400;
       font-size: 0.55rem;
       letter-spacing: 0.18em;
-      color: var(--blue-light);
+      color: var(--amber-light);
       margin-top: 3px;
     }
     .footer-col-title {
@@ -818,7 +1117,7 @@
       transition: color 0.2s ease;
     }
     .footer-link:hover { color: var(--white); }
-    .footer-link:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; border-radius: 2px; }
+    .footer-link:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; border-radius: 2px; }
     .footer-bottom {
       padding-top: var(--s3);
       border-top: 1px solid rgba(255,255,255,0.06);
@@ -842,24 +1141,29 @@
       0%, 100% { opacity: 1; }
       50%       { opacity: 0.3; }
     }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.6s ease forwards; }
+    .fade-up-delay-1 { animation-delay: 0.1s; opacity: 0; }
+    .fade-up-delay-2 { animation-delay: 0.2s; opacity: 0; }
+    .fade-up-delay-3 { animation-delay: 0.3s; opacity: 0; }
 
-    /* ─── SCROLLBAR ──────────────────────── */
     ::-webkit-scrollbar       { width: 5px; }
     ::-webkit-scrollbar-track { background: var(--navy-dark); }
-    ::-webkit-scrollbar-thumb { background: rgba(10,102,255,0.4); border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(10,102,255,0.7); }
+    ::-webkit-scrollbar-thumb { background: rgba(255,106,0,0.35); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255,106,0,0.6); }
 
     /* ══════════════════════════════════════════
-       DESKTOP UPGRADES — min-width: 768px
+       DESKTOP — min-width: 768px
     ══════════════════════════════════════════ */
     @media (min-width: 768px) {
-      /* Nav */
       .hamburger  { display: none; }
       .nav-links  { display: flex; }
       .nav { height: 72px; }
       .mobile-menu { display: none !important; }
 
-      /* Hero */
       .hero { padding-top: 72px; }
       .hero-inner {
         flex-direction: row;
@@ -887,8 +1191,6 @@
       }
       .hero-stat-val  { font-size: 1.6rem; }
       .hero-stat-label { font-size: 0.73rem; }
-
-      /* Hero visual */
       .hero-visual {
         width: 360px; height: 360px;
         flex-shrink: 0;
@@ -900,7 +1202,7 @@
         position: absolute;
         width: 420px; height: 420px;
         border-radius: 50%;
-        background: radial-gradient(circle, rgba(10,102,255,0.22) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(255,106,0,0.18) 0%, transparent 70%);
         top: 50%; left: 50%;
         transform: translate(-50%,-50%);
         pointer-events: none;
@@ -909,7 +1211,7 @@
         display: block;
         position: absolute;
         border-radius: 50%;
-        border: 1px solid rgba(10,102,255,0.2);
+        border: 1px solid rgba(255,106,0,0.18);
         top: 50%; left: 50%;
         transform: translate(-50%,-50%);
         animation: pulse-ring 3.5s ease-in-out infinite;
@@ -917,16 +1219,6 @@
       .hero-logo-img { width: 360px; height: 360px; }
       .hero-ring { display: block; }
 
-      /* Pricing */
-      .pricing-grid {
-        flex-direction: row;
-        align-items: stretch;
-      }
-      .pricing-card { flex: 1; }
-      .pricing-card.featured { order: 0; }
-      .featured-wrap { order: 0; flex: 1; }
-
-      /* Portfolio */
       .portfolio-grid-mobile  { display: none; }
       .portfolio-grid-desktop {
         display: grid;
@@ -934,11 +1226,28 @@
         gap: var(--s3);
       }
 
-      /* Stats */
+      .process-steps {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--s3);
+      }
+
+      .testimonials-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--s3);
+      }
+
+      .pricing-grid { flex-direction: row; align-items: stretch; }
+      .pricing-card { flex: 1; }
+      .pricing-card.featured { order: 0; }
+      .featured-wrap { order: 0; flex: 1; }
+
       .stats-inner { grid-template-columns: repeat(4, 1fr); }
       .stat-number { font-size: 3.2rem; }
 
-      /* CTA */
+      .about-inner { flex-direction: row; align-items: center; }
+
       .cta-btns {
         flex-direction: row;
         justify-content: center;
@@ -946,11 +1255,7 @@
       }
       .cta-btns .btn { padding: 1rem 2.75rem; }
 
-      /* Footer */
-      .footer-grid {
-        flex-direction: row;
-        gap: var(--s7);
-      }
+      .footer-grid { flex-direction: row; gap: var(--s7); }
       .footer-grid > div:first-child { flex: 2; }
       .footer-grid > div:not(:first-child) { flex: 1; }
       .footer-bottom {
@@ -962,13 +1267,14 @@
 
     @media (min-width: 1024px) {
       .nav-links { gap: var(--s5); }
+      .process-steps { grid-template-columns: repeat(4, 1fr); }
     }
   </style>
 </head>
 <body>
 
   <!-- Fixed background -->
-  <div style="position:fixed;inset:0;z-index:-1;background-image:url('brand_assets/bg.jpg');background-size:cover;background-position:center 30%;opacity:0.28;"></div>
+  <div style="position:fixed;inset:0;z-index:-1;background-image:url('brand_assets/bg.jpg');background-size:cover;background-position:center 30%;opacity:0.22;"></div>
 
   <!-- ════ NAV ════ -->
   <nav class="nav">
@@ -978,15 +1284,14 @@
         <div class="nav-wordmark">FLETCH<span>Media Collective</span></div>
       </a>
 
-      <!-- Desktop nav -->
       <div class="nav-links">
-        <a href="#services" class="nav-link">Services</a>
         <a href="#work"     class="nav-link">Work</a>
+        <a href="#process"  class="nav-link">Process</a>
+        <a href="#services" class="nav-link">Pricing</a>
         <a href="#about"    class="nav-link">About</a>
-        <a href="https://calendly.com/fletchmediacollective/30min" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="padding:0.6rem 1.4rem;font-size:0.72rem;">Get Started</a>
+        <a href="https://calendly.com/fletchmediacollective/30min" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="padding:0.6rem 1.4rem;font-size:0.72rem;">Book a Free Call</a>
       </div>
 
-      <!-- Mobile hamburger -->
       <button class="hamburger" id="menuBtn" aria-label="Open menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
@@ -995,11 +1300,12 @@
 
   <!-- Mobile drawer -->
   <div class="mobile-menu" id="mobileMenu" role="navigation">
-    <a href="#services" class="mobile-link" onclick="closeMobileMenu()">Services</a>
     <a href="#work"     class="mobile-link" onclick="closeMobileMenu()">Work</a>
+    <a href="#process"  class="mobile-link" onclick="closeMobileMenu()">Process</a>
+    <a href="#services" class="mobile-link" onclick="closeMobileMenu()">Pricing</a>
     <a href="#about"    class="mobile-link" onclick="closeMobileMenu()">About</a>
     <div class="mobile-cta">
-      <a href="https://calendly.com/fletchmediacollective/30min" target="_blank" rel="noopener noreferrer" class="btn btn-primary" onclick="closeMobileMenu()">Get Started</a>
+      <a href="https://calendly.com/fletchmediacollective/30min" target="_blank" rel="noopener noreferrer" class="btn btn-primary" onclick="closeMobileMenu()">Book a Free Call</a>
     </div>
   </div>
 
@@ -1011,7 +1317,6 @@
     <div class="hero-ring" style="width:1100px;height:1100px;opacity:0.25;"></div>
 
     <div class="hero-inner">
-      <!-- Logo visual (shown first on mobile via DOM order) -->
       <div class="hero-visual">
         <div class="hero-glow-bg"></div>
         <div class="hero-glow-ring" style="width:380px;height:380px;"></div>
@@ -1019,22 +1324,21 @@
         <img class="hero-logo-img" src="brand_assets/logo.png" alt="Fletch Media Collective Logo" />
       </div>
 
-      <!-- Text -->
       <div class="hero-text">
         <div class="hero-badge">
           <div class="hero-badge-dot"></div>
-          <span class="label" style="font-size:0.65rem;">Now Accepting Clients</span>
+          <span class="label" style="font-size:0.65rem;">Now Accepting New Clients</span>
         </div>
-        <h1 class="hero-h1">Media That<br /><span class="grad-text">Converts.</span></h1>
-        <p class="hero-body">Fletch Media Collective builds high-performing brands, content systems, and digital experiences that drive real results — not just impressions.</p>
-        <div class="hero-ctas">
-          <a href="https://calendly.com/fletchmediacollective/30min" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Work With Us</a>
-          <a href="#work"    class="btn btn-outline">View Our Work</a>
+        <h1 class="hero-h1 fade-up">We Build Websites<br />That <span class="grad-text">Win Clients.</span></h1>
+        <p class="hero-body fade-up fade-up-delay-1">Custom websites, brand identity, and content systems for businesses ready to grow. Transparent pricing, real results — no guesswork, no surprises.</p>
+        <div class="hero-ctas fade-up fade-up-delay-2">
+          <a href="https://calendly.com/fletchmediacollective/30min" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Book a Free 30-Min Call</a>
+          <a href="#work" class="btn btn-outline">See Our Work</a>
         </div>
-        <div class="hero-stats">
+        <div class="hero-stats fade-up fade-up-delay-3">
           <div>
             <div class="hero-stat-val">50+</div>
-            <div class="hero-stat-label">Brands Built</div>
+            <div class="hero-stat-label">Sites Launched</div>
           </div>
           <div class="stat-divider"></div>
           <div>
@@ -1047,6 +1351,292 @@
             <div class="hero-stat-label">Client Retention</div>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════ TRUST STRIP ════ -->
+  <div class="trust-strip">
+    <p class="trust-strip-label">Trusted by local businesses &amp; growing brands</p>
+    <div class="trust-marquee-wrap">
+      <div class="trust-marquee">
+        <!-- Set 1 -->
+        <span class="trust-client"><span class="trust-client-dot"></span>Barnabys Restaurant</span>
+        <span class="trust-client"><span class="trust-client-dot"></span>Gray Photography</span>
+        <span class="trust-client"><span class="trust-client-dot"></span>Nichols Pool Service</span>
+        <span class="trust-client"><span class="trust-client-dot"></span>Enchanted Rosie</span>
+        <span class="trust-client"><span class="trust-client-dot"></span>Gabrielle Design</span>
+        <span class="trust-client"><span class="trust-client-dot"></span>PawChart</span>
+        <span class="trust-client"><span class="trust-client-dot"></span>Prospect Finder</span>
+        <span class="trust-client"><span class="trust-client-dot"></span>Ticket Emailer</span>
+        <!-- Set 2 (duplicate for seamless loop) -->
+        <span class="trust-client"><span class="trust-client-dot"></span>Barnabys Restaurant</span>
+        <span class="trust-client"><span class="trust-client-dot"></span>Gray Photography</span>
+        <span class="trust-client"><span class="trust-client-dot"></span>Nichols Pool Service</span>
+        <span class="trust-client"><span class="trust-client-dot"></span>Enchanted Rosie</span>
+        <span class="trust-client"><span class="trust-client-dot"></span>Gabrielle Design</span>
+        <span class="trust-client"><span class="trust-client-dot"></span>PawChart</span>
+        <span class="trust-client"><span class="trust-client-dot"></span>Prospect Finder</span>
+        <span class="trust-client"><span class="trust-client-dot"></span>Ticket Emailer</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ════ PORTFOLIO ════ -->
+  <section id="work" class="portfolio-section">
+    <div class="portfolio-inner">
+      <div class="portfolio-header">
+        <div class="portfolio-header-row">
+          <div>
+            <span class="label">Our Work</span>
+            <h2>Results Speak<br />Louder Than Claims.</h2>
+          </div>
+          <a href="/portfolio.html" class="btn btn-primary">View All Projects</a>
+        </div>
+      </div>
+
+      <!-- Mobile -->
+      <div class="portfolio-grid-mobile">
+        <a href="/portfolio.html" class="p-item">
+          <div class="p-item-inner">
+            <img src="barnabys-screenshot.png" alt="Barnabys Restaurant Website" />
+            <div class="p-overlay"></div>
+            <div class="p-info">
+              <span class="p-tag">Restaurant / Events</span>
+              <h3>Barnabys Restaurant</h3>
+              <p class="p-desc">Full multi-page site with menus, events & private dining</p>
+            </div>
+          </div>
+        </a>
+        <a href="/portfolio.html" class="p-item">
+          <div class="p-item-inner">
+            <img src="gabrielles-screenshot.png" alt="Gabrielle Design Portfolio" />
+            <div class="p-overlay"></div>
+            <div class="p-info">
+              <span class="p-tag">Portfolio / Brand</span>
+              <h3>Gabrielle Design</h3>
+              <p class="p-desc">Personal brand portfolio with booking integration</p>
+            </div>
+          </div>
+        </a>
+        <a href="/portfolio.html" class="p-item">
+          <div class="p-item-inner">
+            <img src="enchanted-rosie-screenshot.png" alt="Enchanted Rosie" />
+            <div class="p-overlay"></div>
+            <div class="p-info">
+              <span class="p-tag">E-Commerce</span>
+              <h3>Enchanted Rosie</h3>
+              <p class="p-desc">Boutique e-commerce store with product catalog</p>
+            </div>
+          </div>
+        </a>
+        <a href="/portfolio.html" class="p-item">
+          <div class="p-item-inner">
+            <img src="pawchart-screenshot.png" alt="PawChart Web App" />
+            <div class="p-overlay"></div>
+            <div class="p-info">
+              <span class="p-tag">Web App</span>
+              <h3>PawChart</h3>
+              <p class="p-desc">Pet health tracking web application</p>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Desktop -->
+      <div class="portfolio-grid-desktop">
+        <!-- Large feature -->
+        <a href="/portfolio.html" class="p-item" style="grid-column:span 7;aspect-ratio:16/10;position:relative;">
+          <img style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease;" src="barnabys-screenshot.png" alt="Barnabys Restaurant" />
+          <div class="p-overlay"></div>
+          <div class="p-info">
+            <span class="p-tag">Restaurant / Events</span>
+            <h3 style="font-size:1.3rem;">Barnabys Restaurant</h3>
+            <p class="p-desc">Full multi-page site with menus, events & private dining</p>
+          </div>
+        </a>
+        <!-- Right stack -->
+        <div style="grid-column:span 5;display:flex;flex-direction:column;gap:var(--s3);">
+          <a href="/portfolio.html" class="p-item" style="flex:1;">
+            <div class="p-item-inner" style="padding-top:62%;">
+              <img style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease;" src="gabrielles-screenshot.png" alt="Gabrielle Design" />
+              <div class="p-overlay"></div>
+              <div class="p-info">
+                <span class="p-tag">Portfolio / Brand</span>
+                <h3>Gabrielle Design</h3>
+                <p class="p-desc">Personal brand site with booking</p>
+              </div>
+            </div>
+          </a>
+          <a href="/portfolio.html" class="p-item" style="flex:1;">
+            <div class="p-item-inner" style="padding-top:62%;">
+              <img style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease;" src="enchanted-rosie-screenshot.png" alt="Enchanted Rosie" />
+              <div class="p-overlay"></div>
+              <div class="p-info">
+                <span class="p-tag">E-Commerce</span>
+                <h3>Enchanted Rosie</h3>
+                <p class="p-desc">Boutique store, catalog & checkout</p>
+              </div>
+            </div>
+          </a>
+        </div>
+        <!-- Bottom row -->
+        <a href="/portfolio.html" class="p-item" style="grid-column:span 4;aspect-ratio:4/3;position:relative;">
+          <img style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease;" src="pawchart-screenshot.png" alt="PawChart" />
+          <div class="p-overlay"></div>
+          <div class="p-info">
+            <span class="p-tag">Web App</span>
+            <h3>PawChart</h3>
+            <p class="p-desc">Pet health tracking app</p>
+          </div>
+        </a>
+        <a href="/portfolio.html" class="p-item" style="grid-column:span 4;aspect-ratio:4/3;position:relative;">
+          <img style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease;" src="prospector-screenshot.png" alt="Prospect Finder" />
+          <div class="p-overlay"></div>
+          <div class="p-info">
+            <span class="p-tag">SaaS Tool</span>
+            <h3>Prospect Finder</h3>
+            <p class="p-desc">B2B lead generation platform</p>
+          </div>
+        </a>
+        <a href="/portfolio.html" class="p-item" style="grid-column:span 4;aspect-ratio:4/3;position:relative;">
+          <img style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease;" src="job-hunter-screenshot.png" alt="Job Hunter" />
+          <div class="p-overlay"></div>
+          <div class="p-info">
+            <span class="p-tag">Web App</span>
+            <h3>Job Hunter</h3>
+            <p class="p-desc">Job application tracker</p>
+          </div>
+        </a>
+      </div>
+
+      <!-- Post-work CTA -->
+      <div class="work-cta-band">
+        <p>Working on something similar?</p>
+        <p class="sub">Every project above was built for a real business with real goals. Let's talk about yours.</p>
+        <a href="https://calendly.com/fletchmediacollective/30min" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="font-size:0.8rem;padding:1rem 2.5rem;">
+          Let's Scope Your Project
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ════ PROCESS ════ -->
+  <section id="process" class="process-section">
+    <div class="process-inner">
+      <div class="section-header">
+        <span class="label">How We Work</span>
+        <h2>Simple Process.<br />No Surprises.</h2>
+        <div class="divider-bar"></div>
+        <p>From first call to live site, here's exactly what working with us looks like.</p>
+      </div>
+
+      <div class="process-steps">
+        <div class="process-step">
+          <div class="process-num">01</div>
+          <div class="process-content">
+            <h3>Discovery Call</h3>
+            <p>30 minutes. We learn your goals, audience, and what success looks like for your business. No pitch — just listening.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="process-num">02</div>
+          <div class="process-content">
+            <h3>Strategy & Proposal</h3>
+            <p>We send a clear scope, timeline, and fixed price within 48 hours. You'll know exactly what you're getting before anything starts.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="process-num">03</div>
+          <div class="process-content">
+            <h3>Build & Revise</h3>
+            <p>We build, you give feedback. Structured revision rounds keep things moving fast — most sites launch in 2–4 weeks.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="process-num">04</div>
+          <div class="process-content">
+            <h3>Launch & Support</h3>
+            <p>We handle deployment, DNS, and go-live. Monthly plans keep your site fast, secure, and updated long after launch.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════ TESTIMONIALS ════ -->
+  <section class="testimonials-section">
+    <div class="testimonials-inner">
+      <div class="section-header">
+        <span class="label">Client Results</span>
+        <h2>What Happens After<br />We Build Your Site.</h2>
+        <div class="divider-bar"></div>
+      </div>
+
+      <div class="testimonials-grid">
+
+        <div class="testimonial-card">
+          <div class="stars">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <div class="testimonial-result">Phone leads up 3x in 60 days</div>
+          <p class="testimonial-quote">"We had an old site that hadn't been touched in years. Fletch built us something that actually looks like our brand and now customers call us right off the website. Night and day difference."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">MR</div>
+            <div>
+              <div class="testimonial-name">Mike R.</div>
+              <div class="testimonial-role">Owner, Nichols Pool Service</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <div class="testimonial-result">Booking inquiries doubled in first month</div>
+          <p class="testimonial-quote">"Fletch understood the vibe I was going for instantly. The site looks incredible and my clients always compliment it. More importantly — I started getting serious inquiries the week it launched."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">GD</div>
+            <div>
+              <div class="testimonial-name">Gabrielle D.</div>
+              <div class="testimonial-role">Freelance Designer</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <div class="testimonial-result">Launched on time, on budget, zero surprises</div>
+          <p class="testimonial-quote">"What I appreciated most was the transparency. Fixed price upfront, clear timeline, and they actually delivered faster than expected. The site has been getting non-stop compliments from our regulars."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">BM</div>
+            <div>
+              <div class="testimonial-name">Brian M.</div>
+              <div class="testimonial-role">Manager, Barnabys Restaurant</div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -1071,14 +1661,14 @@
           <div class="tier-hybrid-monthly">then $85/mo · 12 months</div>
           <div class="tier-onetime">or $900 one-time</div>
           <ul class="tier-features">
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A66FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Up to 5 pages</li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A66FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Mobile-responsive design</li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A66FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Contact form</li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A66FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>SEO foundation + Google Analytics</li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A66FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>3 rounds of revisions</li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A66FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Managed hosting + SSL</li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A66FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>1 content update/mo</li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A66FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Uptime monitoring + monthly backups</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Up to 5 pages</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Mobile-responsive design</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Contact form</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>SEO foundation + Google Analytics</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>3 rounds of revisions</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Managed hosting + SSL</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>1 content update/mo</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Uptime monitoring + monthly backups</li>
           </ul>
           <a href="https://calendly.com/fletchmediacollective/30min" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="text-align:center;width:100%;">Get Started</a>
         </div>
@@ -1095,15 +1685,15 @@
           <div class="tier-hybrid-monthly">then $150/mo · 12 months</div>
           <div class="tier-onetime">or $2,200 one-time</div>
           <ul class="tier-features">
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1DA1F2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Up to 10 pages</li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1DA1F2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Custom design to your brand</li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1DA1F2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Contact form + booking or gallery</li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1DA1F2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Full SEO setup + ongoing management</li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1DA1F2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Google Analytics + monthly report</li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1DA1F2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Google Business Profile management</li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1DA1F2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>5 rounds of revisions</li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1DA1F2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Managed hosting + SSL + backups</li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1DA1F2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>3 content updates/mo</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF9A3C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Up to 10 pages</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF9A3C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Custom design to your brand</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF9A3C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Contact form + booking or gallery</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF9A3C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Full SEO setup + ongoing management</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF9A3C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Google Analytics + monthly report</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF9A3C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Google Business Profile management</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF9A3C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>5 rounds of revisions</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF9A3C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Managed hosting + SSL + backups</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF9A3C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>3 content updates/mo</li>
           </ul>
           <a href="https://calendly.com/fletchmediacollective/30min" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="text-align:center;width:100%;">Get Started</a>
         </div>
@@ -1116,15 +1706,15 @@
           <div class="tier-hybrid-monthly">then $250/mo · 12 months</div>
           <div class="tier-onetime">or $4,500+ one-time</div>
           <ul class="tier-features">
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A66FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Unlimited pages</li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A66FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Full custom design &amp; functionality</li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A66FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Web app or custom tools</li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A66FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Everything in Professional</li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A66FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Unlimited content updates</li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A66FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Priority turnaround + dedicated support</li>
-            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0A66FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Unlimited revisions for 3 months post-launch</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Unlimited pages</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Full custom design &amp; functionality</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Web app or custom tools</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Everything in Professional</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Unlimited content updates</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Priority turnaround + dedicated support</li>
+            <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF6A00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Unlimited revisions for 3 months post-launch</li>
           </ul>
-          <a href="https://calendly.com/fletchmediacollective/30min" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="text-align:center;width:100%;">Get Started</a>
+          <a href="https://calendly.com/fletchmediacollective/30min" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="text-align:center;width:100%;">Let's Talk Scope</a>
         </div>
 
       </div>
@@ -1134,99 +1724,57 @@
   </section>
 
 
-  <!-- ════ PORTFOLIO ════ -->
-  <section id="work" class="portfolio-section">
-    <div class="portfolio-inner">
-      <div class="portfolio-header">
-        <div class="portfolio-header-row">
-          <div>
-            <span class="label">Our Work</span>
-            <h2>Results Speak<br />Louder Than Claims.</h2>
-          </div>
-          <a href="/portfolio.html" class="btn btn-primary">View All Projects</a>
-        </div>
-      </div>
-
-      <!-- Mobile: simple stacked cards -->
-      <div class="portfolio-grid-mobile">
-        <div class="p-item" tabindex="0">
-          <div class="p-item-inner">
-            <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=840&q=80" alt="Brand Campaign" />
-            <div class="p-overlay"></div>
-            <div class="p-info">
-              <div class="label" style="margin-bottom:0.4rem;">Brand Identity</div>
-              <h3>Apex Brand Campaign 2025</h3>
-            </div>
-          </div>
-        </div>
-        <div class="p-item" tabindex="0">
-          <div class="p-item-inner">
-            <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=600&q=80" alt="Brand Showreel" />
-            <div class="p-overlay"></div>
-            <div class="p-info">
-              <div class="label" style="margin-bottom:0.4rem;">Video</div>
-              <h3>Brand Showreel</h3>
-            </div>
-          </div>
-        </div>
-        <div class="p-item" tabindex="0">
-          <div class="p-item-inner">
-            <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80" alt="Web Design" />
-            <div class="p-overlay"></div>
-            <div class="p-info">
-              <div class="label" style="margin-bottom:0.4rem;">Web</div>
-              <h3>E-Commerce Redesign</h3>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Desktop: complex grid -->
-      <div class="portfolio-grid-desktop">
-        <div class="p-item" style="grid-column:span 7;aspect-ratio:16/10;position:relative;" tabindex="0">
-          <img style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" src="https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=840&q=80" alt="Brand Campaign" />
-          <div class="p-overlay"></div>
-          <div class="p-info"><div class="label" style="margin-bottom:0.4rem;">Brand Identity</div><h3>Apex Brand Campaign 2025</h3></div>
-        </div>
-        <div style="grid-column:span 5;display:flex;flex-direction:column;gap:var(--s3);">
-          <div class="p-item" style="flex:1;min-height:160px;position:relative;" tabindex="0">
-            <img style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=600&q=80" alt="Brand Showreel" />
-            <div class="p-overlay"></div>
-            <div class="p-info"><div class="label" style="margin-bottom:0.4rem;">Video</div><h3>Brand Showreel</h3></div>
-          </div>
-          <div class="p-item" style="flex:1;min-height:160px;position:relative;" tabindex="0">
-            <img style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80" alt="Web Design" />
-            <div class="p-overlay"></div>
-            <div class="p-info"><div class="label" style="margin-bottom:0.4rem;">Web</div><h3>E-Commerce Redesign</h3></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
   <!-- ════ STATS ════ -->
-  <section id="about" class="stats-section">
+  <section class="stats-section">
     <div class="stats-inner">
-      <div class="stat-card"><div class="stat-number">50+</div><div class="stat-label">Brands Launched</div></div>
+      <div class="stat-card"><div class="stat-number">50+</div><div class="stat-label">Sites Launched</div></div>
       <div class="stat-card"><div class="stat-number">3M+</div><div class="stat-label">Views Generated</div></div>
       <div class="stat-card"><div class="stat-number">98%</div><div class="stat-label">Client Retention</div></div>
-      <div class="stat-card"><div class="stat-number">5★</div><div class="stat-label">Average Client Rating</div></div>
+      <div class="stat-card"><div class="stat-number">5★</div><div class="stat-label">Average Rating</div></div>
     </div>
   </section>
 
 
-  <!-- ════ CTA ════ -->
+  <!-- ════ ABOUT ════ -->
+  <section id="about" class="about-section">
+    <div class="about-inner">
+      <div class="about-content">
+        <span class="label">Who We Are</span>
+        <h2>Built by Someone Who<br /><span class="grad-text">Actually Cares.</span></h2>
+        <p>Fletch Media Collective is a boutique creative studio built for businesses that are serious about growth. We're not an agency with layers of account managers and inflated retainers — we're a tight-knit collective that builds, launches, and sticks around.</p>
+        <p>Every site we deliver is built with a clear purpose: to turn the right visitors into paying clients. That means smart structure, persuasive copy, fast load times, and a design that earns trust in the first few seconds.</p>
+        <p>We've worked with restaurants, photographers, service businesses, SaaS tools, and everything in between. If you have a real business and a real goal, we want to help you build something worth showing off.</p>
+        <div class="about-tags">
+          <span class="about-tag">Web Design</span>
+          <span class="about-tag">Brand Identity</span>
+          <span class="about-tag">SEO</span>
+          <span class="about-tag">Content Systems</span>
+          <span class="about-tag">Web Apps</span>
+          <span class="about-tag">Growth Strategy</span>
+        </div>
+        <div style="margin-top:var(--s4);">
+          <a href="https://calendly.com/fletchmediacollective/30min" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Book a Free Discovery Call</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════ FINAL CTA ════ -->
   <section id="contact" class="cta-section">
     <div class="cta-glow"></div>
     <div class="cta-inner">
-      <span class="label">Ready to Grow?</span>
-      <h2>Let's Build Something<br /><span class="grad-text">Worth Watching.</span></h2>
-      <p>Whether you're starting from scratch or scaling up, Fletch Media Collective is your strategic creative partner.</p>
+      <span class="label">Ready to Start?</span>
+      <h2>Let's Build Something<br /><span class="grad-text">That Works.</span></h2>
+      <p>Book a free 30-minute call. We'll look at your current setup, talk about what's possible, and tell you exactly what we'd do and what it would cost — no commitment required.</p>
       <div class="cta-btns">
-        <a href="https://calendly.com/fletchmediacollective/30min" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Start a Project</a>
-        <a href="#services" class="btn btn-outline">Explore Services</a>
+        <a href="https://calendly.com/fletchmediacollective/30min" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Book My Free 30-Min Call</a>
+        <a href="#services" class="btn btn-outline">See Pricing First</a>
       </div>
+      <p class="cta-trust-note">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        No sales pressure. No obligation. Just an honest conversation about your project.
+      </p>
     </div>
   </section>
 
@@ -1240,16 +1788,16 @@
             <img src="brand_assets/logo.png" alt="FMC Logo" />
             <div class="footer-wordmark">FLETCH<span>Media Collective</span></div>
           </a>
-          <p style="color:var(--muted);font-size:0.87rem;line-height:1.7;">Confident. Direct. Results-focused.<br />We build media that converts.</p>
+          <p style="color:var(--muted);font-size:0.87rem;line-height:1.7;max-width:320px;">Websites that earn trust, start conversations, and convert visitors into clients — for businesses ready to grow.</p>
         </div>
         <div>
           <div class="footer-col-title">Services</div>
           <div class="footer-links">
-            <a href="#services" class="footer-link">Brand Identity</a>
-            <a href="#services" class="footer-link">Video Production</a>
             <a href="#services" class="footer-link">Web Design</a>
-            <a href="#services" class="footer-link">Social Media</a>
-            <a href="#services" class="footer-link">Growth Strategy</a>
+            <a href="#services" class="footer-link">Brand Identity</a>
+            <a href="#services" class="footer-link">SEO & Analytics</a>
+            <a href="#services" class="footer-link">Web Apps</a>
+            <a href="#services" class="footer-link">Content Systems</a>
           </div>
         </div>
         <div>
@@ -1257,13 +1805,14 @@
           <div class="footer-links">
             <a href="#about"   class="footer-link">About</a>
             <a href="#work"    class="footer-link">Our Work</a>
-            <a href="#contact" class="footer-link">Contact</a>
+            <a href="#process" class="footer-link">Process</a>
+            <a href="https://calendly.com/fletchmediacollective/30min" target="_blank" rel="noopener noreferrer" class="footer-link">Book a Call</a>
           </div>
         </div>
       </div>
       <div class="footer-bottom">
         <span style="font-size:0.8rem;color:var(--muted);">© 2026 Fletch Media Collective. All rights reserved.</span>
-        <span class="label" style="color:rgba(10,102,255,0.55);font-size:0.65rem;">Build. Create. Convert.</span>
+        <span class="label" style="color:rgba(255,106,0,0.5);font-size:0.65rem;">Build. Create. Convert.</span>
       </div>
     </div>
   </footer>
@@ -1284,6 +1833,18 @@
   });
   document.addEventListener('click', (e) => {
     if (!menuBtn.contains(e.target) && !mobileMenu.contains(e.target)) closeMobileMenu();
+  });
+
+  // Intersection observer for hover image scale on portfolio
+  document.querySelectorAll('.p-item').forEach(item => {
+    item.addEventListener('mouseenter', () => {
+      const img = item.querySelector('img');
+      if (img) img.style.transform = 'scale(1.04)';
+    });
+    item.addEventListener('mouseleave', () => {
+      const img = item.querySelector('img');
+      if (img) img.style.transform = 'scale(1)';
+    });
   });
 </script>
 </body>

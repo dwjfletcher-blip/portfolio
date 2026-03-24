@@ -2,3 +2,4 @@ node_modules/
 temporary screenshots/
 
 .vercel
+.claude/

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Events & Specials — Barnaby's Restaurant & Pub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root { --gold:#c9922a;--gold-light:#e8b44a;--dark:#0f0c07;--dark-2:#1a1510;--dark-3:#261f14;--cream:#f5ead3;--muted:#9a8a72; }
+    * { box-sizing: border-box; }
+    body { background-color: var(--dark); color: var(--cream); font-family: 'Inter', sans-serif; margin: 0; }
+    h1,h2,h3 { font-family: 'Playfair Display', serif; }
+    body::before { content:'';position:fixed;inset:0;pointer-events:none;z-index:999;opacity:0.45;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); }
+
+    nav { position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(15,12,7,0.97);padding:1.25rem 2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(201,146,42,0.1); }
+    .nav-logo { display:flex;align-items:center;gap:0.75rem;text-decoration:none; }
+    .nav-logo img { width:40px;height:40px;object-fit:contain; }
+    .nav-logo-text { font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:900;color:var(--cream); }
+    .nav-logo-text span { color:var(--gold); }
+    .nav-links { display:flex;align-items:center;gap:1.75rem; }
+    .nav-links a { font-size:0.8125rem;font-weight:500;color:var(--muted);text-decoration:none;letter-spacing:0.06em;text-transform:uppercase;transition:color 0.2s; }
+    .nav-links a:hover,.nav-links a.active { color:var(--cream); }
+    .nav-cta { background:var(--gold);color:var(--dark);font-size:0.8125rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:0.625rem 1.25rem;border-radius:4px;text-decoration:none;transition:background 0.2s; }
+    .nav-cta:hover { background:var(--gold-light); }
+
+    .page-header { padding:9rem 2rem 4rem;text-align:center;background:var(--dark-2);position:relative; }
+    .page-header::after { content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(201,146,42,0.3),transparent); }
+    .eyebrow { display:inline-flex;align-items:center;gap:0.5rem;font-size:0.75rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem; }
+    .eyebrow::before,.eyebrow::after { content:'';display:block;width:24px;height:1px;background:var(--gold); }
+    .page-title { font-size:clamp(2rem,4vw,3rem);font-weight:900;letter-spacing:-0.03em;margin:0 0 0.75rem; }
+    .page-sub { color:rgba(245,234,211,0.6);font-size:1rem;line-height:1.7;max-width:480px;margin:0 auto; }
+
+    /* LOCATION TOGGLE */
+    .loc-toggle { display:flex;justify-content:center;gap:0.5rem;padding:2.5rem 2rem 0; }
+    .loc-btn { padding:0.625rem 2rem;border-radius:100px;font-size:0.875rem;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;border:1.5px solid rgba(201,146,42,0.2);color:var(--muted);background:transparent;cursor:pointer;transition:all 0.2s; }
+    .loc-btn:hover { border-color:rgba(201,146,42,0.5);color:var(--cream); }
+    .loc-btn.active { background:var(--gold);color:var(--dark);border-color:var(--gold); }
+
+    /* HAPPY HOUR BANNER */
+    .hh-banner { max-width:1100px;margin:3rem auto 0;padding:0 2rem; }
+    .hh-card { background:var(--dark-3);border:1px solid rgba(201,146,42,0.25);border-radius:12px;padding:2rem;display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;position:relative;overflow:hidden; }
+    .hh-card::before { content:'HAPPY HOUR';position:absolute;top:1.5rem;right:1.5rem;font-size:0.65rem;font-weight:700;letter-spacing:0.15em;background:rgba(201,146,42,0.15);border:1px solid rgba(201,146,42,0.3);color:var(--gold);padding:0.3rem 0.75rem;border-radius:100px; }
+    .hh-location-name { font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem; }
+    .hh-time-big { font-family:'Playfair Display',serif;font-size:1.75rem;font-weight:900;letter-spacing:-0.03em;margin:0 0 0.25rem; }
+    .hh-days-text { font-size:0.875rem;color:var(--muted);margin-bottom:1.25rem; }
+    .hh-items { display:flex;flex-direction:column;gap:0.5rem; }
+    .hh-item { display:flex;justify-content:space-between;align-items:center;font-size:0.875rem;padding:0.5rem 0;border-bottom:1px solid rgba(201,146,42,0.08); }
+    .hh-item:last-child { border-bottom:none; }
+    .hh-item-name { color:rgba(245,234,211,0.8); }
+    .hh-item-price { font-weight:700;color:var(--gold); }
+
+    /* WEEKLY SPECIALS */
+    .specials-body { max-width:1100px;margin:0 auto;padding:3rem 2rem 6rem; }
+    .day-group { margin-bottom:2.5rem; }
+    .day-label { display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem; }
+    .day-name { font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;letter-spacing:-0.02em; }
+    .day-line { flex:1;height:1px;background:linear-gradient(to right,rgba(201,146,42,0.2),transparent); }
+    .specials-cards { display:grid;grid-template-columns:repeat(2,1fr);gap:1rem; }
+    .special-card { background:var(--dark-2);border:1px solid rgba(201,146,42,0.1);border-radius:10px;padding:1.5rem;display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:start;transition:border-color 0.2s; }
+    .special-card:hover { border-color:rgba(201,146,42,0.25); }
+    .special-card.full { grid-column:1/-1; }
+    .special-icon { width:48px;height:48px;border-radius:10px;background:rgba(201,146,42,0.1);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0; }
+    .special-info {}
+    .special-loc { font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:0.35rem; }
+    .special-title { font-family:'Playfair Display',serif;font-size:1.0625rem;font-weight:700;margin:0 0 0.5rem; }
+    .special-details { font-size:0.8125rem;color:var(--muted);line-height:1.6; }
+    .special-details strong { color:var(--cream); }
+    .special-badge { display:inline-block;margin-top:0.625rem;font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:rgba(201,146,42,0.1);border:1px solid rgba(201,146,42,0.2);color:var(--gold);padding:0.2rem 0.5rem;border-radius:100px; }
+
+    footer { background:var(--dark);border-top:1px solid rgba(201,146,42,0.1);padding:3rem 2rem; }
+    .footer-inner { max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:2rem; }
+    .footer-logo { font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:900;color:var(--cream); }
+    .footer-logo span { color:var(--gold); }
+    .footer-links { display:flex;gap:1.75rem;flex-wrap:wrap; }
+    .footer-links a { font-size:0.8125rem;color:var(--muted);text-decoration:none;transition:color 0.2s; }
+    .footer-links a:hover { color:var(--cream); }
+    .footer-copy { font-size:0.75rem;color:rgba(154,138,114,0.5);width:100%;text-align:center;padding-top:2rem;border-top:1px solid rgba(201,146,42,0.07);margin-top:1rem; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="barnabys.html" class="nav-logo">
+      <img src="https://popmenucloud.com/cdn-cgi/image/width=100,height=100,fit=scale-down,format=auto,quality=90/ufcgbnih/f53a2710-8d31-48cc-98e6-2065a7c251e1.png" alt="Barnaby's logo" />
+      <span class="nav-logo-text">Barnaby's <span>&</span> Pub</span>
+    </a>
+    <div class="nav-links">
+      <a href="barnabys-menu.html">Menu</a>
+      <a href="barnabys-events.html" class="active">Events</a>
+      <a href="barnabys-private-events.html">Private Events</a>
+      <a href="barnabys-locations.html">Locations</a>
+      <a href="tel:6107891885" class="nav-cta">Call to Reserve</a>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <div class="eyebrow">Every Week</div>
+    <h1 class="page-title">Events &amp; Specials</h1>
+    <p class="page-sub">Something happening every night of the week. Both locations, all year round.</p>
+  </div>
+
+  <!-- HAPPY HOUR BANNER -->
+  <div class="hh-banner">
+    <div class="hh-card">
+      <div>
+        <p class="hh-location-name">Barnaby's Havertown</p>
+        <h3 class="hh-time-big">4:00 &ndash; 6:00 PM</h3>
+        <p class="hh-days-text">Monday through Friday &bull; 1901 Old West Chester Pike</p>
+        <div class="hh-items">
+          <div class="hh-item"><span class="hh-item-name">Miller Lite, Coors Light, Michelob Ultra (draft)</span><span class="hh-item-price">$3</span></div>
+          <div class="hh-item"><span class="hh-item-name">Retro Bottles</span><span class="hh-item-price">$4</span></div>
+          <div class="hh-item"><span class="hh-item-name">House Wine</span><span class="hh-item-price">$5</span></div>
+          <div class="hh-item"><span class="hh-item-name">Statesides &amp; Surfsides</span><span class="hh-item-price">$6</span></div>
+        </div>
+      </div>
+      <div>
+        <p class="hh-location-name">Barnaby's Aston</p>
+        <h3 class="hh-time-big">5:00 &ndash; 7:00 PM</h3>
+        <p class="hh-days-text">Monday through Friday &bull; 5501 Pennel Rd, Media</p>
+        <div class="hh-items">
+          <div class="hh-item"><span class="hh-item-name">Draft Beers</span><span class="hh-item-price">$4</span></div>
+          <div class="hh-item"><span class="hh-item-name">House Wine</span><span class="hh-item-price">$5</span></div>
+          <div class="hh-item"><span class="hh-item-name">Specialty Drinks</span><span class="hh-item-price">$6</span></div>
+          <div class="hh-item"><span class="hh-item-name">Surfsides &amp; Statesides</span><span class="hh-item-price">$6</span></div>
+          <div class="hh-item"><span class="hh-item-name">All Starters</span><span class="hh-item-price">$2 off</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEKLY SPECIALS -->
+  <div class="specials-body">
+
+    <!-- MONDAY -->
+    <div class="day-group">
+      <div class="day-label"><h2 class="day-name">Monday</h2><div class="day-line"></div></div>
+      <div class="specials-cards">
+        <div class="special-card">
+          <div class="special-icon">🍺</div>
+          <div class="special-info">
+            <p class="special-loc">Havertown</p>
+            <h3 class="special-title">Chef Specials + Heineken Night</h3>
+            <p class="special-details">Chef specials from 3pm &bull; <strong>$4 Heineken drafts</strong> all evening</p>
+          </div>
+        </div>
+        <div class="special-card">
+          <div class="special-icon">🍔</div>
+          <div class="special-info">
+            <p class="special-loc">Aston</p>
+            <h3 class="special-title">Burger Specials + Cheap Drafts</h3>
+            <p class="special-details">Burger specials from 3pm &bull; <strong>$3 domestic drafts</strong> &bull; <strong>$4 craft &amp; import drafts</strong></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TUESDAY -->
+    <div class="day-group">
+      <div class="day-label"><h2 class="day-name">Tuesday</h2><div class="day-line"></div></div>
+      <div class="specials-cards">
+        <div class="special-card">
+          <div class="special-icon">🌮</div>
+          <div class="special-info">
+            <p class="special-loc">Aston</p>
+            <h3 class="special-title">Taco Tuesday</h3>
+            <p class="special-details">Taco specials from 3pm &bull; <strong>$4 Corona &amp; Corona Premier</strong> &bull; <strong>$6 Crushes</strong> 7pm&ndash;midnight</p>
+            <span class="special-badge">Taco Night</span>
+          </div>
+        </div>
+        <div class="special-card">
+          <div class="special-icon">🧠</div>
+          <div class="special-info">
+            <p class="special-loc">Both Locations</p>
+            <h3 class="special-title">Quizzo Every Tuesday</h3>
+            <p class="special-details">Test your knowledge starting at <strong>8:00 PM</strong>. Free to play. Prizes awarded. Come early for seats.</p>
+            <span class="special-badge">Every Week</span>
+          </div>
+        </div>
+        <div class="special-card">
+          <div class="special-icon">🍺</div>
+          <div class="special-info">
+            <p class="special-loc">Havertown</p>
+            <h3 class="special-title">Chef Specials + Coors Night</h3>
+            <p class="special-details">Chef specials from 3pm &bull; <strong>$3 Coors Light drafts</strong> all evening</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEDNESDAY -->
+    <div class="day-group">
+      <div class="day-label"><h2 class="day-name">Wednesday</h2><div class="day-line"></div></div>
+      <div class="specials-cards">
+        <div class="special-card">
+          <div class="special-icon">🍗</div>
+          <div class="special-info">
+            <p class="special-loc">Aston</p>
+            <h3 class="special-title">Wing Night</h3>
+            <p class="special-details"><strong>10 wings for $8</strong> from 3pm &bull; <strong>$3 Yuengling pints</strong> &bull; Acoustic on the deck at 6pm &bull; Karaoke 9pm&ndash;midnight</p>
+            <span class="special-badge">Wing Night</span>
+          </div>
+        </div>
+        <div class="special-card">
+          <div class="special-icon">👨‍👧</div>
+          <div class="special-info">
+            <p class="special-loc">Aston</p>
+            <h3 class="special-title">Kids Eat Free</h3>
+            <p class="special-details">One child's meal free per adult entree. All day Wednesday. Great for the whole family.</p>
+            <span class="special-badge">Family Night</span>
+          </div>
+        </div>
+        <div class="special-card">
+          <div class="special-icon">🎤</div>
+          <div class="special-info">
+            <p class="special-loc">Havertown</p>
+            <h3 class="special-title">Karaoke Night</h3>
+            <p class="special-details">Every Wednesday <strong>9pm&ndash;midnight</strong> &bull; <strong>$3 Yuengling pints</strong> &bull; <strong>$5 Statesides &amp; Surfsides</strong> 9&ndash;11pm</p>
+            <span class="special-badge">Karaoke</span>
+          </div>
+        </div>
+        <div class="special-card">
+          <div class="special-icon">👨‍👧</div>
+          <div class="special-info">
+            <p class="special-loc">Havertown</p>
+            <h3 class="special-title">Kids Eat Free All Day</h3>
+            <p class="special-details">Kids eat free all day &bull; Chef specials from 3pm &bull; <strong>$5 2SP pints</strong></p>
+            <span class="special-badge">Family Night</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THURSDAY -->
+    <div class="day-group">
+      <div class="day-label"><h2 class="day-name">Thursday</h2><div class="day-line"></div></div>
+      <div class="specials-cards">
+        <div class="special-card">
+          <div class="special-icon">🍗</div>
+          <div class="special-info">
+            <p class="special-loc">Havertown</p>
+            <h3 class="special-title">$1 Wings All Night</h3>
+            <p class="special-details">Chef specials from 3pm &bull; <strong>$3 Yuengling pints</strong> &bull; <strong>$1 wings</strong> all evening</p>
+            <span class="special-badge">$1 Wings</span>
+          </div>
+        </div>
+        <div class="special-card">
+          <div class="special-icon">🎧</div>
+          <div class="special-info">
+            <p class="special-loc">Aston</p>
+            <h3 class="special-title">DJ Salvo + Acoustic</h3>
+            <p class="special-details">Chef specials all day &bull; <strong>$3 Miller Lite bottles</strong> &bull; Acoustic on deck 6&ndash;9pm &bull; DJ Salvo main bar 9pm &bull; <strong>$5 Statesides &amp; $2 well drinks</strong> 10pm&ndash;midnight</p>
+            <span class="special-badge">Live Music</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FRIDAY -->
+    <div class="day-group">
+      <div class="day-label"><h2 class="day-name">Friday</h2><div class="day-line"></div></div>
+      <div class="specials-cards">
+        <div class="special-card">
+          <div class="special-icon">🎵</div>
+          <div class="special-info">
+            <p class="special-loc">Aston</p>
+            <h3 class="special-title">DJ All Night</h3>
+            <p class="special-details">Chef specials all day &bull; <strong>$4 Blue Moon pints</strong> &bull; DJ 5&ndash;9pm &bull; DJ upstairs 10pm&ndash;2am &bull; <strong>$3 Michelob Ultra bottles</strong> 10pm&ndash;midnight</p>
+            <span class="special-badge">Late Night</span>
+          </div>
+        </div>
+        <div class="special-card">
+          <div class="special-icon">🍺</div>
+          <div class="special-info">
+            <p class="special-loc">Havertown</p>
+            <h3 class="special-title">Chef Specials + Blue Moon</h3>
+            <p class="special-details">Chef specials from 3pm &bull; <strong>$4 Blue Moon pints</strong> &bull; <strong>$6 Statesides &amp; Surfsides</strong></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SATURDAY -->
+    <div class="day-group">
+      <div class="day-label"><h2 class="day-name">Saturday</h2><div class="day-line"></div></div>
+      <div class="specials-cards">
+        <div class="special-card">
+          <div class="special-icon">🎧</div>
+          <div class="special-info">
+            <p class="special-loc">Aston</p>
+            <h3 class="special-title">DJ Upstairs + Chef Specials</h3>
+            <p class="special-details">Chef specials all day &bull; <strong>$4 Levante pints</strong> &bull; DJ upstairs 10pm&ndash;2am &bull; <strong>$5 Statesides &amp; Surfsides</strong> 10pm&ndash;midnight</p>
+            <span class="special-badge">Late Night</span>
+          </div>
+        </div>
+        <div class="special-card">
+          <div class="special-icon">🍺</div>
+          <div class="special-info">
+            <p class="special-loc">Havertown</p>
+            <h3 class="special-title">Chef Specials + Michelob Night</h3>
+            <p class="special-details">Chef specials from 3pm &bull; <strong>$4 Michelob Ultra pints</strong> &bull; <strong>$6 Statesides &amp; Surfsides</strong></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUNDAY -->
+    <div class="day-group">
+      <div class="day-label"><h2 class="day-name">Sunday</h2><div class="day-line"></div></div>
+      <div class="specials-cards">
+        <div class="special-card">
+          <div class="special-icon">🎸</div>
+          <div class="special-info">
+            <p class="special-loc">Aston</p>
+            <h3 class="special-title">Acoustic on the Deck</h3>
+            <p class="special-details">Food specials on sandwiches &amp; apps &bull; <strong>$4 Modelo pints</strong> &bull; <strong>$3 Miller Lite bottles</strong> &bull; <strong>$15 Miller Lite buckets</strong> &bull; Acoustic 4&ndash;8pm</p>
+            <span class="special-badge">Live Music</span>
+          </div>
+        </div>
+        <div class="special-card">
+          <div class="special-icon">🍺</div>
+          <div class="special-info">
+            <p class="special-loc">Havertown</p>
+            <h3 class="special-title">Sunday Funday</h3>
+            <p class="special-details"><strong>$3 Miller Lite drafts</strong> &bull; <strong>$6 Surfsides &amp; Statesides</strong> all day</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LUNCH SPECIALS -->
+    <div class="day-group">
+      <div class="day-label"><h2 class="day-name">Every Weekday</h2><div class="day-line"></div></div>
+      <div class="specials-cards">
+        <div class="special-card full">
+          <div class="special-icon">🥪</div>
+          <div class="special-info">
+            <p class="special-loc">Both Locations</p>
+            <h3 class="special-title">Lunch Specials</h3>
+            <p class="special-details">Available <strong>Monday through Friday, 11am&ndash;3pm</strong>. Ask your server about today's lunch special &mdash; rotating daily deals on sandwiches, burgers, and mains.</p>
+            <span class="special-badge">11am &ndash; 3pm</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">Barnaby's <span>&</span> Pub</div>
+      <div class="footer-links">
+        <a href="barnabys.html">Home</a>
+        <a href="barnabys-menu.html">Menu</a>
+        <a href="barnabys-private-events.html">Private Events</a>
+        <a href="barnabys-locations.html">Locations</a>
+      </div>
+      <div class="footer-links">
+        <a href="tel:6107891885">Havertown: (610) 789-1885</a>
+        <a href="tel:6105581929">Aston: (610) 558-1929</a>
+      </div>
+    </div>
+    <p class="footer-copy">&copy; 2025 Barnaby's Restaurant &amp; Pub. Havertown &amp; Aston, PA. Est. 1997.</p>
+  </footer>
+
+</body>
+</html>

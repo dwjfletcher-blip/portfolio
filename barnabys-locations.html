@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Locations — Barnaby's Restaurant & Pub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root { --gold:#c9922a;--gold-light:#e8b44a;--dark:#0f0c07;--dark-2:#1a1510;--dark-3:#261f14;--cream:#f5ead3;--muted:#9a8a72; }
+    * { box-sizing: border-box; }
+    body { background-color:var(--dark);color:var(--cream);font-family:'Inter',sans-serif;margin:0; }
+    h1,h2,h3 { font-family:'Playfair Display',serif; }
+    body::before { content:'';position:fixed;inset:0;pointer-events:none;z-index:999;opacity:0.45;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); }
+
+    nav { position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(15,12,7,0.97);padding:1.25rem 2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(201,146,42,0.1); }
+    .nav-logo { display:flex;align-items:center;gap:0.75rem;text-decoration:none; }
+    .nav-logo img { width:40px;height:40px;object-fit:contain; }
+    .nav-logo-text { font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:900;color:var(--cream); }
+    .nav-logo-text span { color:var(--gold); }
+    .nav-links { display:flex;align-items:center;gap:1.75rem; }
+    .nav-links a { font-size:0.8125rem;font-weight:500;color:var(--muted);text-decoration:none;letter-spacing:0.06em;text-transform:uppercase;transition:color 0.2s; }
+    .nav-links a:hover,.nav-links a.active { color:var(--cream); }
+    .nav-cta { background:var(--gold);color:var(--dark);font-size:0.8125rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:0.625rem 1.25rem;border-radius:4px;text-decoration:none;transition:background 0.2s; }
+    .nav-cta:hover { background:var(--gold-light); }
+
+    .page-header { padding:9rem 2rem 4rem;text-align:center;background:var(--dark-2);position:relative; }
+    .page-header::after { content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(201,146,42,0.3),transparent); }
+    .eyebrow { display:inline-flex;align-items:center;gap:0.5rem;font-size:0.75rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem; }
+    .eyebrow::before,.eyebrow::after { content:'';display:block;width:24px;height:1px;background:var(--gold); }
+    .page-title { font-size:clamp(2rem,4vw,3rem);font-weight:900;letter-spacing:-0.03em;margin:0 0 0.75rem; }
+    .page-sub { color:rgba(245,234,211,0.6);font-size:1rem;line-height:1.7;max-width:480px;margin:0 auto; }
+
+    /* LOCATIONS LAYOUT */
+    .locations-wrapper { max-width:1100px;margin:0 auto;padding:5rem 2rem 6rem; }
+
+    /* LOCATION BLOCK */
+    .location-block { display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;margin-bottom:5rem;padding-bottom:5rem;border-bottom:1px solid rgba(201,146,42,0.1); }
+    .location-block:last-child { border-bottom:none;margin-bottom:0;padding-bottom:0; }
+    .location-block.reverse { direction:rtl; }
+    .location-block.reverse > * { direction:ltr; }
+
+    /* LOCATION IMAGES */
+    .loc-img-stack { display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:0.75rem; }
+    .loc-img-main { grid-column:1/-1;border-radius:10px;overflow:hidden;aspect-ratio:16/9; }
+    .loc-img-main img { width:100%;height:100%;object-fit:cover; }
+    .loc-img-small { border-radius:8px;overflow:hidden;aspect-ratio:4/3; }
+    .loc-img-small img { width:100%;height:100%;object-fit:cover; }
+
+    /* LOCATION INFO */
+    .loc-label { font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem; }
+    .loc-name { font-size:clamp(1.75rem,3vw,2.5rem);font-weight:900;letter-spacing:-0.03em;margin:0 0 0.5rem; }
+    .loc-tagline { font-size:1rem;color:rgba(245,234,211,0.65);line-height:1.6;margin-bottom:2rem; }
+
+    /* INFO BLOCKS */
+    .info-blocks { display:grid;gap:1rem;margin-bottom:2rem; }
+    .info-block { display:flex;gap:1rem;align-items:start; }
+    .info-icon { width:40px;height:40px;border-radius:8px;background:rgba(201,146,42,0.1);border:1px solid rgba(201,146,42,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.1rem; }
+    .info-body {}
+    .info-label { font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:0.25rem; }
+    .info-text { font-size:0.9375rem;color:var(--cream);line-height:1.5; }
+    .info-sub { font-size:0.8125rem;color:var(--muted);margin-top:0.1rem; }
+
+    /* HOURS TABLE */
+    .hours-table { background:var(--dark-3);border:1px solid rgba(201,146,42,0.12);border-radius:8px;padding:1.25rem;margin-bottom:2rem; }
+    .hours-table-title { font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:0.875rem; }
+    .hours-rows { display:grid;gap:0.5rem; }
+    .hours-row { display:flex;justify-content:space-between;font-size:0.875rem;padding:0.375rem 0;border-bottom:1px solid rgba(201,146,42,0.07); }
+    .hours-row:last-child { border-bottom:none; }
+    .hours-day { color:var(--muted); }
+    .hours-time { font-weight:600;color:var(--cream); }
+
+    /* ACTION BUTTONS */
+    .loc-actions { display:grid;grid-template-columns:1fr 1fr;gap:0.75rem; }
+    .btn-primary { display:flex;align-items:center;justify-content:center;gap:0.5rem;background:var(--gold);color:var(--dark);font-family:'Inter',sans-serif;font-size:0.875rem;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;padding:0.875rem 1.5rem;border-radius:6px;text-decoration:none;border:none;cursor:pointer;transition:background 0.2s,transform 0.15s;box-shadow:0 4px 20px rgba(201,146,42,0.25); }
+    .btn-primary:hover { background:var(--gold-light);transform:translateY(-1px); }
+    .btn-secondary { display:flex;align-items:center;justify-content:center;gap:0.5rem;background:transparent;color:var(--cream);font-family:'Inter',sans-serif;font-size:0.875rem;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;padding:0.875rem 1.5rem;border-radius:6px;text-decoration:none;border:1.5px solid rgba(245,234,211,0.2);transition:border-color 0.2s,background 0.2s; }
+    .btn-secondary:hover { border-color:var(--cream);background:rgba(245,234,211,0.05); }
+    .btn-full { grid-column:1/-1; }
+
+    /* AMENITIES */
+    .amenities { display:flex;gap:0.75rem;flex-wrap:wrap;margin-bottom:1.75rem; }
+    .amenity { display:flex;align-items:center;gap:0.375rem;font-size:0.8125rem;color:rgba(245,234,211,0.7);background:rgba(201,146,42,0.07);border:1px solid rgba(201,146,42,0.15);padding:0.375rem 0.75rem;border-radius:100px; }
+
+    /* CTA STRIP */
+    .cta-strip { background:var(--dark-2);padding:5rem 2rem;text-align:center;border-top:1px solid rgba(201,146,42,0.1); }
+    .cta-title { font-family:'Playfair Display',serif;font-size:clamp(1.75rem,3vw,2.25rem);font-weight:900;letter-spacing:-0.03em;margin:0 0 0.75rem; }
+    .cta-sub { color:rgba(245,234,211,0.6);font-size:1rem;line-height:1.7;max-width:480px;margin:0 auto 2rem; }
+    .cta-buttons { display:flex;justify-content:center;gap:1rem;flex-wrap:wrap; }
+
+    footer { background:var(--dark);border-top:1px solid rgba(201,146,42,0.1);padding:3rem 2rem; }
+    .footer-inner { max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:2rem; }
+    .footer-logo { font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:900;color:var(--cream); }
+    .footer-logo span { color:var(--gold); }
+    .footer-links { display:flex;gap:1.75rem;flex-wrap:wrap; }
+    .footer-links a { font-size:0.8125rem;color:var(--muted);text-decoration:none;transition:color 0.2s; }
+    .footer-links a:hover { color:var(--cream); }
+    .footer-copy { font-size:0.75rem;color:rgba(154,138,114,0.5);width:100%;text-align:center;padding-top:2rem;border-top:1px solid rgba(201,146,42,0.07);margin-top:1rem; }
+
+    .fade-up { opacity:0;transform:translateY(20px);transition:opacity 0.55s ease,transform 0.55s ease; }
+    .fade-up.visible { opacity:1;transform:translateY(0); }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="barnabys.html" class="nav-logo">
+      <img src="https://popmenucloud.com/cdn-cgi/image/width=100,height=100,fit=scale-down,format=auto,quality=90/ufcgbnih/f53a2710-8d31-48cc-98e6-2065a7c251e1.png" alt="Barnaby's logo" />
+      <span class="nav-logo-text">Barnaby's <span>&</span> Pub</span>
+    </a>
+    <div class="nav-links">
+      <a href="barnabys-menu.html">Menu</a>
+      <a href="barnabys-events.html">Events</a>
+      <a href="barnabys-private-events.html">Private Events</a>
+      <a href="barnabys-locations.html" class="active">Locations</a>
+      <a href="tel:6107891885" class="nav-cta">Call to Reserve</a>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <div class="eyebrow">Pennsylvania</div>
+    <h1 class="page-title">Our Locations</h1>
+    <p class="page-sub">Two spots in Delaware County. Same menu, same happy hour, same Barnaby's experience.</p>
+  </div>
+
+  <div class="locations-wrapper">
+
+    <!-- HAVERTOWN -->
+    <div class="location-block fade-up" id="havertown">
+      <div class="loc-img-stack">
+        <div class="loc-img-main">
+          <img src="https://popmenucloud.com/cdn-cgi/image/width=1200,height=675,fit=cover,format=auto,quality=80/ufcgbnih/ed76e22a-d301-4c59-a57b-1adfa8b912db.jpg" alt="Barnaby's Havertown exterior" />
+        </div>
+        <div class="loc-img-small">
+          <img src="https://popmenucloud.com/cdn-cgi/image/width=600,height=450,fit=cover,format=auto,quality=80/ufcgbnih/0d6471ca-c495-42bf-9891-e813fec79767.jpg" alt="Havertown burger" />
+        </div>
+        <div class="loc-img-small">
+          <img src="https://popmenucloud.com/cdn-cgi/image/width=600,height=450,fit=cover,format=auto,quality=80/ufcgbnih/faee8770-5479-497e-bb1c-13350eabad24.jpg" alt="Havertown cheese steak" />
+        </div>
+      </div>
+
+      <div>
+        <p class="loc-label">Location 01</p>
+        <h2 class="loc-name">Barnaby's<br />Havertown</h2>
+        <p class="loc-tagline">Your neighborhood bar since 1997. Sports on every screen, a full draft list, and food that keeps people coming back.</p>
+
+        <div class="amenities">
+          <span class="amenity">🍺 Full Bar</span>
+          <span class="amenity">📺 Sports TV</span>
+          <span class="amenity">🎤 Karaoke Wed</span>
+          <span class="amenity">👨‍👧 Family Friendly</span>
+          <span class="amenity">🎉 Private Events</span>
+          <span class="amenity">🅿️ Parking Available</span>
+        </div>
+
+        <div class="info-blocks">
+          <div class="info-block">
+            <div class="info-icon">📍</div>
+            <div class="info-body">
+              <p class="info-label">Address</p>
+              <p class="info-text">1901 Old West Chester Pike</p>
+              <p class="info-sub">Havertown, PA 19083</p>
+            </div>
+          </div>
+          <div class="info-block">
+            <div class="info-icon">📞</div>
+            <div class="info-body">
+              <p class="info-label">Phone</p>
+              <p class="info-text"><a href="tel:6107891885" style="color:var(--cream);text-decoration:none;">(610) 789-1885</a></p>
+              <p class="info-sub">Call to reserve or for event inquiries</p>
+            </div>
+          </div>
+          <div class="info-block">
+            <div class="info-icon">✉️</div>
+            <div class="info-body">
+              <p class="info-label">Email</p>
+              <p class="info-text"><a href="mailto:barnabyshavertown@yahoo.com" style="color:var(--cream);text-decoration:none;">barnabyshavertown@yahoo.com</a></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="hours-table">
+          <p class="hours-table-title">Hours of Operation</p>
+          <div class="hours-rows">
+            <div class="hours-row">
+              <span class="hours-day">Monday &ndash; Sunday</span>
+              <span class="hours-time">11:00 am &ndash; 1:30 am</span>
+            </div>
+            <div class="hours-row">
+              <span class="hours-day">Happy Hour (Mon&ndash;Fri)</span>
+              <span class="hours-time">4:00 PM &ndash; 6:00 PM</span>
+            </div>
+            <div class="hours-row">
+              <span class="hours-day">Lunch Specials (Mon&ndash;Fri)</span>
+              <span class="hours-time">11:00 am &ndash; 3:00 pm</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="loc-actions">
+          <a href="tel:6107891885" class="btn-primary">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.63 6.63l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+            Call Now
+          </a>
+          <a href="https://www.google.com/maps/search/?api=1&query=1901+Old+West+Chester+Pike,+Havertown,+PA+19083" target="_blank" class="btn-secondary">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Get Directions
+          </a>
+          <a href="barnabys-private-events.html" class="btn-secondary">Book Private Event</a>
+          <a href="barnabys-menu.html" class="btn-secondary">View Menu</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ASTON -->
+    <div class="location-block reverse fade-up" id="aston">
+      <div>
+        <p class="loc-label">Location 02</p>
+        <h2 class="loc-name">Barnaby's<br />Aston</h2>
+        <p class="loc-tagline">Open until 2am nightly. Outdoor deck, live music on weekends, and the same great menu Barnaby's is known for.</p>
+
+        <div class="amenities">
+          <span class="amenity">🍺 Full Bar</span>
+          <span class="amenity">📺 Sports TV</span>
+          <span class="amenity">🎸 Live Music</span>
+          <span class="amenity">🏡 Outdoor Deck</span>
+          <span class="amenity">🎉 Private Events</span>
+          <span class="amenity">🎧 DJ Weekends</span>
+        </div>
+
+        <div class="info-blocks">
+          <div class="info-block">
+            <div class="info-icon">📍</div>
+            <div class="info-body">
+              <p class="info-label">Address</p>
+              <p class="info-text">5501 Pennel Rd</p>
+              <p class="info-sub">Media, PA 19063</p>
+            </div>
+          </div>
+          <div class="info-block">
+            <div class="info-icon">📞</div>
+            <div class="info-body">
+              <p class="info-label">Phone</p>
+              <p class="info-text"><a href="tel:6105581929" style="color:var(--cream);text-decoration:none;">(610) 558-1929</a></p>
+              <p class="info-sub">Call to reserve or for event inquiries</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="hours-table">
+          <p class="hours-table-title">Hours of Operation</p>
+          <div class="hours-rows">
+            <div class="hours-row">
+              <span class="hours-day">Monday &ndash; Sunday</span>
+              <span class="hours-time">11:00 am &ndash; 2:00 am</span>
+            </div>
+            <div class="hours-row">
+              <span class="hours-day">Happy Hour (Mon&ndash;Fri)</span>
+              <span class="hours-time">5:00 PM &ndash; 7:00 PM</span>
+            </div>
+            <div class="hours-row">
+              <span class="hours-day">Lunch Specials (Mon&ndash;Fri)</span>
+              <span class="hours-time">11:00 am &ndash; 3:00 pm</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="loc-actions">
+          <a href="tel:6105581929" class="btn-primary">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.63 6.63l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+            Call Now
+          </a>
+          <a href="https://www.google.com/maps/search/?api=1&query=5501+Pennel+Rd,+Media,+PA+19063" target="_blank" class="btn-secondary">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Get Directions
+          </a>
+          <a href="barnabys-private-events.html" class="btn-secondary">Book Private Event</a>
+          <a href="barnabys-menu.html" class="btn-secondary">View Menu</a>
+        </div>
+      </div>
+
+      <div class="loc-img-stack">
+        <div class="loc-img-main">
+          <img src="https://popmenucloud.com/cdn-cgi/image/width=1200,height=675,fit=cover,format=auto,quality=80/ufcgbnih/588fc87c-5999-4a17-b8da-1660e3e4aca9.jpg" alt="Barnaby's Aston exterior" />
+        </div>
+        <div class="loc-img-small">
+          <img src="https://popmenucloud.com/cdn-cgi/image/width=600,height=450,fit=cover,format=auto,quality=80/ufcgbnih/069e4d3f-5b4e-4b39-bb8d-be35c615ea9c.jpg" alt="Aston interior bar" />
+        </div>
+        <div class="loc-img-small">
+          <img src="https://popmenucloud.com/cdn-cgi/image/width=600,height=450,fit=cover,format=auto,quality=80/ufcgbnih/2f492168-4c99-4b89-95fc-cdb77e66844a.jpg" alt="Aston food" />
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CTA STRIP -->
+  <div class="cta-strip">
+    <h2 class="cta-title">Not sure which location to visit?</h2>
+    <p class="cta-sub">Both spots serve the same full menu and weekly specials. Pick whichever is closest &mdash; you won't be disappointed.</p>
+    <div class="cta-buttons">
+      <a href="barnabys-menu.html" class="btn-primary">View Full Menu</a>
+      <a href="barnabys-events.html" class="btn-secondary" style="border:1.5px solid rgba(245,234,211,0.25);padding:0.875rem 1.5rem;border-radius:6px;font-size:0.875rem;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;text-decoration:none;color:var(--cream);transition:border-color 0.2s;">This Week's Specials</a>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">Barnaby's <span>&</span> Pub</div>
+      <div class="footer-links">
+        <a href="barnabys.html">Home</a>
+        <a href="barnabys-menu.html">Menu</a>
+        <a href="barnabys-events.html">Events</a>
+        <a href="barnabys-private-events.html">Private Events</a>
+      </div>
+      <div class="footer-links">
+        <a href="tel:6107891885">Havertown: (610) 789-1885</a>
+        <a href="tel:6105581929">Aston: (610) 558-1929</a>
+      </div>
+    </div>
+    <p class="footer-copy">&copy; 2025 Barnaby's Restaurant &amp; Pub. Havertown &amp; Aston, PA. Est. 1997.</p>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.08 });
+    document.querySelectorAll(".fade-up").forEach(el => observer.observe(el));
+    setTimeout(() => { document.querySelectorAll(".fade-up").forEach(el => el.classList.add("visible")); }, 300);
+  </script>
+</body>
+</html>

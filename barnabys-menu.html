@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Menu — Barnaby's Restaurant & Pub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root { --gold:#c9922a;--gold-light:#e8b44a;--dark:#0f0c07;--dark-2:#1a1510;--dark-3:#261f14;--cream:#f5ead3;--muted:#9a8a72; }
+    * { box-sizing: border-box; }
+    body { background-color: var(--dark); color: var(--cream); font-family: 'Inter', sans-serif; margin: 0; }
+    h1,h2,h3,.display { font-family: 'Playfair Display', serif; }
+    body::before { content:'';position:fixed;inset:0;pointer-events:none;z-index:999;opacity:0.45;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); }
+
+    nav { position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(15,12,7,0.97);padding:1.25rem 2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(201,146,42,0.1); }
+    .nav-logo { display:flex;align-items:center;gap:0.75rem;text-decoration:none; }
+    .nav-logo img { width:40px;height:40px;object-fit:contain; }
+    .nav-logo-text { font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:900;color:var(--cream); }
+    .nav-logo-text span { color:var(--gold); }
+    .nav-links { display:flex;align-items:center;gap:1.75rem; }
+    .nav-links a { font-size:0.8125rem;font-weight:500;color:var(--muted);text-decoration:none;letter-spacing:0.06em;text-transform:uppercase;transition:color 0.2s; }
+    .nav-links a:hover,.nav-links a.active { color:var(--cream); }
+    .nav-cta { background:var(--gold);color:var(--dark);font-size:0.8125rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:0.625rem 1.25rem;border-radius:4px;text-decoration:none;transition:background 0.2s; }
+    .nav-cta:hover { background:var(--gold-light); }
+
+    .page-header { padding: 9rem 2rem 4rem; text-align: center; position: relative; background: var(--dark-2); }
+    .page-header::after { content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,rgba(201,146,42,0.3),transparent); }
+    .eyebrow { display:inline-flex;align-items:center;gap:0.5rem;font-size:0.75rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem; }
+    .eyebrow::before { content:'';display:block;width:24px;height:1px;background:var(--gold); }
+    .eyebrow::after { content:'';display:block;width:24px;height:1px;background:var(--gold); }
+    .page-title { font-size: clamp(2rem, 4vw, 3rem); font-weight:900; letter-spacing:-0.03em; margin:0 0 0.75rem; }
+    .page-sub { color:rgba(245,234,211,0.6);font-size:1rem;line-height:1.7;max-width:480px;margin:0 auto; }
+
+    /* CATEGORY TABS */
+    .cat-tabs { display:flex;gap:0.5rem;justify-content:center;flex-wrap:wrap;padding:2rem 2rem 0; }
+    .cat-tab { display:inline-flex;align-items:center;gap:0.375rem;padding:0.625rem 1.125rem;border-radius:100px;font-size:0.8125rem;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;border:1.5px solid rgba(201,146,42,0.2);color:var(--muted);background:transparent;cursor:pointer;transition:all 0.2s ease; }
+    .cat-tab:hover { border-color:rgba(201,146,42,0.5);color:var(--cream); }
+    .cat-tab.active { background:var(--gold);color:var(--dark);border-color:var(--gold); }
+
+    /* MENU SECTIONS */
+    .menu-section { max-width:1100px;margin:0 auto;padding:4rem 2rem; }
+    .menu-section-header { margin-bottom:2.5rem; }
+    .menu-cat-label { font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem; }
+    .menu-cat-title { font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;letter-spacing:-0.03em;margin:0 0 0.5rem; }
+    .menu-cat-desc { font-size:0.9375rem;color:var(--muted);line-height:1.6; }
+    .menu-divider { width:64px;height:2px;background:linear-gradient(to right,var(--gold),transparent);margin:1rem 0 0; }
+
+    /* ITEM GRID */
+    .items-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem; }
+    .item-card { background:var(--dark-2);border:1px solid rgba(201,146,42,0.1);border-radius:10px;overflow:hidden;transition:border-color 0.2s,box-shadow 0.2s; }
+    .item-card:hover { border-color:rgba(201,146,42,0.3);box-shadow:0 8px 32px rgba(0,0,0,0.3); }
+    .item-img-wrap { position:relative;aspect-ratio:4/3;overflow:hidden; }
+    .item-img-wrap img { width:100%;height:100%;object-fit:cover;transition:transform 0.4s ease; }
+    .item-card:hover .item-img-wrap img { transform:scale(1.04); }
+    .item-img-wrap::after { content:'';position:absolute;bottom:0;left:0;right:0;height:40%;background:linear-gradient(to top,rgba(15,12,7,0.7),transparent); }
+    .item-body { padding:1.25rem; }
+    .item-name { font-family:'Playfair Display',serif;font-size:1.125rem;font-weight:700;margin:0 0 0.375rem; }
+    .item-desc { font-size:0.8125rem;color:var(--muted);line-height:1.55;margin-bottom:0.875rem; }
+    .item-footer { display:flex;align-items:center;justify-content:space-between; }
+    .item-price { font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:var(--gold); }
+    .item-tag { font-size:0.7rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:rgba(201,146,42,0.1);border:1px solid rgba(201,146,42,0.2);color:var(--gold);padding:0.2rem 0.5rem;border-radius:100px; }
+
+    /* LIST STYLE for items without photos */
+    .items-list { display:grid;gap:0.875rem; }
+    .item-row { display:flex;align-items:start;justify-content:space-between;gap:1.5rem;background:var(--dark-2);border:1px solid rgba(201,146,42,0.08);border-radius:8px;padding:1.125rem 1.25rem;transition:border-color 0.2s; }
+    .item-row:hover { border-color:rgba(201,146,42,0.2); }
+    .item-row-info { flex:1; }
+    .item-row-name { font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;margin:0 0 0.3rem; }
+    .item-row-desc { font-size:0.8125rem;color:var(--muted);line-height:1.5; }
+    .item-row-price { font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--gold);white-space:nowrap; }
+
+    /* SECTION SEPARATOR */
+    .section-sep { max-width:1100px;margin:0 auto 0;padding:0 2rem; }
+    .section-sep hr { border:none;border-top:1px solid rgba(201,146,42,0.1);margin:0; }
+
+    .add-ons-box { background:var(--dark-3);border:1px solid rgba(201,146,42,0.12);border-radius:8px;padding:1.25rem 1.5rem;margin-top:1.5rem; }
+    .add-ons-title { font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:0.75rem; }
+    .add-ons-list { display:flex;gap:1rem;flex-wrap:wrap; }
+    .add-on { font-size:0.8125rem;color:var(--muted);display:flex;align-items:center;gap:0.375rem; }
+    .add-on::before { content:'+';color:var(--gold);font-weight:700; }
+
+    /* DESSERTS */
+    .desserts-grid { display:grid;grid-template-columns:repeat(5,1fr);gap:1rem; }
+    .dessert-card { background:var(--dark-2);border:1px solid rgba(201,146,42,0.1);border-radius:8px;padding:1.25rem;text-align:center;transition:border-color 0.2s; }
+    .dessert-card:hover { border-color:rgba(201,146,42,0.3); }
+    .dessert-icon { font-size:1.75rem;margin-bottom:0.75rem; }
+    .dessert-name { font-family:'Playfair Display',serif;font-size:0.9375rem;font-weight:700;margin-bottom:0.375rem; }
+    .dessert-price { font-size:1rem;font-weight:700;color:var(--gold); }
+
+    footer { background:var(--dark);border-top:1px solid rgba(201,146,42,0.1);padding:3rem 2rem; }
+    .footer-inner { max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:2rem; }
+    .footer-logo { font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:900;color:var(--cream); }
+    .footer-logo span { color:var(--gold); }
+    .footer-links { display:flex;gap:1.75rem;flex-wrap:wrap; }
+    .footer-links a { font-size:0.8125rem;color:var(--muted);text-decoration:none;transition:color 0.2s; }
+    .footer-links a:hover { color:var(--cream); }
+    .footer-copy { font-size:0.75rem;color:rgba(154,138,114,0.5);width:100%;text-align:center;padding-top:2rem;border-top:1px solid rgba(201,146,42,0.07);margin-top:1rem; }
+
+    .fade-up { opacity:0;transform:translateY(20px);transition:opacity 0.5s ease,transform 0.5s ease; }
+    .fade-up.visible { opacity:1;transform:translateY(0); }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="barnabys.html" class="nav-logo">
+      <img src="https://popmenucloud.com/cdn-cgi/image/width=100,height=100,fit=scale-down,format=auto,quality=90/ufcgbnih/f53a2710-8d31-48cc-98e6-2065a7c251e1.png" alt="Barnaby's logo" />
+      <span class="nav-logo-text">Barnaby's <span>&</span> Pub</span>
+    </a>
+    <div class="nav-links">
+      <a href="barnabys-menu.html" class="active">Menu</a>
+      <a href="barnabys-events.html">Events</a>
+      <a href="barnabys-private-events.html">Private Events</a>
+      <a href="barnabys-locations.html">Locations</a>
+      <a href="tel:6107891885" class="nav-cta">Call to Reserve</a>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="eyebrow">Havertown &amp; Aston</div>
+    <h1 class="page-title">Our Menu</h1>
+    <p class="page-sub">Made fresh, every order. No shortcuts, no heat lamps. Everything you need, nothing you don't.</p>
+  </div>
+
+  <!-- CATEGORY TABS -->
+  <div class="cat-tabs">
+    <button class="cat-tab active" onclick="scrollTo('starters')">🍟 Starters</button>
+    <button class="cat-tab" onclick="scrollTo('sandwiches')">🥪 Sandwiches</button>
+    <button class="cat-tab" onclick="scrollTo('burgers')">🍔 Burgers</button>
+    <button class="cat-tab" onclick="scrollTo('salads')">🥗 Salads</button>
+    <button class="cat-tab" onclick="scrollTo('soups')">🍲 Soups</button>
+    <button class="cat-tab" onclick="scrollTo('desserts')">🍰 Desserts</button>
+  </div>
+
+  <!-- STARTERS -->
+  <div id="starters" class="menu-section fade-up">
+    <div class="menu-section-header">
+      <p class="menu-cat-label">To Start</p>
+      <h2 class="menu-cat-title">Starters &amp; Sharables</h2>
+      <p class="menu-cat-desc">Perfect for the table. Our wing night is every Wednesday &mdash; 10 wings for $8.</p>
+      <div class="menu-divider"></div>
+    </div>
+    <div class="items-grid">
+      <div class="item-card">
+        <div class="item-img-wrap">
+          <img src="https://popmenucloud.com/cdn-cgi/image/width=800,height=600,fit=cover,format=auto,quality=80/ufcgbnih/e1117848-22b8-4c83-ba85-cf4921a3d97a.jpg" alt="Buffalo Wings" />
+        </div>
+        <div class="item-body">
+          <h3 class="item-name">Buffalo Wings</h3>
+          <p class="item-desc">Our famous chicken wings tossed in one of our signature sauces. Served with blue cheese &amp; celery. Available in: Buffalo, Lemon Pepper, Honey Sriracha, Bangin' Thai, and more.</p>
+          <div class="item-footer">
+            <span class="item-price">Half Dozen $10 &bull; Dozen $16</span>
+          </div>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-img-wrap">
+          <img src="https://popmenucloud.com/cdn-cgi/image/width=800,height=600,fit=cover,format=auto,quality=80/ufcgbnih/da5b1041-eab0-401a-8ebe-5c5ce6debaee.jpg" alt="Barnaby's Combo" />
+        </div>
+        <div class="item-body">
+          <h3 class="item-name">Barnaby's Combo</h3>
+          <p class="item-desc">Chicken fingers, cheese steak egg rolls, buffalo wings, buffalo chicken egg rolls, mozzarella sticks. Served with blue cheese, honey dijon, chipotle ranch &amp; marinara.</p>
+          <div class="item-footer">
+            <span class="item-price">$15</span>
+            <span class="item-tag">Fan Favorite</span>
+          </div>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-img-wrap">
+          <img src="https://popmenucloud.com/cdn-cgi/image/width=800,height=600,fit=cover,format=auto,quality=80/ufcgbnih/3650308f-01ac-4b32-9b11-bf16b8a41b85.jpg" alt="Egg Rolls" />
+        </div>
+        <div class="item-body">
+          <h3 class="item-name">Cheese Steak Egg Rolls</h3>
+          <p class="item-desc">Crispy egg rolls stuffed with our famous chipped steak and cheese. Served with your choice of dipping sauce.</p>
+          <div class="item-footer">
+            <span class="item-price">See Server</span>
+          </div>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-img-wrap">
+          <img src="https://popmenucloud.com/cdn-cgi/image/width=800,height=600,fit=cover,format=auto,quality=80/ufcgbnih/928d23c0-48dd-4766-b80d-244785dc1cad.jpg" alt="French Onion Soup" />
+        </div>
+        <div class="item-body">
+          <h3 class="item-name">French Onion Soup</h3>
+          <p class="item-desc">Classic crock of rich, slow-cooked onion broth with a gruyere-topped crouton. A cold-weather staple.</p>
+          <div class="item-footer">
+            <span class="item-price">See Server</span>
+          </div>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-img-wrap">
+          <img src="https://popmenucloud.com/cdn-cgi/image/width=800,height=600,fit=cover,format=auto,quality=80/ufcgbnih/b10b7b05-c79d-4e16-9c19-168988ad48ad.jpg" alt="Chili Nachos" />
+        </div>
+        <div class="item-body">
+          <h3 class="item-name">Chili Nachos</h3>
+          <p class="item-desc">Tortilla chips loaded with chili, cheddar, jalape&ntilde;os, sour cream, and all the toppings.</p>
+          <div class="item-footer">
+            <span class="item-price">See Server</span>
+          </div>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-img-wrap">
+          <img src="https://popmenucloud.com/cdn-cgi/image/width=800,height=600,fit=cover,format=auto,quality=80/ufcgbnih/e52977a8-da19-4b92-8380-b6c979ce602e.jpg" alt="Meatballs" />
+        </div>
+        <div class="item-body">
+          <h3 class="item-name">Meatballs</h3>
+          <p class="item-desc">House-made meatballs in marinara sauce, finished with parmesan. A pub classic done right.</p>
+          <div class="item-footer">
+            <span class="item-price">See Server</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="items-list" style="margin-top:1.25rem;">
+      <div class="item-row">
+        <div class="item-row-info">
+          <p class="item-row-name">Bangin' Thai Shrimp</p>
+          <p class="item-row-desc">Beer-battered shrimp, bangin' thai sauce, celery sticks, blue cheese</p>
+        </div>
+        <span class="item-row-price">$14</span>
+      </div>
+      <div class="item-row">
+        <div class="item-row-info">
+          <p class="item-row-name">Coconut Shrimp</p>
+          <p class="item-row-desc">Crispy coconut-crusted shrimp with dipping sauce</p>
+        </div>
+        <span class="item-row-price">$15</span>
+      </div>
+      <div class="item-row">
+        <div class="item-row-info">
+          <p class="item-row-name">Crock of Baked Potato Soup</p>
+          <p class="item-row-desc">Rich baked potato soup, cheddar, bacon, sour cream, chives</p>
+        </div>
+        <span class="item-row-price">$5</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-sep"><hr /></div>
+
+  <!-- SANDWICHES & GRINDERS -->
+  <div id="sandwiches" class="menu-section fade-up">
+    <div class="menu-section-header">
+      <p class="menu-cat-label">Hand-Held</p>
+      <h2 class="menu-cat-title">Sandwiches &amp; Grinders</h2>
+      <p class="menu-cat-desc">Lunch specials available Monday through Friday, 11am &ndash; 3pm.</p>
+      <div class="menu-divider"></div>
+    </div>
+    <div class="items-grid">
+      <div class="item-card">
+        <div class="item-img-wrap">
+          <img src="https://popmenucloud.com/cdn-cgi/image/width=800,height=600,fit=cover,format=auto,quality=80/ufcgbnih/faee8770-5479-497e-bb1c-13350eabad24.jpg" alt="Barnaby's Cheese Steak" />
+        </div>
+        <div class="item-body">
+          <h3 class="item-name">Barnaby's Cheese Steak</h3>
+          <p class="item-desc">Grilled chipped steak, American cheese, long roll. Ask about adding onions, mushrooms, or peppers.</p>
+          <div class="item-footer">
+            <span class="item-price">$15</span>
+            <span class="item-tag">Best in DelCo</span>
+          </div>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-img-wrap">
+          <img src="https://popmenucloud.com/cdn-cgi/image/width=800,height=600,fit=cover,format=auto,quality=80/ufcgbnih/77a97b6e-7517-49f5-99dc-98b905f2a393.jpg" alt="Chicken Parmesan Grinder" />
+        </div>
+        <div class="item-body">
+          <h3 class="item-name">Chicken Parmesan Grinder</h3>
+          <p class="item-desc">Breaded chicken cutlet, mozzarella, marinara sauce on a hoagie roll. A house staple.</p>
+          <div class="item-footer">
+            <span class="item-price">$15</span>
+          </div>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-img-wrap">
+          <img src="https://popmenucloud.com/cdn-cgi/image/width=800,height=600,fit=cover,format=auto,quality=80/ufcgbnih/e6f51b4e-5fad-4155-8da6-7dbee0fa7f09.jpg" alt="Fried Chicken Sub" />
+        </div>
+        <div class="item-body">
+          <h3 class="item-name">Fried Chicken Sub</h3>
+          <p class="item-desc">Crispy fried chicken breast on a toasted roll with your choice of toppings and sauce.</p>
+          <div class="item-footer">
+            <span class="item-price">See Server</span>
+          </div>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-img-wrap">
+          <img src="https://popmenucloud.com/cdn-cgi/image/width=800,height=600,fit=cover,format=auto,quality=80/ufcgbnih/2f492168-4c99-4b89-95fc-cdb77e66844a.jpg" alt="Turkey Club" />
+        </div>
+        <div class="item-body">
+          <h3 class="item-name">Turkey Club</h3>
+          <p class="item-desc">Sliced turkey breast, crispy bacon, lettuce, tomato, mayo on toasted white or wheat. Served with fries.</p>
+          <div class="item-footer">
+            <span class="item-price">See Server</span>
+          </div>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-img-wrap">
+          <img src="https://popmenucloud.com/cdn-cgi/image/width=800,height=600,fit=cover,format=auto,quality=80/ufcgbnih/4acaf023-825f-4f95-962d-ef6914ac6475.jpg" alt="Turkey Sandwich & Fries" />
+        </div>
+        <div class="item-body">
+          <h3 class="item-name">Hot Roast Beef</h3>
+          <p class="item-desc">Slow-roasted beef on a long roll with au jus for dipping. Add horseradish or Cooper Sharp.</p>
+          <div class="item-footer">
+            <span class="item-price">See Server</span>
+            <span class="item-tag">Guest Fave</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-sep"><hr /></div>
+
+  <!-- BURGERS -->
+  <div id="burgers" class="menu-section fade-up">
+    <div class="menu-section-header">
+      <p class="menu-cat-label">World Famous</p>
+      <h2 class="menu-cat-title">Burgers</h2>
+      <p class="menu-cat-desc">All burgers served with lettuce, tomato, pickles, and fries. Upgrade to sweet potato fries or tater tots for $2.</p>
+      <div class="menu-divider"></div>
+    </div>
+    <div class="items-grid" style="grid-template-columns:repeat(2,1fr);max-width:800px;">
+      <div class="item-card">
+        <div class="item-img-wrap">
+          <img src="https://popmenucloud.com/cdn-cgi/image/width=800,height=600,fit=cover,format=auto,quality=80/ufcgbnih/8a1db2f3-dfe3-4838-90a8-431740615501.jpg" alt="Barnaby's Best Burger" />
+        </div>
+        <div class="item-body">
+          <h3 class="item-name">Barnaby's Best</h3>
+          <p class="item-desc">Aged cheddar, saut&eacute;ed onions, mushrooms. The one regulars order by name.</p>
+          <div class="item-footer"><span class="item-price">$17</span><span class="item-tag">Signature</span></div>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-img-wrap">
+          <img src="https://popmenucloud.com/cdn-cgi/image/width=800,height=600,fit=cover,format=auto,quality=80/ufcgbnih/c1d7b5cc-25a5-48a6-8c0e-4ad756f5d2a1.jpg" alt="Cheeseburger" />
+        </div>
+        <div class="item-body">
+          <h3 class="item-name">Cheeseburger</h3>
+          <p class="item-desc">American cheese. The classic, done right.</p>
+          <div class="item-footer"><span class="item-price">$15</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="items-list" style="margin-top:1.25rem;">
+      <div class="item-row">
+        <div class="item-row-info"><p class="item-row-name">Bacon &amp; Cheese</p><p class="item-row-desc">American cheese, crisp bacon</p></div>
+        <span class="item-row-price">$16</span>
+      </div>
+      <div class="item-row">
+        <div class="item-row-info"><p class="item-row-name">The Cowboy</p><p class="item-row-desc">Cheddar, tumbleweed onions, chipotle ranch</p></div>
+        <span class="item-row-price">$17</span>
+      </div>
+      <div class="item-row">
+        <div class="item-row-info"><p class="item-row-name">Smoke House</p><p class="item-row-desc">Smoky BBQ, aged cheddar, crisp bacon</p></div>
+        <span class="item-row-price">$17</span>
+      </div>
+      <div class="item-row">
+        <div class="item-row-info"><p class="item-row-name">The Pub Burger</p><p class="item-row-desc">Bacon, Cooper Sharp, onion ring, roasted garlic aioli</p></div>
+        <span class="item-row-price">$16</span>
+      </div>
+      <div class="item-row">
+        <div class="item-row-info"><p class="item-row-name">Philly Love</p><p class="item-row-desc">Bacon, white cheddar, caramelized onions</p></div>
+        <span class="item-row-price">$17</span>
+      </div>
+      <div class="item-row">
+        <div class="item-row-info"><p class="item-row-name">Mushroom Swiss</p><p class="item-row-desc">Swiss, garlic mushrooms, served on grilled rye</p></div>
+        <span class="item-row-price">$17</span>
+      </div>
+      <div class="item-row">
+        <div class="item-row-info"><p class="item-row-name">Veggie Burger</p><p class="item-row-desc">Vegetarian patty, lettuce, tomato, onion, ranch mayo</p></div>
+        <span class="item-row-price">$16</span>
+      </div>
+      <div class="item-row">
+        <div class="item-row-info"><p class="item-row-name">Beyond Burger</p><p class="item-row-desc">Plant-based patty, fully vegan preparation available</p></div>
+        <span class="item-row-price">$16</span>
+      </div>
+      <div class="item-row">
+        <div class="item-row-info"><p class="item-row-name">Turkey Burger</p><p class="item-row-desc">All-white meat patty, lettuce, tomato, onion, ranch mayo</p></div>
+        <span class="item-row-price">See Server</span>
+      </div>
+    </div>
+    <div class="add-ons-box">
+      <p class="add-ons-title">Add-ons &amp; Upgrades</p>
+      <div class="add-ons-list">
+        <span class="add-on">Sweet Potato Fries ($2)</span>
+        <span class="add-on">Tater Tots ($2)</span>
+        <span class="add-on">Bacon ($1)</span>
+        <span class="add-on">Long Hot Peppers ($1)</span>
+        <span class="add-on">Extra Cheese ($1)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-sep"><hr /></div>
+
+  <!-- SALADS -->
+  <div id="salads" class="menu-section fade-up">
+    <div class="menu-section-header">
+      <p class="menu-cat-label">Fresh</p>
+      <h2 class="menu-cat-title">Salads</h2>
+      <p class="menu-cat-desc">Gluten-friendly options available. Ask your server.</p>
+      <div class="menu-divider"></div>
+    </div>
+    <div class="items-grid">
+      <div class="item-card">
+        <div class="item-img-wrap">
+          <img src="https://popmenucloud.com/cdn-cgi/image/width=800,height=600,fit=cover,format=auto,quality=80/ufcgbnih/41bcf4c3-4912-4c37-abd6-cba5d95e9f07.jpg" alt="Barnaby's Salad" />
+        </div>
+        <div class="item-body">
+          <h3 class="item-name">Barnaby's Salad</h3>
+          <p class="item-desc">Fresh mixed greens with house toppings and your choice of dressing.</p>
+          <div class="item-footer"><span class="item-price">See Server</span></div>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-img-wrap">
+          <img src="https://popmenucloud.com/cdn-cgi/image/width=800,height=600,fit=cover,format=auto,quality=80/ufcgbnih/0859e729-af55-4ba1-96bd-4726da3d5aef.jpg" alt="Chicken Nugget Salad" />
+        </div>
+        <div class="item-body">
+          <h3 class="item-name">Chicken Nugget Salad</h3>
+          <p class="item-desc">Crispy chicken nuggets over fresh greens with your choice of dressing. A crowd favorite for younger guests.</p>
+          <div class="item-footer"><span class="item-price">See Server</span></div>
+        </div>
+      </div>
+      <div class="item-card">
+        <div class="item-img-wrap" style="background:var(--dark-3);display:flex;align-items:center;justify-content:center;font-size:3rem;">
+          <img src="https://popmenucloud.com/cdn-cgi/image/width=800,height=600,fit=cover,format=auto,quality=80/ufcgbnih/41bcf4c3-4912-4c37-abd6-cba5d95e9f07.jpg" alt="Wedge Salad" />
+        </div>
+        <div class="item-body">
+          <h3 class="item-name">Wedge Salad</h3>
+          <p class="item-desc">Iceberg wedge, diced tomato, bacon, green onions, blue cheese crumbles, ranch. Gluten-friendly.</p>
+          <div class="item-footer"><span class="item-price">$13</span><span class="item-tag">GF</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-sep"><hr /></div>
+
+  <!-- SOUPS -->
+  <div id="soups" class="menu-section fade-up">
+    <div class="menu-section-header">
+      <p class="menu-cat-label">Warm Up</p>
+      <h2 class="menu-cat-title">Soups &amp; Crocks</h2>
+      <div class="menu-divider"></div>
+    </div>
+    <div class="items-list">
+      <div class="item-row">
+        <div class="item-row-info">
+          <p class="item-row-name">Crock of Baked Potato Soup</p>
+          <p class="item-row-desc">Rich baked potato soup, topped with cheddar, bacon crumbles, sour cream and chives</p>
+        </div>
+        <span class="item-row-price">$5</span>
+      </div>
+      <div class="item-row">
+        <div class="item-row-info">
+          <p class="item-row-name">French Onion Soup</p>
+          <p class="item-row-desc">Classic slow-cooked onion broth, crouton, melted gruy&egrave;re</p>
+        </div>
+        <span class="item-row-price">See Server</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-sep"><hr /></div>
+
+  <!-- DESSERTS -->
+  <div id="desserts" class="menu-section fade-up">
+    <div class="menu-section-header">
+      <p class="menu-cat-label">Finish Strong</p>
+      <h2 class="menu-cat-title">Desserts</h2>
+      <p class="menu-cat-desc">Save room. Worth it.</p>
+      <div class="menu-divider"></div>
+    </div>
+    <div class="desserts-grid">
+      <div class="dessert-card">
+        <div class="dessert-icon">🎂</div>
+        <p class="dessert-name">Black &amp; White Mousse Cake</p>
+        <p class="dessert-price">$7</p>
+      </div>
+      <div class="dessert-card">
+        <div class="dessert-icon">🍰</div>
+        <p class="dessert-name">Cheesecake</p>
+        <p class="dessert-price">$7</p>
+      </div>
+      <div class="dessert-card">
+        <div class="dessert-icon">🍫</div>
+        <p class="dessert-name">Mississippi Mud Cake</p>
+        <p class="dessert-price">$7</p>
+      </div>
+      <div class="dessert-card">
+        <div class="dessert-icon">🥜</div>
+        <p class="dessert-name">Reese's PB Cup Pie</p>
+        <p class="dessert-price">$7</p>
+      </div>
+      <div class="dessert-card">
+        <div class="dessert-icon">🍎</div>
+        <p class="dessert-name">Apple Crumble</p>
+        <p class="dessert-price">$7</p>
+      </div>
+    </div>
+    <p style="text-align:center;color:var(--muted);font-size:0.875rem;margin-top:1.5rem;">Aston location also offers Reese's PB Cup Pie ($6) &amp; Cheesecake ($6).</p>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">Barnaby's <span>&</span> Pub</div>
+      <div class="footer-links">
+        <a href="barnabys.html">Home</a>
+        <a href="barnabys-events.html">Events</a>
+        <a href="barnabys-private-events.html">Private Events</a>
+        <a href="barnabys-locations.html">Locations</a>
+      </div>
+      <div class="footer-links">
+        <a href="tel:6107891885">Havertown: (610) 789-1885</a>
+        <a href="tel:6105581929">Aston: (610) 558-1929</a>
+      </div>
+    </div>
+    <p class="footer-copy">&copy; 2025 Barnaby's Restaurant &amp; Pub. Havertown &amp; Aston, PA. Est. 1997.</p>
+  </footer>
+
+  <script>
+    function scrollTo(id) {
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.08 });
+    document.querySelectorAll(".fade-up").forEach(el => observer.observe(el));
+    setTimeout(() => { document.querySelectorAll(".fade-up").forEach(el => el.classList.add("visible")); }, 300);
+  </script>
+</body>
+</html>
