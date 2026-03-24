@@ -2,7 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <script>if (history.scrollRestoration) history.scrollRestoration = 'manual'; window.scrollTo(0, 0);</script>
+  <script>
+    if (history.scrollRestoration) history.scrollRestoration = 'manual';
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    window.addEventListener('load', () => window.scrollTo({ top: 0, left: 0, behavior: 'instant' }));
+    window.addEventListener('pageshow', () => window.scrollTo({ top: 0, left: 0, behavior: 'instant' }));
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fletch Media Collective — Media That Converts</title>
   <script src="https://cdn.tailwindcss.com"></script>
